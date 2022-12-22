@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="TL;DR부제: gcc 옵션 중 하나인 -mpreferred-stack-boundary에 대하여 Pwnable 문제를 풀다가 문득 32bit ROP를 살짝 잊었다는 기분이 들었다. (…) 예제 코드를 작성하고 그것을 익스하려고 했으나 생각대로 잘 되지 않아 분석을 진행하였다. 함수 프롤로그와 에필로그에 낯선 코드가 추가되어 있었고, 이 때문에 buf와 sf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stack Alignment in 32-bit program">
+<meta property="og:url" content="https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="TL;DR부제: gcc 옵션 중 하나인 -mpreferred-stack-boundary에 대하여 Pwnable 문제를 풀다가 문득 32bit ROP를 살짝 잊었다는 기분이 들었다. (…) 예제 코드를 작성하고 그것을 익스하려고 했으나 생각대로 잘 되지 않아 분석을 진행하였다. 함수 프롤로그와 에필로그에 낯선 코드가 추가되어 있었고, 이 때문에 buf와 sf">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-10-19T22:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-22T18:47:30.711Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="32bit">
+<meta property="article:tag" content="stack alignment">
+<meta property="article:tag" content="gcc">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!-- title -->
+    <title>Stack Alignment in 32-bit program</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2022/10/26/jadectf2022-data_storage/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/10/18/asisctf2022-babysacn_2/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&text=Stack Alignment in 32-bit program"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&is_video=false&description=Stack Alignment in 32-bit program"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Stack Alignment in 32-bit program&body=Check out this article: https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&name=Stack Alignment in 32-bit program&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&t=Stack Alignment in 32-bit program"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR"><span class="toc-number">1.</span> <span class="toc-text">TL;DR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gcc-option-mpreferred-stack-boundary-N"><span class="toc-number">2.</span> <span class="toc-text">gcc option: -mpreferred-stack-boundary&#x3D;N</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Default-Stack-aligned-to-a-16-byte-boundary"><span class="toc-number"></span> <span class="toc-text">(Default) Stack aligned to a 16-byte boundary.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#disassemble-main"><span class="toc-number">0.1.</span> <span class="toc-text">disassemble main</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B8-%EC%A0%84-1"><span class="toc-number">0.2.</span> <span class="toc-text">1. 프롤로그 전 (1)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B8-%EC%A0%84-2"><span class="toc-number">0.3.</span> <span class="toc-text">2. 프롤로그 전 (2)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ecx-%EB%A0%88%EC%A7%80%EC%8A%A4%ED%84%B0%EB%A5%BC-%EC%99%9C-push-%ED%96%88%EC%9D%84%EA%B9%8C"><span class="toc-number">0.3.1.</span> <span class="toc-text">ecx 레지스터를 왜 push 했을까?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B8"><span class="toc-number">0.4.</span> <span class="toc-text">3. 프롤로그</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-memset-%ED%95%A8%EC%88%98-%ED%98%B8%EC%B6%9C"><span class="toc-number">0.5.</span> <span class="toc-text">4. memset 함수 호출</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8"><span class="toc-number">0.6.</span> <span class="toc-text">5. 에필로그</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#For-32bit-ROP-in-Pwnable-Stack-aligned-to-a-4-byte-boundary"><span class="toc-number"></span> <span class="toc-text">(For 32bit ROP in Pwnable) Stack aligned to a 4-byte boundary.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#disassemble-main-1"><span class="toc-number">0.1.</span> <span class="toc-text">disassemble main</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#memset-%ED%95%A8%EC%88%98-%ED%98%B8%EC%B6%9C"><span class="toc-number">0.2.</span> <span class="toc-text">memset 함수 호출</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#More"><span class="toc-number"></span> <span class="toc-text">More</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EA%B6%81%EA%B8%88%EC%A6%9D"><span class="toc-number">0.1.</span> <span class="toc-text">궁금증</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Stack Alignment in 32-bit program
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-10-19T22:00:00.000Z" itemprop="datePublished">2022-10-20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Docs/">Docs</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/32bit/" rel="tag">32bit</a>, <a class="tag-link-link" href="/tags/gcc/" rel="tag">gcc</a>, <a class="tag-link-link" href="/tags/stack-alignment/" rel="tag">stack alignment</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><p>부제: gcc 옵션 중 하나인 <code>-mpreferred-stack-boundary</code>에 대하여</p>
+<p>Pwnable 문제를 풀다가 문득 32bit ROP를 살짝 잊었다는 기분이 들었다. (…) 예제 코드를 작성하고 그것을 익스하려고 했으나 생각대로 잘 되지 않아 분석을 진행하였다. 함수 프롤로그와 에필로그에 낯선 코드가 추가되어 있었고, 이 때문에 buf와 sfp 사이에 무언의 값이 들어있었다. 분석 결과, 원인은 gcc 옵션 중 하나인 <code>-mpreferred-stack-boundary</code> 때문임을 알게되었다. </p>
+<p>Pwnable에서의 32bit 바이너리는 (거의) 대부분 <code>-mpreferred-stack-boundary=2</code> 옵션을 주고 컴파일을 한다.</p>
+<h2 id="gcc-option-mpreferred-stack-boundary-N"><a href="#gcc-option-mpreferred-stack-boundary-N" class="headerlink" title="gcc option: -mpreferred-stack-boundary=N"></a>gcc option: <code>-mpreferred-stack-boundary=N</code></h2><p>Attempt to keep the stack boundary aligned to a 2 raised to num byte boundary.<br>If ‘-mpreferred-stack-boundary’ is not specified, the default is 4 (16 bytes or<br>128 bits).</p>
+<ul>
+<li>출처: <a target="_blank" rel="noopener" href="https://gcc.gnu.org/onlinedocs/gcc-12.2.0/gcc.pdf">https://gcc.gnu.org/onlinedocs/gcc-12.2.0/gcc.pdf</a></li>
+</ul>
+<p>main을 포함하여 이후에 불리는 모든 함수들의 스택프레임에서 가장 낮은 주소가 2^N 에 배수가 되도록 align을 해준다.</p>
+<p>컴파일할 때 저 옵션을 주지 않으면 <code>-mpreferred-stack-boundary=4</code>가 디폴트로 들어가게 된다. 그래서 스택 align이 16바이트로 맞춰지게 된다. </p>
+<p>관련 코드는 아래와 같다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/* Validate -mpreferred-stack-boundary= value or default it to</span></span><br><span class="line"><span class="comment">    PREFERRED_STACK_BOUNDARY_DEFAULT.  */</span></span><br><span class="line"> ix86_preferred_stack_boundary = PREFERRED_STACK_BOUNDARY_DEFAULT;</span><br><span class="line"> <span class="keyword">if</span> (opts_set-&gt;x_ix86_preferred_stack_boundary_arg)</span><br><span class="line">   &#123;</span><br><span class="line">     <span class="type">int</span> min = TARGET_64BIT_P (opts-&gt;x_ix86_isa_flags)? <span class="number">3</span> : <span class="number">2</span>;</span><br><span class="line">     <span class="type">int</span> max = TARGET_SEH ? <span class="number">4</span> : <span class="number">12</span>;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (opts-&gt;x_ix86_preferred_stack_boundary_arg &lt; min</span><br><span class="line">  || opts-&gt;x_ix86_preferred_stack_boundary_arg &gt; max)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> (min == max)</span><br><span class="line">    error (<span class="string">&quot;%&lt;-mpreferred-stack-boundary%&gt; is not supported &quot;</span></span><br><span class="line">	   <span class="string">&quot;for this target&quot;</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    error (<span class="string">&quot;%&lt;-mpreferred-stack-boundary=%d%&gt; is not between %d and %d&quot;</span>,</span><br><span class="line">	   opts-&gt;x_ix86_preferred_stack_boundary_arg, min, max);</span><br><span class="line">&#125;</span><br><span class="line">     <span class="keyword">else</span></span><br><span class="line">ix86_preferred_stack_boundary</span><br><span class="line">  = (<span class="number">1</span> &lt;&lt; opts-&gt;x_ix86_preferred_stack_boundary_arg) * BITS_PER_UNIT;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/gcc-mirror/gcc/blob/releases/gcc-12/gcc/config/i386/i386-options.cc#L2463">https://github.com/gcc-mirror/gcc/blob/releases/gcc-12/gcc/config/i386/i386-options.cc#L2463</a></li>
+</ul>
+<h1 id="Default-Stack-aligned-to-a-16-byte-boundary"><a href="#Default-Stack-aligned-to-a-16-byte-boundary" class="headerlink" title="(Default) Stack aligned to a 16-byte boundary."></a>(Default) Stack aligned to a 16-byte boundary.</h1><h3 id="disassemble-main"><a href="#disassemble-main" class="headerlink" title="disassemble main"></a>disassemble main</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x080491f1</span> &lt;+<span class="number">0</span>&gt;:	lea    ecx,[esp+<span class="number">0x4</span>]</span><br><span class="line"><span class="number">0x080491f5</span> &lt;+<span class="number">4</span>&gt;:	and    esp,<span class="number">0xfffffff0</span></span><br><span class="line"><span class="number">0x080491f8</span> &lt;+<span class="number">7</span>&gt;:  	push   DWORD PTR [ecx<span class="number">-0x4</span>]</span><br><span class="line"><span class="number">0x080491fb</span> &lt;+<span class="number">10</span>&gt;:	push   ebp</span><br><span class="line"><span class="number">0x080491fc</span> &lt;+<span class="number">11</span>&gt;:	mov    ebp,esp</span><br><span class="line"><span class="number">0x080491fe</span> &lt;+<span class="number">13</span>&gt;:	push   ecx</span><br><span class="line"><span class="number">0x080491ff</span> &lt;+<span class="number">14</span>&gt;:	sub    esp,<span class="number">0x44</span></span><br><span class="line"><span class="number">0x08049202</span> &lt;+<span class="number">17</span>&gt;:	sub    esp,<span class="number">0x4</span></span><br><span class="line"><span class="number">0x08049205</span> &lt;+<span class="number">20</span>&gt;:	push   <span class="number">0x40</span></span><br><span class="line"><span class="number">0x08049207</span> &lt;+<span class="number">22</span>&gt;:	push   <span class="number">0x0</span></span><br><span class="line"><span class="number">0x08049209</span> &lt;+<span class="number">24</span>&gt;:	lea    eax,[ebp<span class="number">-0x48</span>]</span><br><span class="line"><span class="number">0x0804920c</span> &lt;+<span class="number">27</span>&gt;:	push   eax</span><br><span class="line"><span class="number">0x0804920d</span> &lt;+<span class="number">28</span>&gt;:	call   <span class="number">0x8049080</span> &lt;<span class="built_in">memset</span>@plt&gt;</span><br><span class="line">...</span><br><span class="line"><span class="number">0x08049255</span> &lt;+<span class="number">100</span>&gt;:	mov    ecx,DWORD PTR [ebp<span class="number">-0x4</span>]</span><br><span class="line"><span class="number">0x08049258</span> &lt;+<span class="number">103</span>&gt;:	leave  </span><br><span class="line"><span class="number">0x08049259</span> &lt;+<span class="number">104</span>&gt;:	lea    esp,[ecx<span class="number">-0x4</span>]</span><br><span class="line"><span class="number">0x0804925c</span> &lt;+<span class="number">107</span>&gt;:	ret  </span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-프롤로그-전-1"><a href="#1-프롤로그-전-1" class="headerlink" title="1. 프롤로그 전 (1)"></a>1. 프롤로그 전 (1)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">→  <span class="number">0x080491f1</span> &lt;+<span class="number">0</span>&gt; :	lea    ecx,[esp+<span class="number">0x4</span>]</span><br><span class="line">   <span class="number">0x080491f5</span> &lt;+<span class="number">4</span>&gt; :	and    esp,<span class="number">0xfffffff0</span></span><br><span class="line">   <span class="number">0x080491f8</span> &lt;+<span class="number">7</span>&gt; :	push   DWORD PTR [ecx<span class="number">-0x4</span>]</span><br><span class="line">   <span class="number">0x080491fb</span> &lt;+<span class="number">10</span>&gt;:	push   ebp</span><br><span class="line">   <span class="number">0x080491fc</span> &lt;+<span class="number">11</span>&gt;:	mov    ebp,esp</span><br><span class="line">   <span class="number">0x080491fe</span> &lt;+<span class="number">13</span>&gt;:	push   ecx  </span><br></pre></td></tr></table></figure>
+
+<p>실행하고 난 후.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ecx  : 0xffffd960</span><br><span class="line">$esp  : 0xffffd95c</span><br></pre></td></tr></table></figure>
+
+<p>ecx 레지스터를 사용하려고 하는걸까?</p>
+<h3 id="2-프롤로그-전-2"><a href="#2-프롤로그-전-2" class="headerlink" title="2. 프롤로그 전 (2)"></a>2. 프롤로그 전 (2)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">0x080491f1</span> &lt;+<span class="number">0</span>&gt; :	lea    ecx,[esp+<span class="number">0x4</span>]</span><br><span class="line">→  <span class="number">0x080491f5</span> &lt;+<span class="number">4</span>&gt; :	and    esp,<span class="number">0xfffffff0</span></span><br><span class="line">   <span class="number">0x080491f8</span> &lt;+<span class="number">7</span>&gt; :	push   DWORD PTR [ecx<span class="number">-0x4</span>]</span><br><span class="line">   <span class="number">0x080491fb</span> &lt;+<span class="number">10</span>&gt;:	push   ebp</span><br><span class="line">   <span class="number">0x080491fc</span> &lt;+<span class="number">11</span>&gt;:	mov    ebp,esp</span><br><span class="line">   <span class="number">0x080491fe</span> &lt;+<span class="number">13</span>&gt;:	push   ecx  </span><br></pre></td></tr></table></figure>
+
+<p>실행하고 난 후.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ecx  : 0xffffd960</span><br><span class="line">$esp  : 0xffffd950</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">0xffffd950│+0x0000: 0x00000000	← $esp</span><br><span class="line">0xffffd954│+0x0004: 0x00000000</span><br><span class="line">0xffffd958│+0x0008: 0x8048354  →  &quot;__libc_start_main&quot;</span><br><span class="line">0xffffd95c│+0x000c: 0xf7c1f119  →   add esp, 0x10</span><br><span class="line">0xffffd960│+0x0010: 0x00000001</span><br><span class="line">0xffffd964│+0x0014: 0xffffda14  →  0xffffdb90  →  &quot;/home/jir4vvit/study/rop32/chall&quot;</span><br><span class="line">0xffffd968│+0x0018: 0xffffda1c  →  0xffffdbb1  →  &quot;SHELL=/bin/bash&quot;</span><br><span class="line">0xffffd96c│+0x001c: 0xffffd980  →  0xf7e1fe34  →  0x0021fd4c</span><br><span class="line">0xffffd970│+0x0020: 0xf7e1fe34  →  0x0021fd4c</span><br><span class="line">0xffffd974│+0x0024: 0x80491f1  →  &lt;main+0&gt; lea ecx, [esp+0x4]</span><br></pre></td></tr></table></figure>
+
+<p>32bit 프로그램에선 block 단위가 4바이트이기 때문에 컴파일러(gcc)가 and 연산으로 esp를 16에 align시키는 모습을 확인할 수 있다.</p>
+<h4 id="ecx-레지스터를-왜-push-했을까"><a href="#ecx-레지스터를-왜-push-했을까" class="headerlink" title="ecx 레지스터를 왜 push 했을까?"></a><em>ecx 레지스터를 왜 push 했을까?</em></h4><p>ecx is a temporary register so it has to be saved. Also, depending on optimization level, some of the frame linkage ops that don’t seem strictly necessary to run the program might well be important in order to set up a trace-ready chain of frames.</p>
+<ul>
+<li>출처: <a target="_blank" rel="noopener" href="https://askcodes.net/coding/trying-to-understand-gcc-s-complicated-stack-alignment-at-the-top-of-main-that-copies-the-return-address">https://askcodes.net/coding/trying-to-understand-gcc-s-complicated-stack-alignment-at-the-top-of-main-that-copies-the-return-address</a></li>
+</ul>
+<h3 id="3-프롤로그"><a href="#3-프롤로그" class="headerlink" title="3. 프롤로그"></a>3. 프롤로그</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x080491fb</span> &lt;+<span class="number">10</span>&gt;:	push   ebp</span><br><span class="line"><span class="number">0x080491fc</span> &lt;+<span class="number">11</span>&gt;:	mov    ebp,esp</span><br><span class="line"><span class="number">0x080491fe</span> &lt;+<span class="number">13</span>&gt;:	push   ecx  </span><br></pre></td></tr></table></figure>
+
+<p>ebp를 push하고 mov 명령으로 ebp를 esp와 같게 옮겨주었다.</p>
+<p>에필로그를 진행해서 ebp와 esp를 애써 맞춰주었음에도 불구하고(?) ecx를 push했다. 32bit 프로그램이라면 무조건 buf, ebp(sfp) 순일 줄 알았는데 중간에 ecx가 끼어있다. 이것을 보지 못하고 무작정 익스를 진행하려고 하다가 평소와 스택이 쌓이는 것이 이상함을 감지하고 분석을 진행하게 되었다.</p>
+<h3 id="4-memset-함수-호출"><a href="#4-memset-함수-호출" class="headerlink" title="4. memset 함수 호출"></a>4. memset 함수 호출</h3><p>에필로그 진행 후 함수를 호출할 때 스택에 인자들이 push되는 것을 살펴보자.</p>
+<p>분석할 어셈은 아래와 같다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">0x080491fe</span> &lt;+<span class="number">13</span>&gt;:	push   ecx  </span><br><span class="line">   <span class="number">0x080491ff</span> &lt;+<span class="number">14</span>&gt;:	sub    esp,<span class="number">0x44</span></span><br><span class="line">   <span class="number">0x08049202</span> &lt;+<span class="number">17</span>&gt;:	sub    esp,<span class="number">0x4</span></span><br><span class="line">   <span class="number">0x08049205</span> &lt;+<span class="number">20</span>&gt;:	push   <span class="number">0x40</span></span><br><span class="line">   <span class="number">0x08049207</span> &lt;+<span class="number">22</span>&gt;:	push   <span class="number">0x0</span></span><br><span class="line">   <span class="number">0x08049209</span> &lt;+<span class="number">24</span>&gt;:	lea    eax,[ebp<span class="number">-0x48</span>]</span><br><span class="line">   <span class="number">0x0804920c</span> &lt;+<span class="number">27</span>&gt;:	push   eax</span><br><span class="line">→  <span class="number">0x0804920d</span> &lt;+<span class="number">28</span>&gt;:	call   <span class="number">0x8049080</span> &lt;<span class="built_in">memset</span>@plt&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>@plt (</span><br><span class="line">   [sp + <span class="number">0x0</span>] = <span class="number">0xffffd900</span> → <span class="number">0x00000000</span>,</span><br><span class="line">   [sp + <span class="number">0x4</span>] = <span class="number">0x000000</span>,</span><br><span class="line">   [sp + <span class="number">0x8</span>] = <span class="number">0x000040</span>,</span><br><span class="line">   [sp + <span class="number">0xc</span>] = <span class="number">0x000000</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>실행하고 난 후.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">0xffffd8f0│+0x0000: 0xffffd900  →  0x00000000	← $esp</span><br><span class="line">0xffffd8f4│+0x0004: 0x00000000</span><br><span class="line">0xffffd8f8│+0x0008: 0x000040 (&quot;@&quot;?)</span><br><span class="line">0xffffd8fc│+0x000c: 0x00000000</span><br><span class="line">0xffffd900│+0x0010: 0x00000000  //&lt;-- 여기서부터 0x40 바이트 초기화</span><br><span class="line">0xffffd904│+0x0014: 0x00000000</span><br><span class="line">0xffffd908│+0x0018: 0x00000000</span><br><span class="line">0xffffd90c│+0x001c: 0x00000000</span><br><span class="line">0xffffd910│+0x0020: 0x00000000</span><br><span class="line">0xffffd914│+0x0024: 0x00000000</span><br><span class="line"> </span><br><span class="line">0xffffd918│+0x0028: 0x00000000</span><br><span class="line">0xffffd91c│+0x002c: 0x00000000</span><br><span class="line">0xffffd920│+0x0030: 0x00000000</span><br><span class="line">0xffffd924│+0x0034: 0x00000000</span><br><span class="line">0xffffd928│+0x0038: 0x00000000</span><br><span class="line">0xffffd92c│+0x003c: 0x00000000</span><br><span class="line">0xffffd930│+0x0040: 0x00000000</span><br><span class="line">0xffffd934│+0x0044: 0x00000000</span><br><span class="line">0xffffd938│+0x0048: 0x00000000</span><br><span class="line">0xffffd93c│+0x004c: 0x00000000  //&lt;-- 0xffffd900 ~ 0xffffd93f 까지 0x40 바이트가 초기화 됨</span><br><span class="line"> </span><br><span class="line">0xffffd940│+0x0050: 0x00000000  </span><br><span class="line">0xffffd944│+0x0054: 0xffffd960  →  0x00000001 //← $ecx</span><br><span class="line">0xffffd948│+0x0058: 0x00000000	← $ebp</span><br><span class="line">0xffffd94c│+0x005c: 0xf7c1f119  →   add esp, 0x10</span><br><span class="line">0xffffd950│+0x0060: 0x00000000</span><br><span class="line">0xffffd954│+0x0064: 0x00000000</span><br><span class="line">0xffffd958│+0x0068: 0x8048354  →  &quot;__libc_start_main&quot;</span><br><span class="line">0xffffd95c│+0x006c: 0xf7c1f119  →   add esp, 0x10</span><br><span class="line">0xffffd960│+0x0070: 0x00000001</span><br><span class="line">0xffffd964│+0x0074: 0xffffda14  →  0xffffdb90  →  &quot;/home/jir4vvit/study/rop32/chall&quot;</span><br></pre></td></tr></table></figure>
+
+<p>ecx를 push했기 때문에 align이 맞지 않아 buf 크기는 0x40이지만 esp를 0x44만큼 올려주었다.(buf를 위해 공간확보) </p>
+<p>또한 곧바로 esp를 0x4 올려주었는데, 이는 memset의 인자를 구성할 때 align을 맞춰주기 위해서이다.</p>
+<p>이 후에 실질적으로 memset에서 사용하는 세 개의 인자를 push했다. </p>
+<h3 id="5-에필로그"><a href="#5-에필로그" class="headerlink" title="5. 에필로그"></a>5. 에필로그</h3><p>에필로그에 낯선 명령이 추가되어 있다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x08049255</span> &lt;+<span class="number">100</span>&gt;:	mov    ecx,DWORD PTR [ebp<span class="number">-0x4</span>]</span><br><span class="line"><span class="number">0x08049258</span> &lt;+<span class="number">103</span>&gt;:	leave  </span><br><span class="line"><span class="number">0x08049259</span> &lt;+<span class="number">104</span>&gt;:	lea    esp,[ecx<span class="number">-0x4</span>]</span><br><span class="line"><span class="number">0x0804925c</span> &lt;+<span class="number">107</span>&gt;:	ret    </span><br></pre></td></tr></table></figure>
+
+<p>무작정 익스를 진행하려고 할 때 main+100에서 터졌었다. 스택 상황이 무조건 buf, ebp(sfp) 순서임을 기대했기 때문이다.<br>실제론 buf, ecx(ebp-0x4), ebp(sfp) 순이다.</p>
+<p>ebp 위치라고 생각하고 넣었던 값이 실제론 ebp-0x4였기 때문에 터져버렸다.</p>
+<h1 id="For-32bit-ROP-in-Pwnable-Stack-aligned-to-a-4-byte-boundary"><a href="#For-32bit-ROP-in-Pwnable-Stack-aligned-to-a-4-byte-boundary" class="headerlink" title="(For 32bit ROP in Pwnable) Stack aligned to a 4-byte boundary."></a>(For 32bit ROP in Pwnable) Stack aligned to a 4-byte boundary.</h1><p>32bit 프로그램에선 block 단위가 4바이트이다. 따라서 스택 구조는 통상적으로 알고 있는 그 구조고, 프롤로그와 에필로그도 알고 있는 그 어셈이다. 자세히 설명하지 않고 코드와 스택 구조만 보여주고 넘어가겠다.</p>
+<p>참고로 Pwnable에서의 32bit 프로그램은 (거의) 대부분 <code>-mpreferred-stack-boundary=2</code> 옵션으로 컴파일되었다.</p>
+<h3 id="disassemble-main-1"><a href="#disassemble-main-1" class="headerlink" title="disassemble main"></a>disassemble main</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x080491ee</span> &lt;+<span class="number">0</span>&gt;:	push   ebp</span><br><span class="line"><span class="number">0x080491ef</span> &lt;+<span class="number">1</span>&gt;:	mov    ebp,esp</span><br><span class="line"><span class="number">0x080491f1</span> &lt;+<span class="number">3</span>&gt;:	sub    esp,<span class="number">0x40</span></span><br><span class="line"><span class="number">0x080491f4</span> &lt;+<span class="number">6</span>&gt;:	push   <span class="number">0x40</span></span><br><span class="line"><span class="number">0x080491f6</span> &lt;+<span class="number">8</span>&gt;:	push   <span class="number">0x0</span></span><br><span class="line"><span class="number">0x080491f8</span> &lt;+<span class="number">10</span>&gt;:	lea    eax,[ebp<span class="number">-0x40</span>]</span><br><span class="line"><span class="number">0x080491fb</span> &lt;+<span class="number">13</span>&gt;:	push   eax</span><br><span class="line"><span class="number">0x080491fc</span> &lt;+<span class="number">14</span>&gt;:	call   <span class="number">0x8049080</span> &lt;<span class="built_in">memset</span>@plt&gt;</span><br><span class="line">...</span><br><span class="line"><span class="number">0x0804923b</span> &lt;+<span class="number">77</span>&gt;:	leave  </span><br><span class="line"><span class="number">0x0804923c</span> &lt;+<span class="number">78</span>&gt;:	ret    </span><br></pre></td></tr></table></figure>
+
+<h3 id="memset-함수-호출"><a href="#memset-함수-호출" class="headerlink" title="memset 함수 호출"></a>memset 함수 호출</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>@plt (</span><br><span class="line">   [sp + <span class="number">0x0</span>] = <span class="number">0xffffd908</span> → <span class="number">0x00000000</span>,</span><br><span class="line">   [sp + <span class="number">0x4</span>] = <span class="number">0x000000</span>,</span><br><span class="line">   [sp + <span class="number">0x8</span>] = <span class="number">0x000040</span>,</span><br><span class="line">   [sp + <span class="number">0xc</span>] = <span class="number">0x000000</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">0xffffd8fc│+0x0000: 0xffffd908  →  0x00000000	← $esp</span><br><span class="line">0xffffd900│+0x0004: 0x00000000</span><br><span class="line">0xffffd904│+0x0008: 0x000040 (&quot;@&quot;?)</span><br><span class="line">0xffffd908│+0x000c: 0x00000000  //&lt;-- 여기서부터 0x40바이트 초기화</span><br><span class="line">0xffffd90c│+0x0010: 0x00000000</span><br><span class="line">0xffffd910│+0x0014: 0x00000000</span><br><span class="line">0xffffd914│+0x0018: 0x00000000</span><br><span class="line">0xffffd918│+0x001c: 0x00000000</span><br><span class="line">0xffffd91c│+0x0020: 0x00000000</span><br><span class="line">0xffffd920│+0x0024: 0x00000000</span><br><span class="line"></span><br><span class="line">0xffffd924│+0x0028: 0x00000000</span><br><span class="line">0xffffd928│+0x002c: 0x00000000</span><br><span class="line">0xffffd92c│+0x0030: 0x00000000</span><br><span class="line">0xffffd930│+0x0034: 0x00000000</span><br><span class="line">0xffffd934│+0x0038: 0x00000000</span><br><span class="line">0xffffd938│+0x003c: 0x00000000</span><br><span class="line">0xffffd93c│+0x0040: 0x00000000</span><br><span class="line">0xffffd940│+0x0044: 0x00000000</span><br><span class="line">0xffffd944│+0x0048: 0x00000000  //&lt;-- 0xffffd908 ~ 0xffffd947 까지 0x40 바이트가 초기화 됨</span><br><span class="line">0xffffd948│+0x004c: 0x00000000	← $ebp </span><br><span class="line"></span><br><span class="line">0xffffd94c│+0x0050: 0xf7c1f119  →   add esp, 0x10</span><br><span class="line">0xffffd950│+0x0054: 0x00000001</span><br><span class="line">0xffffd954│+0x0058: 0xffffda04  →  0xffffdb8e  →  &quot;/home/jir4vvit/study/rop32/challr&quot;</span><br><span class="line">0xffffd958│+0x005c: 0xffffda0c  →  0xffffdbb0  →  &quot;SHELL=/bin/bash&quot;</span><br><span class="line">0xffffd95c│+0x0060: 0xffffd970  →  0xf7e1fe34  →  0x0021fd4c</span><br><span class="line">0xffffd960│+0x0064: 0xf7e1fe34  →  0x0021fd4c</span><br><span class="line">0xffffd964│+0x0068: 0x80491ee  →  &lt;main+0&gt; push ebp</span><br><span class="line">0xffffd968│+0x006c: 0x00000001</span><br><span class="line">0xffffd96c│+0x0070: 0xffffda04  →  0xffffdb8e  →  &quot;/home/jir4vvit/study/rop32/challr&quot;</span><br><span class="line">0xffffd970│+0x0074: 0xf7e1fe34  →  0x0021fd4c</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="More"><a href="#More" class="headerlink" title="More"></a>More</h1><p>참고로 64bit 프로그램에서는 block 단위가 4바이트에서 8바이트로 늘어났기 때문에 <code>-mpreferred-stack-boundary=2</code> 옵션을 사용하려고 하면 에러를 내뿜는다.</p>
+<h3 id="궁금증"><a href="#궁금증" class="headerlink" title="궁금증"></a>궁금증</h3><p>무려 6년 9개월 전 어떤 분이 하신 궁금증과 동일한 궁금증을 가졌다. 안타깝게도 해당 질문에 대한 답은 찾아보기 어려웠다. </p>
+<p>I noticed that when not using -mpreferred-stack-boundary&#x3D;2, gcc might compile “main” with an interesting prologue&#x2F;epilogue: effectively “relying on $ecx (which relies on $ebp-4) for $esp value before ret”. Has anyone else come across this observation?</p>
+<p>This means you can not overwrite normal ret address staying at $ebp+4, but instead you have to overwrite $ebp-4 (that is ecx) and reposition the stack pointer and your return address (effectively using a stack pivot) to further the exploitation.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://security.stackexchange.com/questions/110943/how-to-exploit-a-stack-overflow-without-setting-mpreferred-stack-boundary-2">https://security.stackexchange.com/questions/110943/how-to-exploit-a-stack-overflow-without-setting-mpreferred-stack-boundary-2</a></li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR"><span class="toc-number">1.</span> <span class="toc-text">TL;DR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gcc-option-mpreferred-stack-boundary-N"><span class="toc-number">2.</span> <span class="toc-text">gcc option: -mpreferred-stack-boundary&#x3D;N</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Default-Stack-aligned-to-a-16-byte-boundary"><span class="toc-number"></span> <span class="toc-text">(Default) Stack aligned to a 16-byte boundary.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#disassemble-main"><span class="toc-number">0.1.</span> <span class="toc-text">disassemble main</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B8-%EC%A0%84-1"><span class="toc-number">0.2.</span> <span class="toc-text">1. 프롤로그 전 (1)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B8-%EC%A0%84-2"><span class="toc-number">0.3.</span> <span class="toc-text">2. 프롤로그 전 (2)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ecx-%EB%A0%88%EC%A7%80%EC%8A%A4%ED%84%B0%EB%A5%BC-%EC%99%9C-push-%ED%96%88%EC%9D%84%EA%B9%8C"><span class="toc-number">0.3.1.</span> <span class="toc-text">ecx 레지스터를 왜 push 했을까?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B8"><span class="toc-number">0.4.</span> <span class="toc-text">3. 프롤로그</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-memset-%ED%95%A8%EC%88%98-%ED%98%B8%EC%B6%9C"><span class="toc-number">0.5.</span> <span class="toc-text">4. memset 함수 호출</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%EC%97%90%ED%95%84%EB%A1%9C%EA%B7%B8"><span class="toc-number">0.6.</span> <span class="toc-text">5. 에필로그</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#For-32bit-ROP-in-Pwnable-Stack-aligned-to-a-4-byte-boundary"><span class="toc-number"></span> <span class="toc-text">(For 32bit ROP in Pwnable) Stack aligned to a 4-byte boundary.</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#disassemble-main-1"><span class="toc-number">0.1.</span> <span class="toc-text">disassemble main</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#memset-%ED%95%A8%EC%88%98-%ED%98%B8%EC%B6%9C"><span class="toc-number">0.2.</span> <span class="toc-text">memset 함수 호출</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#More"><span class="toc-number"></span> <span class="toc-text">More</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EA%B6%81%EA%B8%88%EC%A6%9D"><span class="toc-number">0.1.</span> <span class="toc-text">궁금증</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&text=Stack Alignment in 32-bit program"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&is_video=false&description=Stack Alignment in 32-bit program"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Stack Alignment in 32-bit program&body=Check out this article: https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&title=Stack Alignment in 32-bit program"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&name=Stack Alignment in 32-bit program&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/2022/10/20/32bit_stack_aligned/&t=Stack Alignment in 32-bit program"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

