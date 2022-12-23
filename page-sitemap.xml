@@ -10,6 +10,15 @@
     
     
     <url>
+        <loc>https://jiravvit.github.io/about/</loc>
+        <lastmod>2022-12-23T16:02:39.575Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
+    
+    <url>
         <loc>https://jiravvit.github.io/search/</loc>
         <lastmod>2022-12-22T18:47:30.714Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -21,15 +30,6 @@
     <url>
         <loc>https://jiravvit.github.io/tags/</loc>
         <lastmod>2022-12-22T18:47:30.714Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    
-    
-    <url>
-        <loc>https://jiravvit.github.io/about/</loc>
-        <lastmod>2022-12-22T18:47:30.713Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
