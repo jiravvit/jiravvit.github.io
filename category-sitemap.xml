@@ -9,6 +9,13 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/categories/Diary/</loc>
+        <lastmod>2022-12-31T18:45:03.080Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/categories/WriteUp/</loc>
         <lastmod>2022-12-22T19:59:56.288Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -24,13 +31,6 @@
 
     <url>
         <loc>https://jiravvit.github.io/categories/WriteUp/Making/</loc>
-        <lastmod>2022-12-22T18:47:30.711Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/categories/Diary/</loc>
         <lastmod>2022-12-22T18:47:30.711Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
