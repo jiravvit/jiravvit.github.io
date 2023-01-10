@@ -9,6 +9,30 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/230109-irisctf2022-babysocat/</loc>
+        <lastmod>2023-01-10T19:13:06.203Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230109-irisctf2022-ret2libm/</loc>
+        <lastmod>2023-01-10T19:13:01.571Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230109-irisctf2022-babyseek/</loc>
+        <lastmod>2023-01-10T19:12:37.813Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/221231-diary/</loc>
         <lastmod>2022-12-31T19:16:59.166Z</lastmod>
         <changefreq>weekly</changefreq>

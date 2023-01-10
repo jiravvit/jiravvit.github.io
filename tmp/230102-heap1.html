@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Introduction스탠다드 라이브러리인 stdlib.h에서 malloc 함수와 free 함수를 제공한다. 우리는 이 두 함수를 아래처럼 사용한다. 12345678&#x2F;&#x2F; Dynamically allocate 10 byteschar *buffer &#x3D; (char *)malloc(10);strcpy(buffer, &quot;hello&quot;);printf(&amp;">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Basics of glibc 2.34 Heap">
+<meta property="og:url" content="https://jiravvit.github.io/tmp/230102-heap1.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="Introduction스탠다드 라이브러리인 stdlib.h에서 malloc 함수와 free 함수를 제공한다. 우리는 이 두 함수를 아래처럼 사용한다. 12345678&#x2F;&#x2F; Dynamically allocate 10 byteschar *buffer &#x3D; (char *)malloc(10);strcpy(buffer, &quot;hello&quot;);printf(&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-01T23:00:00.000Z">
+<meta property="article:modified_time" content="2023-01-04T15:29:01.457Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="heap">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>Basics of glibc 2.34 Heap</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index py4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/judi2.jpg);"></div>
+    
+  
+    <div id="title">
+      <h1>jir4vvit</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/about/">About</a></li><!--
+   --><!--
+     --><li><a href="/archives/">Writing</a></li><!--
+   --><!--
+     --><li><a href="/categories/">Category</a></li><!--
+   --><!--
+     --><li><a href="/search/">Search</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+
+  <div class="content" itemprop="articleBody">
+      
+          <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>스탠다드 라이브러리인 <code>stdlib.h</code>에서 <code>malloc</code> 함수와 <code>free</code> 함수를 제공한다. 우리는 이 두 함수를 아래처럼 사용한다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Dynamically allocate 10 bytes</span></span><br><span class="line"><span class="type">char</span> *buffer = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">strcpy</span>(buffer, <span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, buffer); <span class="comment">// prints &quot;hello&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Frees/unallocates the dynamic memory allocated earlier</span></span><br><span class="line"><span class="built_in">free</span>(buffer);</span><br></pre></td></tr></table></figure>
+
+<p><code>stack memory</code>과 다르게 <code>heap memory</code>는 동적으로 할당될 수 있다. 바로 이 예제처럼 말이다. 이 <code>heap memory</code>는 global하게 사용될 수 있는데 이것은 프로그램 내의 어디서나 접근할 수 있다는 것을 의미한다. 동적으로 할당된 <code>heap memory</code>를 참조하기 위해 우리는 포인터를 사용하며 이 과정에서 약간의 성능 저하가 나타날 수도 있다.</p>
+<p>이제부터 <code>heap memory</code>를 이하 <code>heap</code>이라고 줄여서 표현하겠다.</p>
+<p>한편, <code>malloc</code> 함수와 <code>free</code> 함수의 공식 디스크립션을 확인하면 아래와 같다. </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">  malloc(size_t n)</span><br><span class="line">  Returns a pointer to a newly allocated chunk of at least n bytes, or null</span><br><span class="line">  if no space is available. Additionally, on failure, errno is</span><br><span class="line">  set to ENOMEM on ANSI C systems.</span><br><span class="line"></span><br><span class="line">  If n is zero, malloc returns a minimum-sized chunk. (The minimum</span><br><span class="line">  size is 16 bytes on most 32bit systems, and 24 or 32 bytes on 64bit</span><br><span class="line">  systems.)  On most systems, size_t is an unsigned type, so calls</span><br><span class="line">  with negative arguments are interpreted as requests for huge amounts</span><br><span class="line">  of space, which will often fail. The maximum supported value of n</span><br><span class="line">  differs across systems, but is in all cases less than the maximum</span><br><span class="line">  representable value of a size_t.</span><br><span class="line">*/</span><br><span class="line">void*  __libc_malloc(size_t);</span><br></pre></td></tr></table></figure>
+
+<p>요약하자면, <code>malloc</code> 함수는 n bytes 혹은 사용가능한 공간이 없을 시 null byte의 <code>chunk</code>를 새롭게 할당한 후, 포인터를 반환한다. </p>
+<p>null byte의 <code>chunk</code>를 할당할 수 있을까? 이 경우, minimum-sized <code>chunk</code>를 반환한다. minimum size란 64bit 시스템 기준 24 bytes나 32 bytes를 의미한다. 대부분의 시스템에서 size_t는 unsigned type로 정의되어 있는데 자세한 type은 아래와 같다. 음수를 인자로 주게 된다면 매우 큰 수가 전달될 것 같지만 fail하게 된다고 명시되어 있다. maximum 값은 시스템마다 다르다고 한다.</p>
+<p>여러 시스템에서 size_t의 정의<br>x86,mipsel, … -&gt; unsigned int (4 bytes)<br>x64,arm64,arm64e,mips64, … -&gt; unsigned long long int (8 bytes)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">  free(void* p)</span><br><span class="line">  Releases the chunk of memory pointed to by p, that had been previously</span><br><span class="line">  allocated using malloc or a related routine such as realloc.</span><br><span class="line">  It has no effect if p is null. It can have arbitrary (i.e., bad!)</span><br><span class="line">  effects if p has already been freed.</span><br><span class="line"></span><br><span class="line">  Unless disabled (using mallopt), freeing very large spaces will</span><br><span class="line">  when possible, automatically trigger operations that give</span><br><span class="line">  back unused memory to the system, thus reducing program footprint.</span><br><span class="line">*/</span><br><span class="line">void     __libc_free(void*);</span><br></pre></td></tr></table></figure>
+
+<p>요약하자면, free 함수는 malloc 혹은 realloc과 비슷한 루틴을 가진 함수에 의해 이전에 할당된 memory, 즉 인자로 넘어온 p가 기리키는 memory의 chunk를 해제시킨다. p가 null이라면 아무 영향도 끼치지 않는다. 만약 free된 p를 전달하면 임의의 영향을 끼칠 수 있다.</p>
+<h2 id="malloc-chunk"><a href="#malloc-chunk" class="headerlink" title="malloc_chunk"></a>malloc_chunk</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> INTERNAL_SIZE_T size_t</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span> &#123;</span></span><br><span class="line">  INTERNAL_SIZE_T      mchunk_prev_size;  <span class="comment">/* Size of previous chunk, if it is free. */</span></span><br><span class="line">  INTERNAL_SIZE_T      mchunk_size;       <span class="comment">/* Size in bytes, including overhead. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">fd</span>;</span>                <span class="comment">/* double links -- used only if this chunk is free. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">bk</span>;</span></span><br><span class="line">  <span class="comment">/* Only used for large blocks: pointer to next larger size.  */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">fd_nextsize</span>;</span> <span class="comment">/* double links -- used only if this chunk is free. */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">bk_nextsize</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">malloc_chunk</span>* <span class="title">mchunkptr</span>;</span></span><br></pre></td></tr></table></figure>
+
+<p>64bit 시스템 기준 각 필드를 소개한다.</p>
+<ul>
+<li><code>mchunk_prev_size</code> (8 bytes): 직전 chunk의 size이다.</li>
+<li><code>mchunk_size</code> (8 bytes): header를 포함한 현재 chunk의 size이다. chunk header는 <code>mchunk_prev_size</code>와 <code>mchunk_size</code>를 포함하여 16 bytes이다. 사용자가 n bytes를 요청했다면 <code>mchunk_size</code>는 16+n bytes 이다.</li>
+<li><code>fd</code>: chunk가 free했을 때만 값이 채워지며 연결리스트에서 <strong>다음 chunk를 가리킨다.</strong></li>
+<li><code>bk</code>: chunk가 free했을 때만 값이 채워지며 연결리스트에서 <strong>이전 chunk를 가리킨다.</strong></li>
+<li><code>fd_nextsize</code>: </li>
+<li><code>bk_nextsize</code>:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">gef&gt; heap chunks</span><br><span class="line">Chunk(addr=0x555555559010, size=0x290, flags=PREV_INUSE)</span><br><span class="line">    [0x0000555555559010     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................]</span><br><span class="line">Chunk(addr=0x5555555592a0, size=0x20, flags=PREV_INUSE)</span><br><span class="line">    [0x00005555555592a0     41 41 41 41 41 41 41 41 00 00 00 00 00 00 00 00    AAAAAAAA........]</span><br><span class="line">Chunk(addr=0x5555555592c0, size=0x20, flags=PREV_INUSE)</span><br><span class="line">    [0x00005555555592c0     42 42 42 42 42 42 42 42 00 00 00 00 00 00 00 00    BBBBBBBB........]</span><br><span class="line">Chunk(addr=0x5555555592e0, size=0x20, flags=PREV_INUSE)</span><br><span class="line">    [0x00005555555592e0     43 43 43 43 43 43 43 43 00 00 00 00 00 00 00 00    CCCCCCCC........]</span><br><span class="line">Chunk(addr=0x555555559300, size=0x20d10, flags=PREV_INUSE)</span><br><span class="line">    [0x0000555555559300     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................]</span><br><span class="line">gef&gt; x/20gx 0x5555555592a0-0x10</span><br><span class="line">0x555555559290:	0x0000000000000000	0x0000000000000021</span><br><span class="line">0x5555555592a0:	0x4141414141414141	0x0000000000000000</span><br><span class="line">0x5555555592b0:	0x0000000000000000	0x0000000000000021</span><br><span class="line">0x5555555592c0:	0x4242424242424242	0x0000000000000000</span><br><span class="line">0x5555555592d0:	0x0000000000000000	0x0000000000000021</span><br><span class="line">0x5555555592e0:	0x4343434343434343	0x0000000000000000</span><br><span class="line">0x5555555592f0:	0x0000000000000000	0x0000000000020d11</span><br><span class="line">0x555555559300:	0x0000000000000000	0x0000000000000000</span><br><span class="line">0x555555559310:	0x0000000000000000	0x0000000000000000</span><br><span class="line">0x555555559320:	0x0000000000000000	0x0000000000000000</span><br></pre></td></tr></table></figure>
+
+<h2 id="malloc-state"><a href="#malloc-state" class="headerlink" title="malloc_state"></a>malloc_state</h2><p>arena는 fastbin, smallbin, largebin 등의 정보를 모두 담고 있는 객체이며 전역변수로 지정되어 있다. arena 헤더는 struct malloc_state로 구성되어 있다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">malloc_state</span> <span class="title">main_arena</span> =</span></span><br><span class="line">&#123;</span><br><span class="line">  .mutex = _LIBC_LOCK_INITIALIZER,</span><br><span class="line">  .next = &amp;main_arena,</span><br><span class="line">  .attached_threads = <span class="number">1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">malloc_state</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="comment">/* Serialize access.  */</span></span><br><span class="line">  __libc_lock_define (, mutex);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Flags (formerly in max_fast).  */</span></span><br><span class="line">  <span class="type">int</span> flags;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Set if the fastbin chunks contain recently inserted free blocks.  */</span></span><br><span class="line">  <span class="comment">/* Note this is a bool but not all targets support atomics on booleans.  */</span></span><br><span class="line">  <span class="type">int</span> have_fastchunks;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Fastbins */</span></span><br><span class="line">  mfastbinptr fastbinsY[NFASTBINS];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Base of the topmost chunk -- not otherwise kept in a bin */</span></span><br><span class="line">  mchunkptr top;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* The remainder from the most recent split of a small request */</span></span><br><span class="line">  mchunkptr last_remainder;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Normal bins packed as described above */</span></span><br><span class="line">  mchunkptr bins[NBINS * <span class="number">2</span> - <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Bitmap of bins */</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> binmap[BINMAPSIZE];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Linked list */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_state</span> *<span class="title">next</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Linked list for free arenas.  Access to this field is serialized</span></span><br><span class="line"><span class="comment">     by free_list_lock in arena.c.  */</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">malloc_state</span> *<span class="title">next_free</span>;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Number of threads attached to this arena.  0 if the arena is on</span></span><br><span class="line"><span class="comment">     the free list.  Access to this field is serialized by</span></span><br><span class="line"><span class="comment">     free_list_lock in arena.c.  */</span></span><br><span class="line">  INTERNAL_SIZE_T attached_threads;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Memory allocated from the system in this arena.  */</span></span><br><span class="line">  INTERNAL_SIZE_T system_mem;</span><br><span class="line">  INTERNAL_SIZE_T max_system_mem;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h2>
+        
+  </div>
+</article>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
