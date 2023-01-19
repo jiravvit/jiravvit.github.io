@@ -9,6 +9,30 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/230119-pwn-libc_brute_forcing_in_local/</loc>
+        <lastmod>2023-01-19T17:40:52.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230119-pwn-libc/</loc>
+        <lastmod>2023-01-19T17:25:58.207Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230119-pwn-32bitrop/</loc>
+        <lastmod>2023-01-19T17:10:22.355Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/230118-idekctf2023-typop2/</loc>
         <lastmod>2023-01-18T16:59:03.828Z</lastmod>
         <changefreq>weekly</changefreq>
