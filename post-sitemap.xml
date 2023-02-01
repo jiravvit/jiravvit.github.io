@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/230201-algorithm-upper_lower/</loc>
+        <lastmod>2023-02-01T17:41:58.483Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/230123-algorithm-qsort/</loc>
         <lastmod>2023-01-23T15:49:55.028Z</lastmod>
         <changefreq>weekly</changefreq>
