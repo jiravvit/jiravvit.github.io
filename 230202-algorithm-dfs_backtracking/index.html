@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="TL;DR https:&#x2F;&#x2F;solved.ac&#x2F;en&#x2F;profile&#x2F;cutieee  요즘 C로 백준을 꾸준히 풀고 있다. 이 글을 시점으로 Streak 54 days를 달성했다. 짝짝짝! 어제쯤 실버 2를 달성했는데 요즘 들어 알고리즘을 따로 공부해야할 필요성을 느낀다. 그냥 풀게 되면 시간 초과가 나기 일수. 혹은 문제 풀이 방향성을 잡기가 힘들다. 백준 15">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)">
+<meta property="og:url" content="https://jiravvit.github.io/230202-algorithm-dfs_backtracking/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="TL;DR https:&#x2F;&#x2F;solved.ac&#x2F;en&#x2F;profile&#x2F;cutieee  요즘 C로 백준을 꾸준히 풀고 있다. 이 글을 시점으로 Streak 54 days를 달성했다. 짝짝짝! 어제쯤 실버 2를 달성했는데 요즘 들어 알고리즘을 따로 공부해야할 필요성을 느낀다. 그냥 풀게 되면 시간 초과가 나기 일수. 혹은 문제 풀이 방향성을 잡기가 힘들다. 백준 15">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jiravvit.github.io/images/230202-algorithm-dfs_backtracking/Depth-First-Search.gif">
+<meta property="article:published_time" content="2023-02-01T23:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-02T18:05:04.275Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="Baekjoon">
+<meta property="article:tag" content="Recursion">
+<meta property="article:tag" content="DFS">
+<meta property="article:tag" content="Backtracking">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jiravvit.github.io/images/230202-algorithm-dfs_backtracking/Depth-First-Search.gif">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230201-algorithm-upper_lower/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&text=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&is_video=false&description=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)&body=Check out this article: https://jiravvit.github.io/230202-algorithm-dfs_backtracking/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&name=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&t=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR"><span class="toc-number">1.</span> <span class="toc-text">TL;DR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Recursion-%EC%9E%AC%EA%B7%80"><span class="toc-number">2.</span> <span class="toc-text">Recursion 재귀</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS"><span class="toc-number">3.</span> <span class="toc-text">DFS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Backtracking"><span class="toc-number">4.</span> <span class="toc-text">Backtracking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B0%B1%EC%A4%80-15649-N%EA%B3%BC-M-1"><span class="toc-number">5.</span> <span class="toc-text">백준 15649 N과 M (1)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B0%B1%EC%A4%80-15650-N%EA%B3%BC-M-2"><span class="toc-number">6.</span> <span class="toc-text">백준 15650 N과 M (2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B0%B1%EC%A4%80-15651-N%EA%B3%BC-M-3"><span class="toc-number">7.</span> <span class="toc-text">백준 15651 N과 M (3)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B0%B1%EC%A4%80-15652-N%EA%B3%BC-M-4"><span class="toc-number">8.</span> <span class="toc-text">백준 15652 N과 M (4)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">9.</span> <span class="toc-text">Reference</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-02-01T23:00:00.000Z" itemprop="datePublished">2023-02-02</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Docs/">Docs</a> › <a class="category-link" href="/categories/Docs/Algorithm/">Algorithm</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Backtracking/" rel="tag">Backtracking</a>, <a class="tag-link-link" href="/tags/Baekjoon/" rel="tag">Baekjoon</a>, <a class="tag-link-link" href="/tags/C/" rel="tag">C</a>, <a class="tag-link-link" href="/tags/DFS/" rel="tag">DFS</a>, <a class="tag-link-link" href="/tags/Recursion/" rel="tag">Recursion</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://solved.ac/en/profile/cutieee">https://solved.ac/en/profile/cutieee</a></li>
+</ul>
+<p>요즘 C로 백준을 꾸준히 풀고 있다. 이 글을 시점으로 Streak 54 days를 달성했다. 짝짝짝! 어제쯤 실버 2를 달성했는데 요즘 들어 알고리즘을 따로 공부해야할 필요성을 느낀다. 그냥 풀게 되면 시간 초과가 나기 일수. 혹은 문제 풀이 방향성을 잡기가 힘들다.</p>
+<p>백준 15649, 15650, 15651, 15652 문제를 풀면서 재귀, DFS, 백트래킹 개념을 다질 수 있었다. 백준 사이트에서 <a target="_blank" rel="noopener" href="https://www.acmicpc.net/step/34">단계별로 풀어보기</a>에서 백트래킹 입문 문제를 스스로 풀이하였다. 문제를 풀이하면서 얻은 지식을 블로그에 정리해놓으려고 한다.</p>
+<p>이 글의 목표는 백트래킹을 이해하고 백준 15649, 15650, 15651, 15652 문제를 푸는 것이다.</p>
+<h2 id="Recursion-재귀"><a href="#Recursion-재귀" class="headerlink" title="Recursion 재귀"></a>Recursion 재귀</h2><p>재귀 함수를 아래와 같이 표현할 수 있다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">5</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, n);</span><br><span class="line">    <span class="keyword">return</span> func(n+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    func(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>output</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+
+<p><code>func</code> 함수는 n+1을 인자로 자기 자신을 다시 호출한다. n이 5일 때 출력하지 않고 종료한다. </p>
+<p>재귀 함수는 주로 가독성을 위해 쓰여진다. (이론적으로 재귀함수는 for문과 while문 등으로 표현할 수 있다.) 재귀 함수에 대한 이해가 어려운 이유는 재귀 함수를 일반 함수와 다르게 생각하기 때문이다. 사실 흔히 아는 일반 함수와 같다고 생각하면 이게 무엇인지는 바로 이해가 될 것이다.</p>
+<h2 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h2><p>DFS(Depth - First - Search)는 깊이 우선 탐색을 의미한다. 어떠한 내용을 브루트 포싱할 때 제일 깊이 내려가서 아래단부터 탐색하는 것을 의미한다. 아래 gif를 보면 잘 이해가 될 것이다. </p>
+<img src="/images/230202-algorithm-dfs_backtracking/Depth-First-Search.gif" width=350/>
+<br>
+DFS는 주로 그래프나 트리와 연관되어 사용된다고 한다. 코드는 아래 백트래킹 설명에서 한꺼번에 살펴보자.
+
+<p>DFS는 조건 상관없이 모든 것을 탐색해야 한다. <code>백준 15649 N과 M (1)</code> 보다 <code>백준 15651 N과 M (3)</code> 부터 풀이를 진행하는 것이 백트래킹 이해에 더 도움이 될 듯 하다. (스포지만 (3)은 백트래킹 개념 없이 DFS만을 가지고 풀이할 수 있다.)</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.acmicpc.net/problem/15651">https://www.acmicpc.net/problem/15651</a></li>
+</ul>
+<h2 id="Backtracking"><a href="#Backtracking" class="headerlink" title="Backtracking"></a>Backtracking</h2><p>위의 DFS에서 봤던 트리를 잠깐 상상해보자. 정답을 찾기위해 부모 노드에서 자식 노드까지 내려간다. 이때 어떠한 조건에 부합하는 경우만 자식 노드로 내려가고 그렇지 않다면 다시 부모 노드로 올라간다. 이러한 <code>조건에 부합한다.</code>를 <strong><code>유망하다.</code></strong> 라고 표현한다. 조건에 부합하지 않은, 즉 유망하지 않은 노드는 확인을 안하기 때문에 풀이 시간을 단축할 수 있다. </p>
+<p>트리로 예시를 들었지만 사실 구현은 큐나 재귀함수로 많이 한다고 한다. 이 글에선 재귀함수로 문제를 풀이하도록 한다. </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">DFS</span><span class="params">(<span class="type">int</span> depth)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (정답이라면) &#123;</span><br><span class="line">        정답 출력 후 종료</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">//정답이 아니라면</span></span><br><span class="line">        <span class="keyword">for</span> (모든 자식 노드에 대해서) &#123;</span><br><span class="line">            <span class="keyword">if</span> (정답에 유망하다면) &#123;</span><br><span class="line">                자식 노드로 이동</span><br><span class="line">                DFS(depth + <span class="number">1</span>);</span><br><span class="line">                부모 노드로 이동</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>재귀 함수 밑에 나오는 문장은 어떻게 이해해야 할까?<br>정답에 유망하다면 자식 노드를 일단 선택한 뒤에, 그걸 선택한 후 해결한 뒤에, 다시 원래의 상태로 되돌린다.(부모 노드로 이동) </p>
+<h2 id="백준-15649-N과-M-1"><a href="#백준-15649-N과-M-1" class="headerlink" title="백준 15649 N과 M (1)"></a>백준 15649 N과 M (1)</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.acmicpc.net/problem/15649">https://www.acmicpc.net/problem/15649</a></p>
+</li>
+<li><p>1부터 N까지 자연수 중에서 <strong>중복 없이</strong> M개를 고른 수열. 한 마디로 <code>nPm</code>을 구하는 문제.</p>
+</li>
+<li><p>input</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 2</span><br></pre></td></tr></table></figure></li>
+<li><p>output </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1 2</span><br><span class="line">1 3</span><br><span class="line">1 4</span><br><span class="line">2 1</span><br><span class="line">2 3</span><br><span class="line">2 4</span><br><span class="line">3 1</span><br><span class="line">3 2</span><br><span class="line">3 4</span><br><span class="line">4 1</span><br><span class="line">4 2</span><br><span class="line">4 3</span><br></pre></td></tr></table></figure></li>
+</ul>
+<br>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> data[<span class="number">10</span>];</span><br><span class="line"><span class="type">bool</span> visit[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">DFS</span><span class="params">(<span class="type">int</span> depth)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (depth == m) &#123;</span><br><span class="line">        <span class="comment">// print</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, data[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (visit[i] == <span class="literal">false</span>) &#123;</span><br><span class="line">                data[depth] = i;</span><br><span class="line">                visit[i] = <span class="literal">true</span>;</span><br><span class="line">                DFS(depth+<span class="number">1</span>);</span><br><span class="line">                visit[i] = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">    DFS(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>중복을 위해 사용한 <code>visit</code> 배열은 <code>값</code>이 사용했나 안했나를 판단하는 배열이다. (<code>값</code>을 인덱스로 활용한다.) 입력이 1부터 시작하기 때문에 <code>visit</code> 배열 인덱스를 1부터 사용한다. 지금 생각해보면 check의 네이밍이 좀 더 어울리는 것 같기도 하다. 가독성을 위하여 bool 타입으로 지정하였다. false라면 사용을 하지 않았기 때문에 <code>data</code> 배열에 값을 넣어주고 해당 값을 인덱스로 가지는 <code>visit</code> 배열을 true로 세팅한다. 그리고 그 다음 자식 노드를 탐색한다. </p>
+<p>만약 유망하지 않다면 <code>i++</code>로 다음 반복문을 돈다. </p>
+<p>depth가 m과 같을 경우엔 트리 끝까지 다 내려갔기 때문에 <code>data</code> 배열이 출력된다. 잊으면 안되는 것이 m이 출력해야할 숫자 수이다. 어쩌면 이 조건은 당연한 것일지도 모른다. 헷갈리지 말자. </p>
+<p>이 문제를 이해하면 다음 2, 3, 4는 매우 쉽게 풀이할 수 있다. 내가 그랬다.</p>
+<h2 id="백준-15650-N과-M-2"><a href="#백준-15650-N과-M-2" class="headerlink" title="백준 15650 N과 M (2)"></a>백준 15650 N과 M (2)</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.acmicpc.net/problem/15650">https://www.acmicpc.net/problem/15650</a></p>
+</li>
+<li><p>1부터 N까지 자연수 중에서 중복 없이 M개를 고른 수열. 추가로 <strong>오름차순</strong>이어야 함.</p>
+</li>
+<li><p>input</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 2</span><br></pre></td></tr></table></figure></li>
+<li><p>output </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 2</span><br><span class="line">1 3</span><br><span class="line">1 4</span><br><span class="line">2 3</span><br><span class="line">2 4</span><br><span class="line">3 4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>이 전 문제와 다르게 오름차순이 아닌 경우면 출력을 하지 않는다.</p>
+</li>
+</ul>
+<br>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> data[<span class="number">10</span>];</span><br><span class="line"><span class="type">bool</span> visit[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">DFS</span><span class="params">(<span class="type">int</span> depth, <span class="type">int</span> pre)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (depth == m+<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// print</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, data[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (visit[i] == <span class="literal">false</span> &amp;&amp; pre &lt; i) &#123;</span><br><span class="line">                data[depth] = i;</span><br><span class="line">                visit[i] = <span class="literal">true</span>;</span><br><span class="line">                DFS(depth+<span class="number">1</span>, i);</span><br><span class="line">                visit[i] = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">    DFS(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>이 전 코드에서 <code>pre &lt; i</code> 조건을 추가해주었다. 이때 주의해야할 점은 pre가 등장했기 때문에 main 함수에서 depth 1부터 탐색한다. 즉 data 배열을 인덱스 1부터 사용한다. 그래서 출력할 때 <code>for (int i = 1; i &lt;= m; i++)</code> 조건으로 해야한다.</p>
+<h2 id="백준-15651-N과-M-3"><a href="#백준-15651-N과-M-3" class="headerlink" title="백준 15651 N과 M (3)"></a>백준 15651 N과 M (3)</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.acmicpc.net/problem/15651">https://www.acmicpc.net/problem/15651</a></p>
+</li>
+<li><p>1부터 N까지 자연수 중에서 M개를 고른 수열. <strong>중복 허용</strong></p>
+</li>
+<li><p>input</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 2</span><br></pre></td></tr></table></figure></li>
+<li><p>output</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1 1</span><br><span class="line">1 2</span><br><span class="line">1 3</span><br><span class="line">1 4</span><br><span class="line">2 1</span><br><span class="line">2 2</span><br><span class="line">2 3</span><br><span class="line">2 4</span><br><span class="line">3 1</span><br><span class="line">3 2</span><br><span class="line">3 3</span><br><span class="line">3 4</span><br><span class="line">4 1</span><br><span class="line">4 2</span><br><span class="line">4 3</span><br><span class="line">4 4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>N과 M (1)</code> 문제와 비교해서 중복이 허용되었다. 사실상 이 문제가 구현하기 가장 쉬울 것 같다.</p>
+</li>
+</ul>
+<br>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> data[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">DFS</span><span class="params">(<span class="type">int</span> depth)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (depth == m) &#123;</span><br><span class="line">        <span class="comment">// print</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; i++) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, data[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            data[depth] = i;</span><br><span class="line">            DFS(depth+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">    DFS(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>조건 없이 모든 것을 다 완전히 탐색하기 때문에 백트래킹 알고리즘은 사용되지 않았다. DFS로 완전탐색한다.</p>
+<h2 id="백준-15652-N과-M-4"><a href="#백준-15652-N과-M-4" class="headerlink" title="백준 15652 N과 M (4)"></a>백준 15652 N과 M (4)</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.acmicpc.net/problem/15652">https://www.acmicpc.net/problem/15652</a></p>
+</li>
+<li><p>1부터 N까지 자연수 중에서 M개를 고른 수열. 중복 허용. <strong>비내림차순</strong></p>
+</li>
+<li><p>input</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4 2</span><br></pre></td></tr></table></figure></li>
+<li><p>output</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1 1</span><br><span class="line">1 2</span><br><span class="line">1 3</span><br><span class="line">1 4</span><br><span class="line">2 2</span><br><span class="line">2 3</span><br><span class="line">2 4</span><br><span class="line">3 3</span><br><span class="line">3 4</span><br><span class="line">4 4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>길이가 K인 수열 A가 A1 ≤ A2 ≤ … ≤ AK-1 ≤ AK를 만족하면, 비내림차순이라고 한다.</p>
+</li>
+</ul>
+<br>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> data[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">DFS</span><span class="params">(<span class="type">int</span> depth, <span class="type">int</span> pre)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (depth == m+<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// print</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, data[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (pre &lt;= i) &#123; <span class="comment">// 비내림차순</span></span><br><span class="line">                data[depth] = i;</span><br><span class="line">                DFS(depth+<span class="number">1</span>, i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">   <span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">   DFS(<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>N과 M (2)에서 오름차순을 구현했다면 쉽게 유망한 조건에 비내림차순을 구현할 수 있다.</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://moz1e.tistory.com/15">https://moz1e.tistory.com/15</a> </li>
+<li><a target="_blank" rel="noopener" href="https://velog.io/@newon-seoul/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-%EC%9E%AC%EA%B7%80%EC%99%80-DFS-%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8#%E2%91%A1-dfs-%ED%95%A8%EC%88%98">https://velog.io/@newon-seoul/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-%EC%9E%AC%EA%B7%80%EC%99%80-DFS-%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8#%E2%91%A1-dfs-%ED%95%A8%EC%88%98</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.acmicpc.net/board/view/53440">https://www.acmicpc.net/board/view/53440</a></li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR"><span class="toc-number">1.</span> <span class="toc-text">TL;DR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Recursion-%EC%9E%AC%EA%B7%80"><span class="toc-number">2.</span> <span class="toc-text">Recursion 재귀</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DFS"><span class="toc-number">3.</span> <span class="toc-text">DFS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Backtracking"><span class="toc-number">4.</span> <span class="toc-text">Backtracking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B0%B1%EC%A4%80-15649-N%EA%B3%BC-M-1"><span class="toc-number">5.</span> <span class="toc-text">백준 15649 N과 M (1)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B0%B1%EC%A4%80-15650-N%EA%B3%BC-M-2"><span class="toc-number">6.</span> <span class="toc-text">백준 15650 N과 M (2)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B0%B1%EC%A4%80-15651-N%EA%B3%BC-M-3"><span class="toc-number">7.</span> <span class="toc-text">백준 15651 N과 M (3)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EB%B0%B1%EC%A4%80-15652-N%EA%B3%BC-M-4"><span class="toc-number">8.</span> <span class="toc-text">백준 15652 N과 M (4)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">9.</span> <span class="toc-text">Reference</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&text=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&is_video=false&description=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)&body=Check out this article: https://jiravvit.github.io/230202-algorithm-dfs_backtracking/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&title=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&name=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230202-algorithm-dfs_backtracking/&t=Algorithm - Recursion, DFS, Backtracking (Baekjoon 15649, 15650, 15651, 15652 C)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
