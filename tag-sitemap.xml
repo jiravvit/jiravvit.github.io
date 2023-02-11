@@ -3,6 +3,27 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/tags/csu-gagdet/</loc>
+        <lastmod>2023-02-11T16:26:16.746Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/tags/SROP/</loc>
+        <lastmod>2023-02-11T16:26:16.746Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/tags/Hacking-Camp/</loc>
+        <lastmod>2023-02-11T16:26:16.746Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/tags/seccomp/</loc>
         <lastmod>2023-02-07T16:25:21.351Z</lastmod>
         <changefreq>weekly</changefreq>
