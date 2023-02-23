@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Intro얼마 전 문제를 풀다가 처음 보는 개념이 나와서 정리해보려고 한다. scanf(&quot;%d&quot;, &amp;n)으로 int형 값을 입력받는데 이상하게 오버플로우(?)가 발생하지도 않는데 데이터가 heap에 저장되는 것이다. write up을 살펴봐도 익스 코드만 있고 heap에 paylaod를 pivot한다는 식만 주석으로 간단하게 적혀있">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pwnable - setvbuf">
+<meta property="og:url" content="https://jiravvit.github.io/230223-pwn-setvbuf/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="Intro얼마 전 문제를 풀다가 처음 보는 개념이 나와서 정리해보려고 한다. scanf(&quot;%d&quot;, &amp;n)으로 int형 값을 입력받는데 이상하게 오버플로우(?)가 발생하지도 않는데 데이터가 heap에 저장되는 것이다. write up을 살펴봐도 익스 코드만 있고 heap에 paylaod를 pivot한다는 식만 주석으로 간단하게 적혀있">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jiravvit.github.io/images/230223-pwn-setvbuf/Screenshot%202023-02-23%20at%2017.41.21.png">
+<meta property="og:image" content="https://jiravvit.github.io/images/230223-pwn-setvbuf/Screenshot%202023-02-23%20at%2017.40.39.png">
+<meta property="og:image" content="https://jiravvit.github.io/images/230223-pwn-setvbuf/Screenshot%202023-02-23%20at%2018.37.28.png">
+<meta property="article:published_time" content="2023-02-22T23:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-23T17:54:46.663Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="setvbuf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jiravvit.github.io/images/230223-pwn-setvbuf/Screenshot%202023-02-23%20at%2017.41.21.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>Pwnable - setvbuf</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230216-lactf2023-redact/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230223-pwn-setvbuf/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230223-pwn-setvbuf/&text=Pwnable - setvbuf"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230223-pwn-setvbuf/&is_video=false&description=Pwnable - setvbuf"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pwnable - setvbuf&body=Check out this article: https://jiravvit.github.io/230223-pwn-setvbuf/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230223-pwn-setvbuf/&name=Pwnable - setvbuf&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230223-pwn-setvbuf/&t=Pwnable - setvbuf"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#setvbuf"><span class="toc-number">2.</span> <span class="toc-text">setvbuf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#example"><span class="toc-number">3.</span> <span class="toc-text">example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">4.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Pwnable - setvbuf
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-02-22T23:00:00.000Z" itemprop="datePublished">2023-02-23</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Docs/">Docs</a> › <a class="category-link" href="/categories/Docs/Pwnable/">Pwnable</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/setvbuf/" rel="tag">setvbuf</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>얼마 전 문제를 풀다가 처음 보는 개념이 나와서 정리해보려고 한다. <code>scanf(&quot;%d&quot;, &amp;n)</code>으로 int형 값을 입력받는데 이상하게 오버플로우(?)가 발생하지도 않는데 데이터가 heap에 저장되는 것이다. write up을 살펴봐도 익스 코드만 있고 heap에 paylaod를 pivot한다는 식만 주석으로 간단하게 적혀있어서 왜 heap에 payload가 저장되는지 이해하기가 힘들었다. 이에 대해 간단하게 알아보자.</p>
+<p>결론을 말하면 <code>setvbuf</code> 함수 때문이었다.</p>
+<h2 id="setvbuf"><a href="#setvbuf" class="headerlink" title="setvbuf"></a><code>setvbuf</code></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;  </span><br><span class="line">int setvbuf(FILE* stream, char* buffer, int mode, size_t size);</span><br></pre></td></tr></table></figure>
+
+<p>스트림 버퍼 방식을 변경한다. <code>버퍼링</code>은 시스템 자원을 효율적으로 사용하기 위해 데이터를 버퍼라는 공간에 담아두고 사용하는 것을 의미한다. 버퍼링을 하지 않으면 버퍼라는 공간을 쓰지 않는 걸로 해석된다. </p>
+<p>인자를 살펴보자.</p>
+<ul>
+<li><code>File* stream</code><ul>
+<li>작업을 수행할 열린 스트림의 <code>FILE</code> 객체를 가리키는 포인터</li>
+<li>포너블 문제를 풀어본 경험이 있다면 <code>main</code> 초반에 <code>stdin</code>, <code>stdout</code>, <code>stderr</code> 등을 본 경험이 있을 것이다.</li>
+</ul>
+</li>
+<li><code>char* buffer</code><ul>
+<li>유저가 할당한 버퍼인데 포너블 문제를 풀어본 경험이 있다면 보통 <code>NULL</code>로 설정되어 있다.</li>
+<li><code>NULL</code>이라면 함수는 자동으로 지정한 크기의 버퍼를 할당하게 된다.</li>
+</ul>
+</li>
+<li><code>int mode</code><ul>
+<li>파일 버퍼링의 형식을 지정하는데 3가지가 있다.</li>
+<li><code>_IOFBF</code>: 버퍼가 다 차지 않는 이상 쓰기 작업을 하지 않는다. 즉 버퍼에 <code>size</code> 바이트 이상 쓰이지 않는 이상 <code>stream</code>에 쓰이지 않는다.</li>
+<li><code>_IOLBF</code>: 출력할 때 버퍼가 다 채워지거나 개행 문자가 입력 되었으면 데이터가 버퍼에서 출력되고, 입력 시에는 개행문자까지 입력받는다.</li>
+<li><code>_IOLBF</code>: 포너블 문제를 풀어본 경험이 있다면 보통은 이 경우다. 버퍼를 사용하지 않겠다는 뜻이다. <code>stdout</code>와 <code>stderr</code>는 보통 이 모드로 설정한다.</li>
+</ul>
+</li>
+<li><code>size_t size</code><ul>
+<li>지정할 버퍼의 크기의 단위</li>
+<li><code>NULL</code>이라면 컴퓨터가 알아서 최소의 크기를 지정한다.</li>
+</ul>
+</li>
+</ul>
+<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    setvbuf(<span class="built_in">stdin</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>); <span class="comment">// 있는 것과 없는 것의 차이?</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>예시 코드이다. 입력으로는 아래를 보냈다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><br></pre></td></tr></table></figure>
+
+<p>내 예상으로는 1만 <code>n</code>에 들어가고 (<code>setvbuf</code>가 있던 말던 ㅎ;) 나머지는 입력이 다 씹힐 것이라고 생각했다. </p>
+<ul>
+<li><code>setvbuf(stdin, 0, 2, 0)</code>가 없는 경우</li>
+</ul>
+<img src="/images/230223-pwn-setvbuf/Screenshot 2023-02-23 at 17.41.21.png" width=400/>
+<br>
+
+<p>일단 stack을 살펴보면 지역변수 <code>n</code> 자리에 1만 정상적으로 들어간 모습을 확인할 수 있다. 하지만 heap 상황은 어떨까?</p>
+<img src="/images/230223-pwn-setvbuf/Screenshot 2023-02-23 at 17.40.39.png" width=600/>
+<br>
+
+<p><code>scanf</code> 로직에 의해 malloc을 하고 버퍼링을 한다. heap에다가 1을 포함한 값들을 씹지 않고 저장한 모습을 볼 수 있다. 후에 이 값은 나중에 <code>scanf</code>로 값을 다시 입력받을 때 사용자에게 입력받지 않고 이 공간에서 꺼내서 씀으로써 속도 등의 측면에서 성능을 항상시킨다고 한다.</p>
+<p>포너블 문제에서 해당 구문이 있는 것은 이 때문인데, 이것이 없으면 입력과 출력 간의 순서가 모호해지고 leak한 값을 출력을 해야하는데 출력이 안될 수도 있다. 그래서 <code>setvbuf</code> 함수로 버퍼를 사용하지 않는, 즉 버퍼링을 하지 않아야 한다. </p>
+<ul>
+<li><code>setvbuf(stdin, 0, 2, 0)</code>가 있는 경우</li>
+</ul>
+<img src="/images/230223-pwn-setvbuf/Screenshot 2023-02-23 at 18.37.28.png" width=700/>
+<br>
+
+<p>디버깅으로 확인했는데 단호하게 1 뒤에 값은 다 씹는다. </p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>포너블 문제에서 일반적으로 <code>setvbuf(stdin, 0, 2, 0)</code>와 같은 구문이 있어야한다. 하지만 없는 경우도 있다. 저 구문이 없고 <code>scanf</code>와 같은 함수(malloc을 시도하는 함수)로 사용자에 입력을 받는다면? heap에 payload를 저장해서 ROP를 시도하는 방향으로 진행해봐도 좋을 듯하다.</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Intro"><span class="toc-number">1.</span> <span class="toc-text">Intro</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#setvbuf"><span class="toc-number">2.</span> <span class="toc-text">setvbuf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#example"><span class="toc-number">3.</span> <span class="toc-text">example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">4.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230223-pwn-setvbuf/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230223-pwn-setvbuf/&text=Pwnable - setvbuf"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230223-pwn-setvbuf/&is_video=false&description=Pwnable - setvbuf"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Pwnable - setvbuf&body=Check out this article: https://jiravvit.github.io/230223-pwn-setvbuf/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230223-pwn-setvbuf/&title=Pwnable - setvbuf"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230223-pwn-setvbuf/&name=Pwnable - setvbuf&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230223-pwn-setvbuf/&t=Pwnable - setvbuf"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

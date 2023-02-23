@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Pwnable - setvbuf</title>
+      <link href="/230223-pwn-setvbuf/"/>
+      <url>/230223-pwn-setvbuf/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>얼마 전 문제를 풀다가 처음 보는 개념이 나와서 정리해보려고 한다. <code>scanf(&quot;%d&quot;, &amp;n)</code>으로 int형 값을 입력받는데 이상하게 오버플로우(?)가 발생하지도 않는데 데이터가 heap에 저장되는 것이다. write up을 살펴봐도 익스 코드만 있고 heap에 paylaod를 pivot한다는 식만 주석으로 간단하게 적혀있어서 왜 heap에 payload가 저장되는지 이해하기가 힘들었다. 이에 대해 간단하게 알아보자.</p><p>결론을 말하면 <code>setvbuf</code> 함수 때문이었다.</p><h2 id="setvbuf"><a href="#setvbuf" class="headerlink" title="setvbuf"></a><code>setvbuf</code></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;  </span><br><span class="line">int setvbuf(FILE* stream, char* buffer, int mode, size_t size);</span><br></pre></td></tr></table></figure><p>스트림 버퍼 방식을 변경한다. <code>버퍼링</code>은 시스템 자원을 효율적으로 사용하기 위해 데이터를 버퍼라는 공간에 담아두고 사용하는 것을 의미한다. 버퍼링을 하지 않으면 버퍼라는 공간을 쓰지 않는 걸로 해석된다. </p><p>인자를 살펴보자.</p><ul><li><code>File* stream</code><ul><li>작업을 수행할 열린 스트림의 <code>FILE</code> 객체를 가리키는 포인터</li><li>포너블 문제를 풀어본 경험이 있다면 <code>main</code> 초반에 <code>stdin</code>, <code>stdout</code>, <code>stderr</code> 등을 본 경험이 있을 것이다.</li></ul></li><li><code>char* buffer</code><ul><li>유저가 할당한 버퍼인데 포너블 문제를 풀어본 경험이 있다면 보통 <code>NULL</code>로 설정되어 있다.</li><li><code>NULL</code>이라면 함수는 자동으로 지정한 크기의 버퍼를 할당하게 된다.</li></ul></li><li><code>int mode</code><ul><li>파일 버퍼링의 형식을 지정하는데 3가지가 있다.</li><li><code>_IOFBF</code>: 버퍼가 다 차지 않는 이상 쓰기 작업을 하지 않는다. 즉 버퍼에 <code>size</code> 바이트 이상 쓰이지 않는 이상 <code>stream</code>에 쓰이지 않는다.</li><li><code>_IOLBF</code>: 출력할 때 버퍼가 다 채워지거나 개행 문자가 입력 되었으면 데이터가 버퍼에서 출력되고, 입력 시에는 개행문자까지 입력받는다.</li><li><code>_IOLBF</code>: 포너블 문제를 풀어본 경험이 있다면 보통은 이 경우다. 버퍼를 사용하지 않겠다는 뜻이다. <code>stdout</code>와 <code>stderr</code>는 보통 이 모드로 설정한다.</li></ul></li><li><code>size_t size</code><ul><li>지정할 버퍼의 크기의 단위</li><li><code>NULL</code>이라면 컴퓨터가 알아서 최소의 크기를 지정한다.</li></ul></li></ul><h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    setvbuf(<span class="built_in">stdin</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>); <span class="comment">// 있는 것과 없는 것의 차이?</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> n = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>예시 코드이다. 입력으로는 아래를 보냈다.</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span><br></pre></td></tr></table></figure><p>내 예상으로는 1만 <code>n</code>에 들어가고 (<code>setvbuf</code>가 있던 말던 ㅎ;) 나머지는 입력이 다 씹힐 것이라고 생각했다. </p><ul><li><code>setvbuf(stdin, 0, 2, 0)</code>가 없는 경우</li></ul><img src="/images/230223-pwn-setvbuf/Screenshot 2023-02-23 at 17.41.21.png" width=400/><br><p>일단 stack을 살펴보면 지역변수 <code>n</code> 자리에 1만 정상적으로 들어간 모습을 확인할 수 있다. 하지만 heap 상황은 어떨까?</p><img src="/images/230223-pwn-setvbuf/Screenshot 2023-02-23 at 17.40.39.png" width=600/><br><p><code>scanf</code> 로직에 의해 malloc을 하고 버퍼링을 한다. heap에다가 1을 포함한 값들을 씹지 않고 저장한 모습을 볼 수 있다. 후에 이 값은 나중에 <code>scanf</code>로 값을 다시 입력받을 때 사용자에게 입력받지 않고 이 공간에서 꺼내서 씀으로써 속도 등의 측면에서 성능을 항상시킨다고 한다.</p><p>포너블 문제에서 해당 구문이 있는 것은 이 때문인데, 이것이 없으면 입력과 출력 간의 순서가 모호해지고 leak한 값을 출력을 해야하는데 출력이 안될 수도 있다. 그래서 <code>setvbuf</code> 함수로 버퍼를 사용하지 않는, 즉 버퍼링을 하지 않아야 한다. </p><ul><li><code>setvbuf(stdin, 0, 2, 0)</code>가 있는 경우</li></ul><img src="/images/230223-pwn-setvbuf/Screenshot 2023-02-23 at 18.37.28.png" width=700/><br><p>디버깅으로 확인했는데 단호하게 1 뒤에 값은 다 씹는다. </p><h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>포너블 문제에서 일반적으로 <code>setvbuf(stdin, 0, 2, 0)</code>와 같은 구문이 있어야한다. 하지만 없는 경우도 있다. 저 구문이 없고 <code>scanf</code>와 같은 함수(malloc을 시도하는 함수)로 사용자에 입력을 받는다면? heap에 payload를 저장해서 ROP를 시도하는 방향으로 진행해봐도 좋을 듯하다.</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Docs </category>
+          
+          <category> Pwnable </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> setvbuf </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>La CTF 2023 - redact (CPP, std::string)</title>
       <link href="/230216-lactf2023-redact/"/>
       <url>/230216-lactf2023-redact/</url>
