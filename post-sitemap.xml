@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/230318-kalmarctf2023-mjs/</loc>
+        <lastmod>2023-03-18T20:38:54.139Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/230309-algorithm-two_pointer/</loc>
         <lastmod>2023-03-09T15:09:53.482Z</lastmod>
         <changefreq>weekly</changefreq>
