@@ -9,8 +9,120 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Wolve/</loc>
+        <lastmod>2023-03-29T16:19:35.580Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/categories/WriteUp/</loc>
-        <lastmod>2023-03-29T16:04:45.582Z</lastmod>
+        <lastmod>2023-03-29T16:19:35.580Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Kalmar/</loc>
+        <lastmod>2023-03-29T16:19:08.411Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/La/</loc>
+        <lastmod>2023-03-29T16:18:57.545Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/HCAMP/</loc>
+        <lastmod>2023-03-29T16:18:20.035Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Dice/</loc>
+        <lastmod>2023-03-29T16:17:57.201Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/idek/</loc>
+        <lastmod>2023-03-29T16:17:39.131Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Iris/</loc>
+        <lastmod>2023-03-29T16:17:19.390Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Shakti/</loc>
+        <lastmod>2023-03-29T16:17:06.117Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Sunshine/</loc>
+        <lastmod>2023-03-29T16:16:52.360Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Jade/</loc>
+        <lastmod>2023-03-29T16:16:27.218Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/ASIS/</loc>
+        <lastmod>2023-03-29T16:16:01.964Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/GDG-Algiers/</loc>
+        <lastmod>2023-03-29T16:15:38.192Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/D-CTF/</loc>
+        <lastmod>2023-03-29T16:15:21.466Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Lake/</loc>
+        <lastmod>2023-03-29T16:15:09.305Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Cake/</loc>
+        <lastmod>2023-03-29T16:14:59.095Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/POXX/</loc>
+        <lastmod>2023-03-29T16:13:42.037Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -32,13 +144,6 @@
     <url>
         <loc>https://jiravvit.github.io/categories/Docs/Pwnable/</loc>
         <lastmod>2023-02-23T17:54:46.663Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/categories/WriteUp/Making/</loc>
-        <lastmod>2023-02-11T16:26:16.746Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

