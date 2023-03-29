@@ -9,6 +9,46 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/230322-wolvctf2023-echo2/</loc>
+        <lastmod>2023-03-29T16:04:45.582Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230320-wolvctf2023-escaped/</loc>
+        <lastmod>2023-03-29T16:04:09.653Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230322-wolvctf2023-WTML/</loc>
+        <lastmod>2023-03-29T15:37:16.483Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230321-wolvctf2023-homeworkhelp/</loc>
+        <lastmod>2023-03-29T15:00:36.467Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230321-wolvctf2023-childre/</loc>
+        <lastmod>2023-03-29T14:38:59.790Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/230318-kalmarctf2023-mjs/</loc>
         <lastmod>2023-03-18T20:38:54.139Z</lastmod>
         <changefreq>weekly</changefreq>
