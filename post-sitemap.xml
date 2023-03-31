@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/230331-diary/</loc>
+        <lastmod>2023-03-31T13:58:26.217Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/230321-wolvctf2023-childre/</loc>
         <lastmod>2023-03-29T16:19:35.580Z</lastmod>
         <changefreq>weekly</changefreq>

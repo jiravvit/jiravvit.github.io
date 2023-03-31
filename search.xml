@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>2023-03-31 Diary</title>
+      <link href="/230331-diary/"/>
+      <url>/230331-diary/</url>
+      
+        <content type="html"><![CDATA[<p>벌써 2023년 1분기가 끝났다. 그리고 올해 첫 일기를 써보려고 한다. </p><h2 id="Github-Blog-ISSUE"><a href="#Github-Blog-ISSUE" class="headerlink" title="Github Blog ISSUE"></a>Github Blog ISSUE</h2><p>얼마 전에 이 블로그에 이슈가 있었다. (사실 바로 어제..) localhost에서는 변경사항이 모두 반영되었는데 막상 deploy를 하니 변경사항이 하나도 저장 안된 것이다;; 울 뻔 했다. 하지만 작은 변경사항을 준 뒤에 다시 시도해보니 deploy가 잘 되었다. </p><img src="/images/230331-diary/Screenshot 2023-03-31 at 14.56.53.png" width=500/><br><h2 id="English"><a href="#English" class="headerlink" title="English"></a>English</h2><p>영어 공부를 열심히 하고 있다. 말하는 데 있어서 문장 구조가 헷갈린다? 나는 문법이 부족했고 공부해보니 특히 시제에 대한 이해가 낮았다. <code>The present perfact tense</code> 라는 문법이 있는데 한국어로는 과거분사라고 했던 것 같다. 아무튼 저 시제의 문장을 보면 감이 잘 안왔는데 드디어 감을 잡고 이해를 했다. 10대 때 분명 공부했을 건데 그때는 어떻게 이해했는지 기억이 잘 안난다. </p><p>신기한 것이 공부를 하다보니 나의 약점을 파악할 수 있었다. 영어 공부를 시작하기 전에는 리딩, 리스닝, 스피킹, 롸이팅 중 뭐가 가장 자신있고 부족한지 몰랐다. 하지만 공부를 진행하다 보니 스피킹이 정말정말 부족한 것을 깨달을 수 있었다. 그리고 의외로 리스닝 실력이 가장 좋은 것 같다. 리딩은 관심 있는 주제는 잘 읽히는 것 같다. (모르는 단어가 없어서 그럴 것이라 생각한다.) 요즘 모동숲에 빠졌는데 Reddit에서 모동숲 관련 글이 자주 올라오다보니까 심심할 때 읽으면 재밌다. 사실 재밌다기 보다는 모르는 사실을 알게되거나 귀여운 것들을 볼 수 있게 된다. 스피킹이 가장 부족한 이유가 내가 부끄러움이 많은 성격이기 때문이라고 생각된다. 극복하고 싶은데 생각보다 쉽지 않다.</p><h2 id="ACNH-Animal-Crossing-New-Horizon"><a href="#ACNH-Animal-Crossing-New-Horizon" class="headerlink" title="ACNH (Animal Crossing New Horizon)"></a>ACNH (Animal Crossing New Horizon)</h2><p>작년 말에 닌텐도 스위치랑 모여봐요 동물의 숲 게임을 선물받았다. 그 때 열심히 하다가 새해 때 오랜만에 들어가고 3월까지 그대로 방치해뒀다가 3월 초에 깔끔하게 리셋했다. 지금은 매우 재밌게 즐기고 있다. 지형 공사를 하고 있는데 노가다 과정이긴 해도 뿌듯하고 나름 재밌다. (내 캐릭터가 귀여워서 디스코드 프로필 사진도 변경했다.) 그리고 주민들과 이야기하다보면 너무 힐링된다.</p><p>무트코인으로 800만원정도 벌어서 아직 돈 걱정 없이 행복하게 즐기고 있다. 지금까지 약 120시간 정도 한 듯..</p><h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p>Streak 진짜.. ㅋㅋ 중간에 깨져서 다시 하고 있는데 엄한 곳에 Streak freeze 써버렸다.. 하.. 아직 실버1인데 언제 골드될까? 라고 말하기에는 요즘 알고리즘하기 귀찮아서 쉬운 것만 골라 풀고 있다.  </p><img src="/images/230331-diary/Screenshot 2023-03-31 at 15.51.38.png" width=600/><br><p>갑자기 solve.ac UI가 바뀌어서 좀 당황했지만.. 개인적으로 이전 UI가 더 좋은 것 같다.. </p><h2 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h2><p>웬만하면 CTF를 꾸준히 참여하려고 노력하고 있다. 2023년 기준 기억에 남는 문제를 소개한다.</p><ul><li>idek CTF의 Spinter문제: <a href="https://jiravvit.github.io/230117-idekctf2023-sprinter/">https://jiravvit.github.io/230117-idekctf2023-sprinter/</a></li></ul><p>FSB를 트리거할 수 있는데 <code>n</code>이 필터링되어 있다. 어떻게 overflow를 일으켜야하는지 고민을 해야한다. 또한 canary가 있기 때문에 이를 어떻게 우회하거나 leak해야할 지. 잘 보존을 어떻게 해야할 지 고민할 수 있는 문제다.</p><ul><li>Karmar CTF의 mjs문제: <a href="https://jiravvit.github.io/230318-kalmarctf2023-mjs/">https://jiravvit.github.io/230318-kalmarctf2023-mjs/</a></li></ul><p>첫 JS engine exploit이라고 거창하게 말하지만 의외로 쉽게 문제 풀 수 있는 방향이 존재한다. javascript로 익스 코드를 작성하는 건 역시나 어렵다. 이 문제를 풀면서 다른 유명한 JS engine 1-day 분석해보고 싶다고 생각했다. 분석하게 되면.. 블로그에 정리하도록 노력해보겠다.</p><ul><li>Wolv CTF의 WTML문제: <a href="https://jiravvit.github.io/230322-wolvctf2023-WTML/">https://jiravvit.github.io/230322-wolvctf2023-WTML/</a></li></ul><p>얼마 전에 있었던 씨텝이다. 경계 검사를 제대로 못해서 oob가 발생하는 문제는 내가 잘 못찾기도 하고 문제 풀고 뿌듯해서 여기 넣어봤다.</p><ul><li>Line CTF의 Simple Blogger문제: 업로드 예정</li></ul><p>대회 떄 풀었으면 더 쉽고 빨리 풀었을 텐데.. 진짜 너무 아쉽다. 대회 도중 약속이 있어서 대회를 참여하지 못하고 대회 끝나고 문제를 풀어봤다. 정말 열심히 분석했고 분석을 엄청 열심히 한 거에 비해 어이없게 문제가 풀렸다. 분석하면서 작년 이맘 때의 나는 절대 못푸는 문제일 것이라는 생각이 들었다. 다른 문제를 푸느라 아직 블로그에 업로드 하지는 않았는데 빨리 업로드해야겠다.</p><ul><li>Line CTF의 Hackatris문제: 업로드 예정</li></ul><p>개인적으로 게임 관련된 문제를 안좋아한다. 분석이 까다롭고 코드가 길기 떄문이다. 하지만 앞의 Simple Blogger 문제를 풀고나서 자신감이 생겨 바이너리를 열어봤다. 분석을 열심히 진행한 결과 취약점, 풀이 방향은 다 알겠으나 이걸 내가 코드로 작성해서 익스할 수 있을까..?란 의문이 들었다. 그래서 롸업을 정말 쓱! 봤는데 내가 생각한 풀이 방향과 동일했다. 코드로 작성하는거 조금 연구해보고.. 블로그에 업로드하도록 노력하겠다.</p><h2 id="목표"><a href="#목표" class="headerlink" title="목표"></a>목표</h2><p>운동 꾸준히 하고 싶다.. ^^</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Diary </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Diary </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>WolvCTF 2023 - WTML (pwn, oob)</title>
       <link href="/230322-wolvctf2023-WTML/"/>
       <url>/230322-wolvctf2023-WTML/</url>
