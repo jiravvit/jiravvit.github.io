@@ -9,6 +9,30 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/</loc>
+        <lastmod>2023-04-12T18:54:30.153Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230412-ritsecctf2023-2assembly-hopping/</loc>
+        <lastmod>2023-04-12T17:06:44.593Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230412-ritsecctf2023-1ret2win/</loc>
+        <lastmod>2023-04-12T16:28:24.028Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/230405-linectf2023-simple_blogger/</loc>
         <lastmod>2023-04-05T18:05:27.958Z</lastmod>
         <changefreq>weekly</changefreq>

