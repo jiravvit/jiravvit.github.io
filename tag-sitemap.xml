@@ -3,6 +3,13 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/tags/english/</loc>
+        <lastmod>2023-04-19T15:10:58.166Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/tags/uaf/</loc>
         <lastmod>2023-04-17T18:34:37.680Z</lastmod>
         <changefreq>weekly</changefreq>

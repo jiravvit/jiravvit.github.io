@@ -9,14 +9,35 @@
 
 
     <url>
-        <loc>https://jiravvit.github.io/categories/WriteUp/HackPack/</loc>
-        <lastmod>2023-04-17T18:34:37.680Z</lastmod>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Jersey/</loc>
+        <lastmod>2023-04-19T15:22:52.199Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://jiravvit.github.io/categories/WriteUp/</loc>
+        <lastmod>2023-04-19T15:22:52.199Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/Etc/English/</loc>
+        <lastmod>2023-04-19T15:10:58.166Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/Etc/</loc>
+        <lastmod>2023-04-19T15:10:58.166Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/HackPack/</loc>
         <lastmod>2023-04-17T18:34:37.680Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
