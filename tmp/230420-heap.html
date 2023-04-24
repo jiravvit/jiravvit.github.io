@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Memory Chunkheap manager는 32bit 시스템에서는 8byte, 64bit 시스템에서는 16btye align을 보장한다. 이러한 것은 프로그래머는 몰라도 되지만, 프로그래머가 더 많은 데이터를 저장하려는 경우, align은 프로그램의 정확성과 속도에 영향을 끼칠 수 있다. 따라서 heap manager는 기본적으로 모든 할당이 align">
+<meta property="og:type" content="website">
+<meta property="og:title" content="jir4vvit">
+<meta property="og:url" content="https://jiravvit.github.io/tmp/230420-heap.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="Memory Chunkheap manager는 32bit 시스템에서는 8byte, 64bit 시스템에서는 16btye align을 보장한다. 이러한 것은 프로그래머는 몰라도 되지만, 프로그래머가 더 많은 데이터를 저장하려는 경우, align은 프로그램의 정확성과 속도에 영향을 끼칠 수 있다. 따라서 heap manager는 기본적으로 모든 할당이 align">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-04-21T14:43:01.763Z">
+<meta property="article:modified_time" content="2023-04-21T14:43:01.763Z">
+<meta property="article:author" content="jir4vvit">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>jir4vvit</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+    <div class="content index py4">
+        
+          <header id="header">
+  <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/judi2.jpg);"></div>
+    
+  
+    <div id="title">
+      <h1>jir4vvit</h1>
+    </div>
+  </a>
+  <div id="nav">
+    <ul>
+      <li class="icon">
+        <a href="#" aria-label="Menu"><i class="fas fa-bars fa-2x"></i></a>
+      </li>
+      <!--
+     --><li><a href="/about/">About</a></li><!--
+   --><!--
+     --><li><a href="/archives/">Writing</a></li><!--
+   --><!--
+     --><li><a href="/categories/">Category</a></li><!--
+   --><!--
+     --><li><a href="/search/">Search</a></li><!--
+   -->
+    </ul>
+  </div>
+</header>
+
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+
+  <div class="content" itemprop="articleBody">
+      
+          <h2 id="Memory-Chunk"><a href="#Memory-Chunk" class="headerlink" title="Memory Chunk"></a>Memory Chunk</h2><p>heap manager는 32bit 시스템에서는 8byte, 64bit 시스템에서는 16btye align을 보장한다. 이러한 것은 프로그래머는 몰라도 되지만, 프로그래머가 더 많은 데이터를 저장하려는 경우, align은 프로그램의 정확성과 속도에 영향을 끼칠 수 있다. 따라서 heap manager는 기본적으로 모든 할당이 align되도록 해야 한다. </p>
+<p>할당할 때 metadata도 함께 저장되어야 하기 때문에 프로그래머가 10byte만 요청하더라도, heap manager는 프로그래머가 요청한 10byte와 함께 metadata와 align을 위한 패딩 byte를 더 계산하여 10byte보다 많은 공간을 chunk로 할당한다. 프로그래머가 <code>malloc(10)</code>을 요청하면 heap manager는 이 chunk가 할당되었다는 것을 마킹(“allocated”)하고 10 크기에 해당하는 chunk의 user data 공간의 시작점을 가리키는 포인터를 반환한다. </p>
+<p>&#x2F;Users&#x2F;user&#x2F;Blog&#x2F;blog&#x2F;source&#x2F;tmp&#x2F;1.allocated-chunks.png</p>
+<ul>
+<li>NON_MAIN_ARENA (A): 0이면 chunk가 main arena에 있다는 것을 의미한다. 1은 secondary arena에 있다는 것을 의미한다. </li>
+<li>IS_MMAPPED (M): mmap을 통해 할당된 큰 크기의 chunk임을 의미한다. </li>
+<li>PREV_INUSE (P): prev-in-use 이전 힙 청크가 해제된 경우 설정된다. 1은 이전 청크가 해제되지 않았을 경우이고, 0은 이전 청크가 해제되었을 때 나타내는 값이다.</li>
+</ul>
+<h2 id="Chunk-Allocation"><a href="#Chunk-Allocation" class="headerlink" title="Chunk Allocation"></a>Chunk Allocation</h2><p>small chunk에 대한 간단한 chunk-allocation 전략(순서):</p>
+<ol>
+<li>메모리에 이전에 free된 chunk가 있고 그 chunk가 requst에 응답하기에 충분히 크다면, heap manager는 그 free된 chunk를 새로운 할당을 위해 사용할 것이다.</li>
+<li>heap 꼭대기에 사용 가능한 공간이 존재한다면, heap manager는 그 사용 가능한 공간에 새로운 chunk를 할당하고 그것을 사용할 것이다.</li>
+<li>heap manager는 kernel에게 heap의 끝에 새로운 memory 추가를 요청하고, 그 새롭게 할당된 공간에 새로운 chunk를 할당할 것이다.</li>
+<li>앞의 모든 전략이 실패한다면, 할당은 이루어지지 않고 malloc은 NULL을 반환한다.</li>
+</ol>
+<h3 id="1-free된-chunk로부터-할당"><a href="#1-free된-chunk로부터-할당" class="headerlink" title="1. free된 chunk로부터 할당"></a>1. free된 chunk로부터 할당</h3><h3 id="2-heap의-꼭대기에서-할당"><a href="#2-heap의-꼭대기에서-할당" class="headerlink" title="2. heap의 꼭대기에서 할당"></a>2. heap의 꼭대기에서 할당</h3><h3 id="3-kernel에게-공간-요청-후-할당"><a href="#3-kernel에게-공간-요청-후-할당" class="headerlink" title="3. kernel에게 공간 요청 후 할당"></a>3. kernel에게 공간 요청 후 할당</h3><h3 id="mmap을-통한-할당"><a href="#mmap을-통한-할당" class="headerlink" title="mmap을 통한 할당"></a><code>mmap</code>을 통한 할당</h3><h2 id="Arena"><a href="#Arena" class="headerlink" title="Arena"></a>Arena</h2><p>multithread 어플리케이션에서는 heap manager는 race condition으로부터 heap 데이터 구조를 지켜야 한다. ptmalloc2 이전에는 heap manager는 오직 하나의 thread만이 heap과 상호작용 할 수 있도록 모든 heap 명령 전에 global mutex를 사용했다. </p>
+<p>하지만 heap manager는 사용량이 많고 성능에 민감해서 thread를 많이 사용하는 어플리케이션에서 심각한 성능 문제가 나타났다. 그래서 ptmalloc2의 heap manager에서는 “arena” 개념이 등장했다. 각각의 arena는 본질적으로 완전히 다른 heap이다. 다시 말하면, chunk 할당과 free bins와 완전히 분리된 heap이다. 각각의 arena는 mutex를 이용하여 내부적인 데이터에 접근하여 직렬화 하지만 thread는 다른 arena와 상호작용하지 않는 한 서로를 지연시키는 것 없이 heap 명령을 안전하게 수행할 수 있다.</p>
+<p>초기의 (“main”) arena는 우리가 이미 봐왔던 heap을 포함한다. single-thread 어플리케이션에서는 유일한 arena인데, heap manager가 항상 이용하는 것이다. 그러나, 새로운 thread가 process에 생기면, heap manager는 각각의 새로운 thread에 secondary arena(s)를 할당하고 attach한다. 이는 malloc과 free와 같은 heap 명령을 수행할 때 다른 thread를 기다리는 기회를 줄이기 위해서 새로운 thread에 secondary arena(s)를 할당하고 attach한다. </p>
+<p>각각의 새로운 thread가 process에 생기면, heap manager는 thread가 사용하지 않는, 즉 attach하고 있지 않은 arena를 찾는다. 만약 모든 arena가 다른 thread에 사용되고 있으면, heap mangaer는 새로운 arena를 생성하는데 이는 arena 개수의 최대치까지 가능하다. 만약 한계치까지 도달하면 heap manager는 할당하는 것을 포기하고 multiple threads는 heap 명령을 수행할 때 기다림이 필요한 위험을 무릅쓰고 arena를 공유한다. </p>
+<p>How do these secondary arenas even work? 어떻게 secondary arena(s)가 작동할까? 앞에서 우리는 프로그램이 메모리에 load되고 <code>brk</code> 시스템 콜을 이용하여 확장되고 난 후, main heap이 위치되는 것을 보았다. 그러나 이것은 secondary arena(s)에는 적용되지 않는다. </p>
+<p>이러한 secondary arena(s)는 main heap이 <code>mmap</code>이나 <code>mprotect</code>로 생성된 하나 이상의 subheap(s)를 사용하는 행위를 emulate한다.</p>
+<h2 id="Recycling-Memory-with-Bins"><a href="#Recycling-Memory-with-Bins" class="headerlink" title="Recycling Memory with Bins"></a>Recycling Memory with Bins</h2><p>The heap manager maintains a series of lists called “bins”, which are designed to maximize speed of allocations and frees.</p>
+<p>There are 5 type of bins: 62 small bins, 63 large bins, 1 unsorted bin, 10 fast bins and 64 tcache bins per thread.</p>
+<p>The small, large, and unsorted bins are the oldest type of bin and are used to implement what I’ll refer to here as the basic recycling strategy of the heap. The fast bins and tcache bins are optimizations that layer on top of these.</p>
+<p>Confusingly, the small, large, and unsorted bins all live together in the same array in the heap manager’s source code. Index 0 is unused, 1 is the unsorted bin, bins 2-64 are small bins and bins 65-127 are large bins.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BIN[0] = N/A</span><br><span class="line">BIN[1] = UNSORTED BIN</span><br><span class="line">BIN[2] ~ BIN[63] = SMALL BIN</span><br><span class="line">BIN[64] ~ BIN[126] = LARGE BIN</span><br></pre></td></tr></table></figure>
+
+<p>The basic algorithm for free is as follows:</p>
+<ol>
+<li>If the chunk has the M bit set in the metadata, the allocation was allocated off-heap and should be munmaped.</li>
+<li>Otherwise, if the chunk before this one is free, the chunk is merged backwards to create a bigger free chunk.</li>
+<li>Similarly, if the chunk after this one is free, the chunk is merged forwards to create a bigger free chunk.</li>
+<li>If this potentially-larger chunk borders the “top” of the heap, the whole chunk is absorbed into the end of the heap, rather than stored in a “bin”.</li>
+<li>Otherwise, the chunk is marked as free and placed in an appropriate bin.</li>
+</ol>
+<h3 id="Small-Bins"><a href="#Small-Bins" class="headerlink" title="Small Bins"></a>Small Bins</h3><h3 id="Large-Bins"><a href="#Large-Bins" class="headerlink" title="Large Bins"></a>Large Bins</h3><h3 id="Unsorted-Bin"><a href="#Unsorted-Bin" class="headerlink" title="Unsorted Bin"></a>Unsorted Bin</h3><h3 id="Fast-Bins"><a href="#Fast-Bins" class="headerlink" title="Fast Bins"></a>Fast Bins</h3><h3 id="Tcache-per-thread-cache-Bins"><a href="#Tcache-per-thread-cache-Bins" class="headerlink" title="Tcache (per-thread cache) Bins"></a>Tcache (per-thread cache) Bins</h3>
+        
+  </div>
+</article>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
