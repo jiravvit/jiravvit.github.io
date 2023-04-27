@@ -9,16 +9,48 @@
 
 
     <url>
-        <loc>https://jiravvit.github.io/230427-angstromctf2023-0review/</loc>
-        <lastmod>2023-04-27T16:45:11.828Z</lastmod>
+        <loc>https://jiravvit.github.io/230427-angstromctf2023-5.slack/</loc>
+        <lastmod>2023-04-27T16:59:38.539Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>https://jiravvit.github.io/230427-angstromctf2023-5.slack/</loc>
-        <lastmod>2023-04-27T16:41:58.263Z</lastmod>
+        <loc>https://jiravvit.github.io/230427-angstromctf2023-4.widget/</loc>
+        <lastmod>2023-04-27T16:59:35.045Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230427-angstromctf2023-3.leek/</loc>
+        <lastmod>2023-04-27T16:59:31.909Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230427-angstromctf2023-2.gaga/</loc>
+        <lastmod>2023-04-27T16:59:29.256Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230427-angstromctf2023-0review/</loc>
+        <lastmod>2023-04-27T16:59:27.557Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230427-angstromctf2023-1.queue/</loc>
+        <lastmod>2023-04-27T16:59:26.631Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -33,32 +65,8 @@
     </url>
 
     <url>
-        <loc>https://jiravvit.github.io/230427-angstromctf2023-4.widget/</loc>
-        <lastmod>2023-04-27T16:35:02.133Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/230427-angstromctf2023-1.queue/</loc>
-        <lastmod>2023-04-27T15:25:58.752Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/230427-angstromctf2023-2.gaga/</loc>
-        <lastmod>2023-04-27T15:25:44.622Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/230427-angstromctf2023-3.leek/</loc>
-        <lastmod>2023-04-27T15:25:10.495Z</lastmod>
+        <loc>https://jiravvit.github.io/230427-angstromctf2023-queue/</loc>
+        <lastmod>2023-04-27T14:19:23.818Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
