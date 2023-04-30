@@ -3,6 +3,13 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/tags/review/</loc>
+        <lastmod>2023-04-30T21:01:39.713Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/tags/one-gadget/</loc>
         <lastmod>2023-04-30T20:00:16.478Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -19,13 +26,6 @@
     <url>
         <loc>https://jiravvit.github.io/tags/ret2win/</loc>
         <lastmod>2023-04-30T19:58:37.144Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/tags/review/</loc>
-        <lastmod>2023-04-30T19:58:09.321Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
