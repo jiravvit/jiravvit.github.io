@@ -10,14 +10,28 @@
 
     <url>
         <loc>https://jiravvit.github.io/categories/WriteUp/Tamu/</loc>
-        <lastmod>2023-04-30T21:11:53.284Z</lastmod>
+        <lastmod>2023-05-04T15:36:48.021Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://jiravvit.github.io/categories/WriteUp/</loc>
-        <lastmod>2023-04-30T21:11:53.284Z</lastmod>
+        <lastmod>2023-05-04T15:36:48.021Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/Etc/English/</loc>
+        <lastmod>2023-05-04T15:32:03.506Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/Etc/</loc>
+        <lastmod>2023-05-04T15:32:03.506Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -46,20 +60,6 @@
     <url>
         <loc>https://jiravvit.github.io/categories/Docs/</loc>
         <lastmod>2023-04-27T16:41:40.193Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/categories/Etc/English/</loc>
-        <lastmod>2023-04-24T11:44:13.081Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/categories/Etc/</loc>
-        <lastmod>2023-04-24T11:44:13.081Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

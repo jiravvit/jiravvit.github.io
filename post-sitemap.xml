@@ -10,7 +10,119 @@
 
     <url>
         <loc>https://jiravvit.github.io/230430-tamu2023-0review/</loc>
-        <lastmod>2023-04-30T21:11:53.284Z</lastmod>
+        <lastmod>2023-05-04T15:36:48.021Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-2.Unlucky-pwn/</loc>
+        <lastmod>2023-05-04T15:33:43.035Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-1.Inspector_Gadget-pwn/</loc>
+        <lastmod>2023-05-04T15:32:15.794Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230428-english-preposition-from/</loc>
+        <lastmod>2023-05-04T15:32:03.506Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230428-english-preposition-to/</loc>
+        <lastmod>2023-05-04T15:23:39.240Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230426-english-preposition-for/</loc>
+        <lastmod>2023-05-04T15:13:50.951Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230424-english-preposition-by/</loc>
+        <lastmod>2023-05-04T15:04:30.890Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-10.PRNG-crypto/</loc>
+        <lastmod>2023-05-04T14:43:41.694Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-9.MD5-crypto/</loc>
+        <lastmod>2023-05-04T14:26:23.724Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-8.Pwnme-pwn/</loc>
+        <lastmod>2023-05-03T18:22:42.860Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-7.Encryptinator-pwn/</loc>
+        <lastmod>2023-05-03T17:23:25.741Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-6.Bank-pwn/</loc>
+        <lastmod>2023-05-03T17:06:49.428Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-5.Sea_Shells-pwn/</loc>
+        <lastmod>2023-05-03T16:55:16.838Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-4.Randomness-pwn/</loc>
+        <lastmod>2023-05-03T16:32:14.839Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230503-tamu2023-3.Pointers-pwn/</loc>
+        <lastmod>2023-05-03T16:17:06.658Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
