@@ -3,8 +3,15 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/tags/type-confusion/</loc>
+        <lastmod>2023-05-09T16:01:07.524Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/tags/review/</loc>
-        <lastmod>2023-05-04T15:36:48.021Z</lastmod>
+        <lastmod>2023-05-09T15:59:56.537Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
