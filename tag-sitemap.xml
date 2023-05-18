@@ -3,6 +3,41 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/tags/review/</loc>
+        <lastmod>2023-05-18T13:46:24.570Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/tags/fsb/</loc>
+        <lastmod>2023-05-18T13:45:42.055Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/tags/srop/</loc>
+        <lastmod>2023-05-18T13:43:13.988Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/tags/stack-pivoting/</loc>
+        <lastmod>2023-05-18T13:43:13.988Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/tags/command-injection/</loc>
+        <lastmod>2023-05-18T13:14:34.797Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/tags/shellcode/</loc>
         <lastmod>2023-05-15T11:38:07.879Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -17,22 +52,8 @@
     </url>
 
     <url>
-        <loc>https://jiravvit.github.io/tags/fsb/</loc>
-        <lastmod>2023-05-15T11:38:07.879Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://jiravvit.github.io/tags/type-confusion/</loc>
         <lastmod>2023-05-09T16:01:07.524Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/tags/review/</loc>
-        <lastmod>2023-05-09T15:59:56.537Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -145,13 +166,6 @@
     <url>
         <loc>https://jiravvit.github.io/tags/remote/</loc>
         <lastmod>2023-04-27T16:41:40.193Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/tags/english/</loc>
-        <lastmod>2023-04-24T11:44:13.081Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
