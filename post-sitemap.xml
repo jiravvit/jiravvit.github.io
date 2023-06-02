@@ -9,8 +9,24 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/230531-defcon2023-0review/</loc>
+        <lastmod>2023-06-02T15:46:47.622Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/230602-defcon2023-open-house/</loc>
+        <lastmod>2023-06-02T15:31:49.643Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/230601-defcon2023-test-your-luck/</loc>
-        <lastmod>2023-06-02T14:32:39.003Z</lastmod>
+        <lastmod>2023-06-02T15:30:35.365Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
