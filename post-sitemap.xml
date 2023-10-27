@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/231027-metared2023-master_jwt/</loc>
+        <lastmod>2023-10-27T10:25:59.144Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/231023-d-ctf2023-ALL_PWN/</loc>
         <lastmod>2023-10-23T09:36:49.118Z</lastmod>
         <changefreq>weekly</changefreq>
