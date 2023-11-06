@@ -9,6 +9,30 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/231106-lakectf2023-PWN/</loc>
+        <lastmod>2023-11-06T12:02:47.051Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/231105-srdnlen2023-pwntube/</loc>
+        <lastmod>2023-11-06T11:14:06.983Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/231101-metared2023-maths/</loc>
+        <lastmod>2023-11-06T11:01:04.570Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/231027-metared2023-master_jwt/</loc>
         <lastmod>2023-10-27T10:25:59.144Z</lastmod>
         <changefreq>weekly</changefreq>

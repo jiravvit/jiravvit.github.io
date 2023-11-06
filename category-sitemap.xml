@@ -9,15 +9,29 @@
 
 
     <url>
-        <loc>https://jiravvit.github.io/categories/WriteUp/MetaRed/</loc>
-        <lastmod>2023-10-27T10:25:59.144Z</lastmod>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Lake/</loc>
+        <lastmod>2023-11-06T12:02:47.051Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://jiravvit.github.io/categories/WriteUp/</loc>
-        <lastmod>2023-10-27T10:25:59.144Z</lastmod>
+        <lastmod>2023-11-06T12:02:47.051Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/Srdnlen/</loc>
+        <lastmod>2023-11-06T11:14:06.983Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/WriteUp/MetaRed/</loc>
+        <lastmod>2023-11-06T11:01:04.570Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -256,13 +270,6 @@
     <url>
         <loc>https://jiravvit.github.io/categories/WriteUp/GDG-Algiers/</loc>
         <lastmod>2023-03-29T16:15:38.192Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/categories/WriteUp/Lake/</loc>
-        <lastmod>2023-03-29T16:15:09.305Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
