@@ -3,6 +3,27 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/tags/Path-Traversal/</loc>
+        <lastmod>2025-03-04T13:37:50.418Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/tags/WEB/</loc>
+        <lastmod>2025-03-04T13:37:50.418Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/tags/JWT/</loc>
+        <lastmod>2025-03-04T13:37:37.546Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/tags/rop/</loc>
         <lastmod>2023-11-06T11:14:06.983Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -26,13 +47,6 @@
     <url>
         <loc>https://jiravvit.github.io/tags/z3/</loc>
         <lastmod>2023-11-06T11:01:04.570Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/tags/web/</loc>
-        <lastmod>2023-10-27T10:25:59.144Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
