@@ -9,6 +9,34 @@
 
 
     <url>
+        <loc>https://jiravvit.github.io/categories/AWS/CloudGoat/</loc>
+        <lastmod>2025-03-05T23:18:56.212Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/AWS/</loc>
+        <lastmod>2025-03-05T23:18:56.212Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/Docs/AWS/</loc>
+        <lastmod>2025-03-05T22:59:24.202Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://jiravvit.github.io/categories/Docs/</loc>
+        <lastmod>2025-03-05T22:59:24.202Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://jiravvit.github.io/categories/WriteUp/PwnMe/</loc>
         <lastmod>2025-03-04T13:37:50.418Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -87,13 +115,6 @@
 
     <url>
         <loc>https://jiravvit.github.io/categories/Docs/Pwnable/</loc>
-        <lastmod>2023-06-09T14:51:56.857Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://jiravvit.github.io/categories/Docs/</loc>
         <lastmod>2023-06-09T14:51:56.857Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

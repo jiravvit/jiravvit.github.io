@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;github.com&#x2F;RhinoSecurityLabs&#x2F;cloudgoat  I tried CloudGoat a few years ago, but I barely remember and they’ve added more challenges, so I want to try it again and explore the new scenarios. Cl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CloudGoat 00. Setup (AWS)">
+<meta property="og:url" content="https://jiravvit.github.io/250305-cloudgoat-start/index.html">
+<meta property="og:site_name" content="HyeonJi Son">
+<meta property="og:description" content="https:&#x2F;&#x2F;github.com&#x2F;RhinoSecurityLabs&#x2F;cloudgoat  I tried CloudGoat a few years ago, but I barely remember and they’ve added more challenges, so I want to try it again and explore the new scenarios. Cl">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-03-04T23:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-05T23:18:56.212Z">
+<meta property="article:author" content="HyeonJi Son">
+<meta property="article:tag" content="Cloud">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="CloudGoat">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>CloudGoat 00. Setup (AWS)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/250305-aws-awscli-command/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/250305-cloudgoat-start/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/250305-cloudgoat-start/&text=CloudGoat 00. Setup (AWS)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/250305-cloudgoat-start/&is_video=false&description=CloudGoat 00. Setup (AWS)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CloudGoat 00. Setup (AWS)&body=Check out this article: https://jiravvit.github.io/250305-cloudgoat-start/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/250305-cloudgoat-start/&name=CloudGoat 00. Setup (AWS)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/250305-cloudgoat-start/&t=CloudGoat 00. Setup (AWS)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Let%E2%80%99s-get-started"><span class="toc-number">1.</span> <span class="toc-text">Let’s get started!</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Requirements"><span class="toc-number">1.1.</span> <span class="toc-text">Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Install-AWS-CLI"><span class="toc-number">1.2.</span> <span class="toc-text">1. Install AWS CLI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Set-Up-AWS-Profile"><span class="toc-number">1.3.</span> <span class="toc-text">2. Set Up AWS Profile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Install-Terraform"><span class="toc-number">1.4.</span> <span class="toc-text">3. Install Terraform</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Set-Up-CloudGoat"><span class="toc-number">1.5.</span> <span class="toc-text">4. Set Up CloudGoat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deloy-a-Scenario"><span class="toc-number">1.6.</span> <span class="toc-text">(+) Deloy a Scenario</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cleanup-a-Scenario"><span class="toc-number">1.7.</span> <span class="toc-text">(+) Cleanup a Scenario</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CloudGoat 00. Setup (AWS)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">HyeonJi Son</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-04T23:00:00.000Z" itemprop="datePublished">2025-03-05</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/AWS/">AWS</a> › <a class="category-link" href="/categories/AWS/CloudGoat/">CloudGoat</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/AWS/" rel="tag">AWS</a>, <a class="tag-link-link" href="/tags/Cloud/" rel="tag">Cloud</a>, <a class="tag-link-link" href="/tags/CloudGoat/" rel="tag">CloudGoat</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/RhinoSecurityLabs/cloudgoat">https://github.com/RhinoSecurityLabs/cloudgoat</a></li>
+</ul>
+<p>I tried CloudGoat a few years ago, but I barely remember and they’ve added more challenges, so I want to try it again and explore the new scenarios.</p>
+<p>CloudGoat is a “Vulnerable by Design” AWS deployment tool created by Rhino Security Labs, designed to help users develop cloud cybersecurity skills. It offers a series of “capture-the-flag” style scenarios, allowing you to explore vulnerabilities and exploit them to achieve the scenario’s objectives.</p>
+<h2 id="Let’s-get-started"><a href="#Let’s-get-started" class="headerlink" title="Let’s get started!"></a>Let’s get started!</h2><h3 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h3><ol>
+<li>Linux or MacOS. Windows is not officially supported.</li>
+</ol>
+<ul>
+<li>Argument tab-completion requires bash 4.2+ (Linux, or OSX with some difficulty).</li>
+</ul>
+<ol start="2">
+<li>Python3.6+ is required.</li>
+<li>Terraform &gt;&#x3D; 0.14 installed and in your <code>$PATH</code>.</li>
+<li>The AWS CLI installed and in your <code>$PATH</code>, and an AWS account with sufficient privileges to create and destroy resources.</li>
+<li>jq (JSON processor)</li>
+</ol>
+<p>I will be setting up CloudGoat on <code>macOS</code>.</p>
+<h3 id="1-Install-AWS-CLI"><a href="#1-Install-AWS-CLI" class="headerlink" title="1. Install AWS CLI"></a>1. Install AWS CLI</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install awscli</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Set-Up-AWS-Profile"><a href="#2-Set-Up-AWS-Profile" class="headerlink" title="2. Set Up AWS Profile"></a>2. Set Up AWS Profile</h3><p>Before running CloudGoat, create an IAM user in AWS with the required permissions <code>AdministratorAccess</code> and configure your AWS credentials. I named this user <code>cloudgoat</code>. Before executing below command, you need to get the <code>Access Key</code> and <code>Secret Access Key</code> from the AWS website. And please save these keys somewhere safe, and never share your <code>Secret Access Key</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws configure --profile cloudgoat</span><br></pre></td></tr></table></figure>
+
+<p>To check, if your credentials are configured correctly, run:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws sts get-caller-identity --profile cloudgoat</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-Install-Terraform"><a href="#3-Install-Terraform" class="headerlink" title="3. Install Terraform"></a>3. Install Terraform</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew tap hashicorp/tap</span><br><span class="line">brew install hashicorp/tap/terraform</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-Set-Up-CloudGoat"><a href="#4-Set-Up-CloudGoat" class="headerlink" title="4. Set Up CloudGoat"></a>4. Set Up CloudGoat</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/RhinoSecurityLabs/cloudgoat.git</span><br><span class="line"><span class="built_in">cd</span> cloudgoat</span><br><span class="line">python3 -m venv .venv</span><br><span class="line"><span class="built_in">source</span> .venv/bin/activate</span><br><span class="line">pip3 install -r ./requirements.txt</span><br><span class="line"><span class="built_in">chmod</span> +x cloudgoat.py</span><br><span class="line"></span><br><span class="line">./cloudgoat.py config profile</span><br><span class="line">./cloudgoat.py config whitelist --auto</span><br></pre></td></tr></table></figure>
+
+<h3 id="Deloy-a-Scenario"><a href="#Deloy-a-Scenario" class="headerlink" title="(+) Deloy a Scenario"></a>(+) Deloy a Scenario</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./cloudgoat.py create sns_secrets</span><br></pre></td></tr></table></figure>
+
+<p>To deploy the <code>sns_secrets</code> scenario, use above command.</p>
+<h3 id="Cleanup-a-Scenario"><a href="#Cleanup-a-Scenario" class="headerlink" title="(+) Cleanup a Scenario"></a>(+) Cleanup a Scenario</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./cloudgoat.py destroy sns_secrets</span><br></pre></td></tr></table></figure>
+
+<p>After finishing a scenario, always destroy the deployed resources to avoid unnecessary costs.</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Let%E2%80%99s-get-started"><span class="toc-number">1.</span> <span class="toc-text">Let’s get started!</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Requirements"><span class="toc-number">1.1.</span> <span class="toc-text">Requirements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Install-AWS-CLI"><span class="toc-number">1.2.</span> <span class="toc-text">1. Install AWS CLI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Set-Up-AWS-Profile"><span class="toc-number">1.3.</span> <span class="toc-text">2. Set Up AWS Profile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Install-Terraform"><span class="toc-number">1.4.</span> <span class="toc-text">3. Install Terraform</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Set-Up-CloudGoat"><span class="toc-number">1.5.</span> <span class="toc-text">4. Set Up CloudGoat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deloy-a-Scenario"><span class="toc-number">1.6.</span> <span class="toc-text">(+) Deloy a Scenario</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cleanup-a-Scenario"><span class="toc-number">1.7.</span> <span class="toc-text">(+) Cleanup a Scenario</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/250305-cloudgoat-start/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/250305-cloudgoat-start/&text=CloudGoat 00. Setup (AWS)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/250305-cloudgoat-start/&is_video=false&description=CloudGoat 00. Setup (AWS)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CloudGoat 00. Setup (AWS)&body=Check out this article: https://jiravvit.github.io/250305-cloudgoat-start/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/250305-cloudgoat-start/&title=CloudGoat 00. Setup (AWS)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/250305-cloudgoat-start/&name=CloudGoat 00. Setup (AWS)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/250305-cloudgoat-start/&t=CloudGoat 00. Setup (AWS)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2025
+    HyeonJi Son
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
