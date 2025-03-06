@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://jiravvit.github.io/images/250306-cloudgoat-scenario01-sns_secrets/1.png">
 <meta property="article:published_time" content="2025-03-05T23:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-06T17:34:53.430Z">
+<meta property="article:modified_time" content="2025-03-06T17:43:41.712Z">
 <meta property="article:author" content="HyeonJi Son">
 <meta property="article:tag" content="Cloud">
 <meta property="article:tag" content="AWS">
@@ -229,6 +229,9 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ curl -X GET \</span><br><span class="line"><span class="string">&#x27;https://43u8hxyd16.execute-api.us-east-1.amazonaws.com/prod-sns_secrets_cgidjt7xmtxtc7/user-data&#x27;</span> \</span><br><span class="line">-H <span class="string">&#x27;x-api-key: 45a3da610dc64703b10e273a4db135bf&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;final_flag&quot;</span>: <span class="string">&quot;FLAG&#123;***&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;message&quot;</span>: <span class="string">&quot;Access granted&quot;</span>,</span><br><span class="line">    <span class="string">&quot;user_data&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;email&quot;</span>: <span class="string">&quot;SuperAdmin@notarealemail.com&quot;</span>,</span><br><span class="line">        <span class="string">&quot;password&quot;</span>: <span class="string">&quot;p@ssw0rd123&quot;</span>,</span><br><span class="line">        <span class="string">&quot;user_id&quot;</span>: <span class="string">&quot;1337&quot;</span>,</span><br><span class="line">        <span class="string">&quot;username&quot;</span>: <span class="string">&quot;SuperAdmin&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>Finally we got a <code>flag</code> and <code>SuperAdmin</code> account. This challenge shows how important it is to properly manage permissions and secure sensitive information in AWS.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./cloudgoat.py destroy sns_secrets</span><br></pre></td></tr></table></figure>
+
+<p>And.. don’t forget destroy the deployed resources!!</p>
 
   </div>
 </article>
